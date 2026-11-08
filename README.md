@@ -1,7 +1,6 @@
 # prose-style
 
-A [Vale] package that flags the speech habits of AI-written text.  
-Each rule matches one habit and names the plain fix.
+A [Vale] package that flags the speech habits of AI-written text.
 
 ## Setup
 
