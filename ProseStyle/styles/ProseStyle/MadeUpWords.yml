@@ -1,7 +1,7 @@
 # A compound coined from a hyphen chain: one carrying "versus", or turned
 # into a noun with -ness or -ity. Plain hyphen chains are mostly real names.
 extends: existence
-message: "'%s' is a coined compound: say it in plain words."
+message: "'%s' is a made-up word: say it in plain words."
 level: warning
 ignorecase: true
 nonword: true
@@ -9,7 +9,7 @@ tokens:
   - '\b[a-z]+(?:-[a-z]+)*-(?:versus|vs)-[a-z]+(?:-[a-z]+)*\b'
   - '\b[a-z]+(?:-[a-z]+)+(?:ness|ity)\b'
 tests:
-  - name: flags coined compounds
+  - name: flags made-up words
     input: A top-to-bottomness check and a bullets-versus-numbered-paragraphs rule.
     contains:
       - "'top-to-bottomness'"

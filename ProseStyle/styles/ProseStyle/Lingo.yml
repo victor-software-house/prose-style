@@ -1,6 +1,7 @@
-# Borrowed jargon that names no mechanism. "Wire up", meaning connect, passes.
+# Made-up terms, lingo and slang that name no mechanism.
+# "Wire up", meaning connect, passes.
 extends: substitution
-message: "Use '%s' instead of '%s'."
+message: "Lingo: use '%s' instead of '%s'."
 level: error
 ignorecase: true
 swap:
@@ -12,7 +13,7 @@ swap:
   brain layer: the component's name
   doctrine: rule
 tests:
-  - name: flags each coined term
+  - name: flags each made-up term
     input: The two runs disagree, the wire format changed, and the seams are odd. The doctrine holds.
     contains:
       - "'disagree'"

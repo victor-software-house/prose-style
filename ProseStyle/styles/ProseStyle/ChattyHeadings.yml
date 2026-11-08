@@ -1,0 +1,38 @@
+# A heading names a topic. A pronoun or a question word makes it read like
+# chat: "Use it", "What it turns on", "How it works", "Let's begin".
+extends: existence
+message: "Heading '%s' reads like chat: name the topic with a noun, such as Setup, Styles or Development."
+level: warning
+scope: heading
+ignorecase: true
+tokens:
+  - '\b(?:it|its|you|your|we|our|us)\b'
+  - '^(?:What|How|Why|Where|When|Here''s|Let''s)\b'
+tests:
+  - name: flags pronoun and question headings
+    input: |
+      # Use it
+
+      Text.
+
+      ## What it turns on
+
+      Text.
+
+      ## How to install
+
+      Text.
+    contains:
+      - "'it'"
+      - "'What'"
+      - "'How'"
+  - name: leaves noun headings alone
+    input: |
+      # Setup
+
+      Text.
+
+      ## Styles
+
+      Text.
+    want: ''
