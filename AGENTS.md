@@ -1,7 +1,7 @@
 # prose-style
 
-A Vale package, published as `ProseStyle.zip` on each release.  
-The `README.md` holds what it turns on and how a project uses it.
+A Vale package that flags the speech habits of AI-written text, published as `ProseStyle.zip` on each release.  
+The `README.md` lists the habits it flags and how a project uses it.
 
 ## Layout
 
@@ -9,7 +9,7 @@ The `README.md` holds what it turns on and how a project uses it.
 - `ProseStyle/styles/ProseStyle/*.yml`: one rule per file, each with its `tests:`.
 - `.github/workflows/`: `ci.yml` runs the tests; `release.yml` builds and attaches the zip on a tag.
 
-## Rules for a rule
+## Writing a rule
 
 1. Each rule names one habit, and its comment gives the reason in one or two plain sentences.  
    No chat quotes, no profanity, no private paths or tool names.
