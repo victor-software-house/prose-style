@@ -19,7 +19,7 @@ The `README.md` lists the habits it flags and how a project uses it.
    Let natural uses of the same word pass with `exceptions:`.  
    Check each hit on a real document before raising a level.
 4. A rule's message names the fix: what to write instead.
-5. A rule's name uses words people say, such as `StockPhrases` or `Colloquialisms`.  
+5. A rule's name uses words people say, such as `StockPhrases` or `LeakedChat`.  
    Never a term of art such as diction, residue or coinage.
 6. Levels: `error` for a habit with no valid use, `warning` for one that needs a person's judgment, `suggestion` for a score or a style hint.
 
