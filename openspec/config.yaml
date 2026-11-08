@@ -1,0 +1,20 @@
+schema: spec-driven
+
+context: |
+  prose-style is a Vale package that flags the speech habits of AI-written text.
+  Rules live in ProseStyle/styles/ProseStyle/, one habit per file, each with tests;
+  AGENTS.md holds the rule-writing rules.
+  Writing style: the package's own rules apply. Plain words, short sentences,
+  natural word pairs, no dashes as punctuation, no chatty headings.
+  Things hold, show, mark or match; they never say, know or want.
+  In Markdown, one sentence per line, and each line that continues a paragraph
+  or list item ends with two spaces.
+  Links: every source, PR, commit, file and tool a document names is a
+  reference-style link, defined once at the end of the file. Code and data
+  links to another repository pin a commit. No bare URLs in prose, tables or lists.
+
+rules:
+  proposal:
+    - State the measured gap, with numbers where they exist.
+  design:
+    - Each decision names the alternative considered and why it lost.
