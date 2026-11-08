@@ -1,13 +1,7 @@
 # prose-style
 
-A [Vale] package for plain, short, literal technical prose.
-It flags:
-
-- stock phrases and chat residue;
-- dashes, emoji and exclamation marks;
-- long sentences, paragraphs, list items and table rows;
-- coined jargon and formal words;
-- verbs that give things speech or thought.
+A [Vale] package for plain, short, literal technical prose.  
+It flags stock phrases, chat residue, dashes, long sentences and paragraphs, coined jargon, and verbs that give things speech or thought.
 
 ## Use it
 
@@ -19,7 +13,7 @@ MinAlertLevel = warning
 Packages = https://github.com/victor-software-house/prose-style/releases/download/v0.0.1/ProseStyle.zip
 ```
 
-The package's own `.vale.ini` turns the rules on for `*.{md,mdx,txt}`.
+The package's own `.vale.ini` turns the rules on for `*.{md,mdx,txt}`.  
 A project adds sections only for other file types or its own exceptions:
 
 ```ini
@@ -54,7 +48,7 @@ Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSen
 | `mise run test` | `vale test --coverage`: every rule's cases, and every rule must fire in one |
 | `mise run build` | `ProseStyle.zip` from the committed `ProseStyle/` folder |
 
-Each rule carries its cases under `tests:`.
+Each rule carries its cases under `tests:`.  
 A tag `v0.0.N` on `main` publishes `ProseStyle.zip` as a release asset.
 
 [Vale]: https://vale.sh
