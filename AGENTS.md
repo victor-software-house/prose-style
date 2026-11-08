@@ -36,8 +36,9 @@ The package's own rules apply here: plain words, short sentences, no dashes as p
 A file, rule or value holds, shows, marks or matches; it never says, knows or wants.
 
 Use word pairs that occur in ordinary English.  
-Check a doubtful pair, such as "plain fix", against a common one in [Google Books Ngram][ngram].  
-A pair near zero is not English: rewrite it.  
+Check a doubtful pair, such as "plain fix", against its alternatives in [Google Books Ngram][ngram].  
+Rewrite a pair near zero when an alternative scores well: "plain fix" has 0 per billion words, "quick fix" 280.  
+Books lag web and software usage, so when every choice is near zero, as with "wall of prose" and "wall of text", the counts decide nothing and the writer's wording stands.  
 The JSON form returns the same counts:  
 `https://books.google.com/ngrams/json?content=plain+fix,plain+words&corpus=en&year_start=2010&case_insensitive=true`.
 
