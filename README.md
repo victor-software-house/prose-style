@@ -1,7 +1,13 @@
 # prose-style
 
 A [Vale] package for plain, short, literal technical prose.
-It flags stock phrases, chat residue, dashes, long sentences and paragraphs, coined jargon, and verbs that give things speech or thought.
+It flags:
+
+- stock phrases and chat residue;
+- dashes, emoji and exclamation marks;
+- long sentences, paragraphs, list items and table rows;
+- coined jargon and formal words;
+- verbs that give things speech or thought.
 
 ## Use it
 
