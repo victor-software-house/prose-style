@@ -9,7 +9,7 @@ tokens:
 exceptions:
   - '(?:the same|what|which|any|another|some|this|that|one|two|three|four|several|many|other|every|each|a|the) kinds? of'
 tests:
-  - name: flags kind as a label
+  - name: flags kind as a noun
     input: |
       Map each kind with `match`.
 
