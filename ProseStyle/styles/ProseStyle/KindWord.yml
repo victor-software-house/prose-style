@@ -1,7 +1,7 @@
 # "Kind" as a category label hides what varies. Natural uses such as
 # "the same kind of" and "three kinds of" pass. Code spans are skipped.
 extends: existence
-message: "'%s': name what varies (record type, body type, column, group), not 'kind'."
+message: "'%s': name what varies, such as record type, body type, column or group."
 level: warning
 ignorecase: true
 tokens:
