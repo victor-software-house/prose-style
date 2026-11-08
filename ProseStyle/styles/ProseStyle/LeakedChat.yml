@@ -1,6 +1,7 @@
-# Echoes and offers belong in a chat reply. A document states the content.
+# Chat replies leaked into a document: echoes, praise and offers.
+# A document states the content.
 extends: existence
-message: "Colloquialism '%s': state the content."
+message: "Leaked chat '%s': state the content."
 level: error
 ignorecase: true
 tokens:
