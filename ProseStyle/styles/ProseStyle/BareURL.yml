@@ -1,0 +1,28 @@
+# A bare URL shows the reader an address in place of a name.
+# Raw scope, because Vale strips URLs from prose scopes. Link targets, inline
+# code and reference definitions pass; autolinks count as bare.
+# Known gap: raw scope also reads fenced code blocks. A config value such as
+# "Packages = https://..." passes.
+extends: existence
+message: "Bare URL '%s': put the link on the words that name it."
+level: error
+scope: raw
+nonword: true
+tokens:
+  - '(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
+tests:
+  - name: flags a bare URL and an autolink
+    input: See https://example.com/x here, and <https://auto.example>.
+    contains:
+      - "'https://example.com/x'"
+      - "'https://auto.example'"
+  - name: leaves links, definitions and code alone
+    input: |
+      See [the page](https://ok.example) and `https://code.example`.
+
+      [ref]: https://def.example
+
+      ```ini
+      Packages = https://pkg.example/A.zip
+      ```
+    want: ''

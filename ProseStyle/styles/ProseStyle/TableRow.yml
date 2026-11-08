@@ -1,0 +1,21 @@
+# A table row over 250 characters: make it a list or a section.
+extends: existence
+message: "This table row is over 250 characters: make it a list or a section."
+level: warning
+scope: raw
+nonword: true
+raw:
+  - '(?m)^\|[^\n]{250,}$'
+tests:
+  - name: flags a long row
+    input: |
+      | Name | Note |
+      |:--|:--|
+      | a | aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa |
+    contains: ProseStyle.TableRow
+  - name: leaves a short row alone
+    input: |
+      | Name | Note |
+      |:--|:--|
+      | a | short |
+    want: ''

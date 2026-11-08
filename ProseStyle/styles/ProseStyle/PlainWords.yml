@@ -1,0 +1,30 @@
+# Plain words over formal ones. Voices.InflatedWords covers utilize,
+# leverage and facilitate.
+extends: substitution
+message: "Plain word: use '%s' instead of '%s'."
+level: warning
+ignorecase: true
+swap:
+  prior to: before
+  subsequently: then|later
+  approximately: about
+  commenc(?:e|es|ed|ing): start
+  in the event that: if
+  numerous: many
+  sufficient: enough
+  assist(?:s|ed|ing)?: help
+  obtain(?:s|ed|ing)?: get
+  serves as: is
+  stands as: is
+  functions as: is
+  boasts: has
+tests:
+  - name: flags formal words
+    input: Prior to the run, obtain the token. The page serves as the index.
+    contains:
+      - "'Prior to'"
+      - "'obtain'"
+      - "'serves as'"
+  - name: leaves plain words alone
+    input: Before the run, get the token. The page is the index.
+    want: ''

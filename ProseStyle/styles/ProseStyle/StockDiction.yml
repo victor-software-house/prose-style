@@ -1,0 +1,33 @@
+# Stock phrases that stand in for a mechanism. Name the mechanism and its effect.
+extends: existence
+message: "Stock phrase '%s': name the mechanism and its effect."
+level: error
+ignorecase: true
+tokens:
+  - 'load[- ]bearing'
+  - non-trivial
+  - crucially
+  - at its core
+  - smoking gun
+  - circle back
+  - where it gets proven
+  - one liberty
+  - shielded from
+  - 'carries the (?:\w+ )?proof'
+  - the intended trade
+  - "(?:my )?honest opinion"
+  - I have the full picture
+  - "you're right to push back"
+  - shapes the entire
+  - tinkerer
+  - mannered
+tests:
+  - name: flags stock phrases
+    input: The lock is load-bearing. Crucially, the fix is non-trivial.
+    contains:
+      - "'load-bearing'"
+      - "'Crucially'"
+      - "'non-trivial'"
+  - name: leaves a mechanism alone
+    input: The lock keeps two writers from the same file.
+    want: ''

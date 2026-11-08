@@ -1,0 +1,22 @@
+# Words that add tone and no content.
+extends: existence
+message: "Filler '%s': cut it."
+level: warning
+ignorecase: true
+tokens:
+  - simply
+  - obviously
+  - basically
+  - essentially
+  - of course
+  - needless to say
+  - it goes without saying
+tests:
+  - name: flags filler
+    input: Simply run it. It is basically done.
+    contains:
+      - "'Simply'"
+      - "'basically'"
+  - name: leaves plain text alone
+    input: Run it. It is done.
+    want: ''

@@ -1,0 +1,21 @@
+# A list item over 60 words: split it, or nest a list.
+extends: metric
+message: "This list item runs %s words, over 60: split it, or nest a list."
+level: warning
+scope: list
+formula: words
+condition: "> 60.0"
+tests:
+  - name: flags a long list item
+    input: >
+      - One two three four five six seven eight nine ten. One two three four five
+      six seven eight nine ten. One two three four five six seven eight nine ten.
+      One two three four five six seven eight nine ten. One two three four five
+      six seven eight nine ten. One two three four five six seven eight nine ten.
+      One more.
+    contains: ProseStyle.ListItem
+  - name: leaves short items alone
+    input: |
+      - One item.
+      - Two items.
+    want: ''

@@ -1,0 +1,14 @@
+# Symbols carry status in plain text: ✔ ✘ ▲ ▴ → — · … pass, emoji do not.
+extends: existence
+message: "Emoji '%s': use a symbol (✔ ✘ ▲ → ·) or a word."
+level: error
+nonword: true
+tokens:
+  - '[\x{1F300}-\x{1FAFF}\x{2705}\x{274C}\x{274E}\x{2753}-\x{2755}\x{2757}\x{26A0}\x{26D4}\x{2B50}\x{2B55}\x{FE0F}]'
+tests:
+  - name: flags an emoji
+    input: Done ✅ today.
+    contains: "'✅'"
+  - name: leaves the symbols alone
+    input: Done ✔, failed ✘, warned ▲, next → step · item …
+    want: ''

@@ -1,0 +1,21 @@
+# A tracked document states intent in plain words. Profanity marks a pasted
+# chat message.
+extends: existence
+message: "'%s' reads as a pasted chat message: state the intent in plain words."
+level: error
+ignorecase: true
+tokens:
+  - 'fuck\w*'
+  - 'shit\w*'
+  - 'damn\w*'
+  - dammit
+  - wtf
+tests:
+  - name: flags profanity
+    input: Stop the damn retries, wtf.
+    contains:
+      - "'damn'"
+      - "'wtf'"
+  - name: leaves plain intent alone
+    input: Stop the retries after three attempts.
+    want: ''

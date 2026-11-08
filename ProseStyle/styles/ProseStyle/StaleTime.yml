@@ -1,0 +1,24 @@
+# A document states what is true now. Words that narrate history go stale.
+# "No longer" and "recently" pass: they mostly describe a state or an order.
+extends: existence
+message: "'%s' narrates history or goes stale: state what is true."
+level: warning
+ignorecase: true
+tokens:
+  - currently
+  - previously
+  - formerly
+  - used to
+  - as of now
+  - 'now (?:uses|reads|writes|has|takes|runs|keeps)'
+  - '(?:was|were|has been|have been) (?:renamed|replaced|moved|removed|dropped)'
+tests:
+  - name: flags narration
+    input: This tool currently uses the cache, which was renamed last week. It now reads the lock.
+    contains:
+      - "'currently'"
+      - "'was renamed'"
+      - "'now reads'"
+  - name: leaves present facts alone
+    input: The tool reads the cache. Files no longer on disk are skipped.
+    want: ''

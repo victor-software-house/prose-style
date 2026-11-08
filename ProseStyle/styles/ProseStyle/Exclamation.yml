@@ -1,0 +1,14 @@
+# Technical prose states facts without emphasis.
+extends: existence
+message: "Exclamation mark: state it plainly."
+level: warning
+nonword: true
+tokens:
+  - '(?<=[A-Za-z\)])!(?=\s|$)'
+tests:
+  - name: flags an exclamation
+    input: Run it now! It works.
+    contains: ProseStyle.Exclamation
+  - name: leaves negation and codes alone
+    input: Use `!=` and see !294 in the tracker.
+    want: ''
