@@ -15,10 +15,13 @@ The `README.md` lists the habits it flags and how a project uses it.
    No chat quotes, no profanity, no private paths or tool names.
 2. Each rule carries a case that fires and a case that must stay clean.  
    `mise run test` fails when any rule fires in no case.
-3. Match the habit, not every use of a word.  
-   Allow the natural uses with `exceptions:`, and check each hit on a real document before raising a level.
+3. Match the habit.  
+   Let natural uses of the same word pass with `exceptions:`.  
+   Check each hit on a real document before raising a level.
 4. A rule's message names the fix: what to write instead.
-5. Levels: `error` for a habit with no valid use, `warning` for one that needs a person's judgment, `suggestion` for a score or a style hint.
+5. A rule's name uses words people say, such as `StockPhrases` or `Colloquialisms`.  
+   Never a term of art such as diction, residue or coinage.
+6. Levels: `error` for a habit with no valid use, `warning` for one that needs a person's judgment, `suggestion` for a score or a style hint.
 
 ## Releases
 

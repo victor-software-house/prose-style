@@ -1,7 +1,7 @@
 # "X, not Y" and "not because X, but Y" frame a claim against a straw man.
 # Voices.BinaryContrast covers "is not X, it's Y".
 extends: existence
-message: "Paired contrast '%s': state the claim on its own."
+message: "Straw-man contrast '%s': state the claim on its own."
 level: suggestion
 ignorecase: true
 nonword: true
