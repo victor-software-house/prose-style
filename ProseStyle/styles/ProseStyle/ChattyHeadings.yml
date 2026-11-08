@@ -1,7 +1,7 @@
 # A heading names a topic. A pronoun or a question word makes it read like
 # chat: "Use it", "What it turns on", "How it works", "Let's begin".
 extends: existence
-message: "Heading '%s' reads like chat: name the topic with a noun, such as Setup, Styles or Development."
+message: "'%s' in a heading reads like chat: name the topic with a noun, such as Setup, Styles or Development."
 level: warning
 scope: heading
 ignorecase: true
