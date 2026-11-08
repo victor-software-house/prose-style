@@ -4,7 +4,7 @@ A [Vale] package that flags the speech habits of AI-written text.
 
 ## Setup
 
-Name the release zip in a project's `.vale.ini`, then run `vale sync`:
+Add the release zip to `Packages` in a project's `.vale.ini`, then run `vale sync`:
 
 ```ini
 StylesPath = .vale/styles
@@ -47,8 +47,8 @@ Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSen
 | Lingo and slang | `seams`, `on the wire`, `wire format`, `doctrine` | `Lingo` |
 | Made-up words | `top-to-bottomness`, `bullets-versus-numbered-paragraphs` | `MadeUpWords` |
 | Things that speak or think | `the log says`, `the adapter knows`, `the request asks` | `ThingsSpeak` |
-| Jargon verbs | `land the PR`, `gate on CI`, `surfaces the error` | `PlainVerbs` |
-| Formal words | `prior to`, `obtain`, `serves as`, `boasts` | `PlainWords` |
+| Jargon | `land the PR`, `gate on CI`, `surfaces the error` | `Jargon` |
+| Formal words | `prior to`, `obtain`, `serves as`, `boasts` | `FormalWords` |
 | Filler | `simply`, `basically`, `of course` | `Filler` |
 | Straw-man contrasts | `a document, not a transcript`, `not because X, but Y` | `StrawMan` |
 | Dashes between clauses | `real — so we wait`, `runs -- then stops` | `Dashes` |

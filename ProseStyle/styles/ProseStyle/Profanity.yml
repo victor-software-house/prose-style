@@ -1,7 +1,7 @@
-# A tracked document states intent in plain words. Profanity marks a pasted
+# A tracked document says what it means in plain words. Profanity marks a pasted
 # chat message.
 extends: existence
-message: "'%s' reads as a pasted chat message: state the intent in plain words."
+message: "Profanity '%s' marks a pasted chat message: say what you mean in plain words."
 level: error
 ignorecase: true
 tokens:
@@ -16,6 +16,6 @@ tests:
     contains:
       - "'damn'"
       - "'wtf'"
-  - name: leaves plain intent alone
+  - name: leaves a polite request alone
     input: Stop the retries after three attempts.
     want: ''

@@ -17,6 +17,6 @@ tests:
     contains:
       - "'Simply'"
       - "'basically'"
-  - name: leaves plain text alone
+  - name: leaves text without filler alone
     input: Run it. It is done.
     want: ''

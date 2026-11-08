@@ -1,4 +1,4 @@
-# Symbols carry status in plain text: ✔ ✘ ▲ ▴ → — · … pass, emoji do not.
+# Symbols such as ✔ ✘ ▲ ▴ → — · … pass. Emoji fail.
 extends: existence
 message: "Emoji '%s': use a symbol (✔ ✘ ▲ → ·) or a word."
 level: error

@@ -1,7 +1,7 @@
 # Jargon verbs: "land" for merge, "gate" for block or require, "surface" for
 # show. "Gate" is also a real CI noun, so only its verb forms match.
 extends: substitution
-message: "Plain verb: use '%s' instead of '%s'."
+message: "Jargon: use '%s' instead of '%s'."
 level: warning
 ignorecase: true
 swap:

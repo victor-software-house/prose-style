@@ -1,7 +1,7 @@
 # Chat replies leaked into a document: echoes, praise and offers.
-# A document states the content.
+# Cut them.
 extends: existence
-message: "Leaked chat '%s': state the content."
+message: "Leaked chat '%s': cut it."
 level: error
 ignorecase: true
 tokens:
@@ -19,6 +19,6 @@ tests:
     contains:
       - "'You're right'"
       - "'Want me to'"
-  - name: leaves plain statements alone
+  - name: leaves a statement of fact alone
     input: The run fails on the second step.
     want: ''
