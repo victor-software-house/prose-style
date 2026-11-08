@@ -55,7 +55,7 @@ Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSen
 | Dashes between clauses | `real — so we wait`, `runs -- then stops` | `Dashes` |
 | Emoji and exclamation marks | `Done ✅`, `It works!` | `Emoji`, `Exclamation` |
 | Words that go stale | `currently`, `previously`, `was renamed` | `StaleWords` |
-| "Kind" as a label | `each kind`, `per kind`, `an unknown kind` | `KindWord` |
+| "Kind" as a noun | `each kind`, `per kind`, `an unknown kind` | `KindAsNoun` |
 | Chatty headings | `Use it`, `What it turns on`, `How it works` | `ChattyHeadings` |
 | Generic table headers | `Details`, `Info`, `Kind` | `GenericHeaders` |
 | Bare links and codes | a pasted URL, `#123`, `EVO-9673` | `BareURL`, `BareWorkItem` |
