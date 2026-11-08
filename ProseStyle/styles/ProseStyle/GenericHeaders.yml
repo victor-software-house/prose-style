@@ -1,0 +1,22 @@
+# A table header such as "Kind" or "Details" names no content.
+# "Type" passes: a schema table's column type is exact.
+extends: existence
+message: "Header '%s' is generic: name what the column holds."
+level: error
+scope: table.header
+nonword: true
+tokens:
+  - '^\s*(?:Kind|Category|Item|Items|Details|Info|Misc|Other)\s*$'
+tests:
+  - name: flags a generic header
+    input: |
+      | Kind | Runs |
+      |:--|:--|
+      | a | 1 |
+    contains: "'Kind'"
+  - name: leaves exact headers alone
+    input: |
+      | Column | Type |
+      |:--|:--|
+      | a | int |
+    want: ''

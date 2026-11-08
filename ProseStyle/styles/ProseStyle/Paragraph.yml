@@ -1,0 +1,19 @@
+# A paragraph over 60 words is a wall: split it, or make it a list or a table.
+extends: metric
+message: "This paragraph runs %s words, over 60: split it, or make it a list or a table."
+level: warning
+scope: paragraph
+formula: words
+condition: "> 60.0"
+tests:
+  - name: flags a paragraph over 60 words
+    input: >
+      One two three four five six seven eight nine ten. One two three four five
+      six seven eight nine ten. One two three four five six seven eight nine ten.
+      One two three four five six seven eight nine ten. One two three four five
+      six seven eight nine ten. One two three four five six seven eight nine ten.
+      One more.
+    contains: ProseStyle.Paragraph
+  - name: leaves a short paragraph alone
+    input: One short paragraph.
+    want: ''

@@ -1,0 +1,27 @@
+# Borrowed jargon that names no mechanism. "Wire up", meaning connect, passes.
+extends: substitution
+message: "Use '%s' instead of '%s'."
+level: error
+ignorecase: true
+swap:
+  seams?: boundary|check
+  disagree(?:s|d|ing)?: conflict|diverge
+  disagreements?: conflict|discrepancy
+  wire (?:format|shape|changes?|protocol|types?): message format|protocol change
+  (?:on|over) the wire: in transit|as sent
+  brain layer: the component's name
+  doctrine: rule
+tests:
+  - name: flags each coined term
+    input: The two runs disagree, the wire format changed, and the seams are odd. The doctrine holds.
+    contains:
+      - "'disagree'"
+      - "'wire format'"
+      - "'seams'"
+      - "'doctrine'"
+  - name: flags transit phrasing
+    input: The body goes over the wire as gzip.
+    contains: "'over the wire'"
+  - name: leaves wire up alone
+    input: Wire up the handler before the first request.
+    want: ''

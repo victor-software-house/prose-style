@@ -1,0 +1,20 @@
+# A bare PR, MR, ticket or ledger code names nothing a reader knows.
+# Name the item by what it does, and link it. Raw scope, so a code in link
+# text or in backticks passes. Standard names such as SHA-256 and UTF-8 pass.
+extends: existence
+message: "'%s' is a bare code: name the item by what it does, and link it."
+level: warning
+scope: raw
+nonword: true
+tokens:
+  - '(?<![\[\w/`#&-])(?!(?:SHA|UTF|ISO|RFC|CVE|AES|TLS|HTTP|IPv|W)-)(?:#\d{2,5}|![1-9]\d{1,4}|[A-Z][A-Z0-9]{1,6}-\d{2,5})(?![\w\]`-])'
+tests:
+  - name: flags PR, ticket and MR codes
+    input: 'See PR #123, EVO-9673, and !294 for details.'
+    contains:
+      - "'#123'"
+      - "'EVO-9673'"
+      - "'!294'"
+  - name: leaves codes in links and backticks, and standard names
+    input: Use `QCTL-006`, [PR 40](https://example.com/pull/40), SHA-256 and UTF-8.
+    want: ''

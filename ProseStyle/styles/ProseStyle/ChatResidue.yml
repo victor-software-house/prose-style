@@ -1,0 +1,23 @@
+# Echoes and offers belong to a chat reply, not to a document.
+extends: existence
+message: "Chat residue '%s': state the content."
+level: error
+ignorecase: true
+tokens:
+  - "you're (?:absolutely |completely )?right"
+  - good catch
+  - great question
+  - 'as you (?:said|mentioned|noted|asked|pointed out)'
+  - want me to
+  - would you like me to
+  - 'should I (?:continue|proceed|go ahead)'
+  - "if you're aware of that"
+tests:
+  - name: flags an echo and an offer
+    input: You're right that it fails. Want me to fix it?
+    contains:
+      - "'You're right'"
+      - "'Want me to'"
+  - name: leaves plain statements alone
+    input: The run fails on the second step.
+    want: ''

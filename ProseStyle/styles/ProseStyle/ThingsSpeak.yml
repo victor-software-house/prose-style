@@ -1,0 +1,25 @@
+# Things hold, show, mark, fetch and match. Only people say, tell, know, want
+# or ask. Vale cannot find a sentence's subject, so this matches common nouns
+# and pronouns for things right before the verb.
+extends: existence
+message: "'%s' gives a thing speech or thought: name what it holds, shows, marks or matches."
+level: warning
+ignorecase: true
+tokens:
+  - '(?:file|doc|answer|state|line|log|output|row|table|spec|skill|change|summary|name|flag|option|field|header|footer|request|response|event|test|pattern|record|value|code|error|message|commit|adapter|store|server|client|command|program|tool|it|both|they|which)s? (?:says?|said|tells?|told|knows?|knew|thinks?|wants?|agrees?|asks?|asked)\b'
+  - '\bsays so\b'
+  - 'as far as it agrees'
+tests:
+  - name: flags things that speak or think
+    input: |
+      Both say "record type". The state says it is not done.
+
+      The adapter knows its names. A request asks for the rows.
+    contains:
+      - "'Both say'"
+      - "'state says'"
+      - "'adapter knows'"
+      - "'request asks'"
+  - name: leaves people and literal verbs alone
+    input: The operator said to keep it. The file holds the rows, and the log shows the wait.
+    want: ''

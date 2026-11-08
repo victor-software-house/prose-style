@@ -1,0 +1,21 @@
+# Jargon verbs: "land" for merge, "gate" for block or require, "surface" for
+# show. "Gate" is also a real CI noun, so only its verb forms match.
+extends: substitution
+message: "Plain verb: use '%s' instead of '%s'."
+level: warning
+ignorecase: true
+swap:
+  land(?:s|ed|ing)? (?:the |a |this |that )?(?:PR|pull request|change|fix|branch|stack): merge
+  surfac(?:es|ed|ing) (?:the|a|an|it|them|this)\b: show|report
+  (?:to|not|n't|will|must|should|can|may|never) gate\b: block|require
+  gat(?:ed|ing) (?:the|a|an|it|on)\b: blocked|blocking|required
+tests:
+  - name: flags jargon verbs
+    input: Land the PR once CI passes. It surfaces the error. Tests must gate it.
+    contains:
+      - "'Land the PR'"
+      - "'surfaces the'"
+      - "'must gate'"
+  - name: leaves the noun alone
+    input: The release gate runs on main.
+    want: ''
