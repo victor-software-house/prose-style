@@ -11,7 +11,7 @@ The `README.md` lists the habits it flags and how a project uses it.
 
 ## Writing a rule
 
-1. Each rule catches one habit. Its comment states why, in one or two plain sentences.  
+1. Each rule catches one habit. Its comment states why, in one or two short sentences.  
    No chat quotes, no profanity, no private paths or tool names.
 2. Each rule carries a case that fires and a case that must stay clean.  
    `mise run test` fails when any rule fires in no case.
@@ -34,3 +34,11 @@ The `README.md` lists the habits it flags and how a project uses it.
 
 The package's own rules apply here: plain words, short sentences, no dashes as punctuation.  
 A file, rule or value holds, shows, marks or matches; it never says, knows or wants.
+
+Use word pairs that occur in ordinary English.  
+Check a doubtful pair, such as "plain fix", against a common one in [Google Books Ngram][ngram].  
+A pair near zero is not English: rewrite it.  
+The JSON form returns the same counts:  
+`https://books.google.com/ngrams/json?content=plain+fix,plain+words&corpus=en&year_start=2010&case_insensitive=true`.
+
+[ngram]: https://books.google.com/ngrams
