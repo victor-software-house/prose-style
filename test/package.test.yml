@@ -17,7 +17,7 @@
   input: |
     The cause: the socket closed mid-body.
   absent: Voices.ColonReveal
-- name: plain short prose passes
+- name: short everyday prose passes
   input: |
     The worker reads the cache. It holds one file per session.
   want: ''

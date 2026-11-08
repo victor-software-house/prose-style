@@ -1,8 +1,8 @@
 # A bare PR, MR, ticket or ledger code names nothing a reader knows.
-# Name the item by what it does, and link it. Raw scope, so a code in link
+# Say what it is, and link it. Raw scope, so a code in link
 # text or in backticks passes. Standard names such as SHA-256 and UTF-8 pass.
 extends: existence
-message: "'%s' is a bare code: name the item by what it does, and link it."
+message: "'%s' is a bare code: say what it is, and link it."
 level: warning
 scope: raw
 nonword: true

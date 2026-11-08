@@ -1,7 +1,7 @@
 # "X, not Y" and "not because X, but Y" frame a claim against a straw man.
 # Voices.BinaryContrast covers "is not X, it's Y".
 extends: existence
-message: "Straw-man contrast '%s': state the claim on its own."
+message: "Straw-man contrast '%s': make the claim directly."
 level: suggestion
 ignorecase: true
 nonword: true
@@ -14,6 +14,6 @@ tests:
     contains:
       - "'is a document, not a transcript.'"
       - "'Not because it is slow, but'"
-  - name: leaves a plain claim alone
+  - name: leaves a direct claim alone
     input: A reply is a document.
     want: ''

@@ -1,6 +1,6 @@
-# Stock phrases that stand in for a mechanism. Name the mechanism and its effect.
+# Stock phrases that stand in for a real explanation. Say what actually happens.
 extends: existence
-message: "Stock phrase '%s': name the mechanism and its effect."
+message: "Stock phrase '%s': say what actually happens."
 level: error
 ignorecase: true
 tokens:

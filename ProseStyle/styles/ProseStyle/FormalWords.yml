@@ -1,7 +1,7 @@
-# Plain words over formal ones. Voices.InflatedWords covers utilize,
+# Everyday words over formal ones. Voices.InflatedWords covers utilize,
 # leverage and facilitate.
 extends: substitution
-message: "Plain word: use '%s' instead of '%s'."
+message: "Formal word: use '%s' instead of '%s'."
 level: warning
 ignorecase: true
 swap:
@@ -25,6 +25,6 @@ tests:
       - "'Prior to'"
       - "'obtain'"
       - "'serves as'"
-  - name: leaves plain words alone
+  - name: leaves everyday words alone
     input: Before the run, get the token. The page is the index.
     want: ''
