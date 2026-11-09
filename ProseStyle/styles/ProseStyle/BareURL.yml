@@ -3,18 +3,19 @@
 # code and reference definitions pass; autolinks count as bare.
 # Raw scope also reads fenced code blocks, so the first lookbehind skips a URL
 # after an odd number of fence lines (``` or ~~~, indented or not): a command
-# in a code block keeps its literal URL. The second lookbehind skips a URL
-# after an odd number of backtick runs on its line, so a URL inside a code
-# span, such as `curl https://example.com` or a double-backtick span, is code
-# wherever it sits in the span. A run counts once whatever its length; a lone
-# literal backtick in prose flips the count for the rest of its line.
+# in a code block keeps its literal URL. The lookahead after it skips a URL
+# inside a code span on its line, such as `curl https://example.com`. It
+# pairs backtick runs as CommonMark does: a run of 1 to 3 opens a span that
+# the next run of the same length closes, a run with no such closer later on
+# the line is literal, and an escaped backtick opens nothing. A span opened by
+# 4 or more backticks counts as text.
 extends: existence
 message: "Bare URL '%s': put the link on the words that name it."
 level: error
 scope: raw
 nonword: true
 tokens:
-  - '(?<!\A(?:(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n))*(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*[^\n]*)(?<!(?:\A|\n)(?:[^`\n]*(?<!`)`+(?!`)[^`\n]*(?<!`)`+(?!`))*[^`\n]*(?<!`)`+(?!`)[^`\n]*)(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
+  - '(?<!\A(?:(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n))*(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*[^\n]*)(?!(?<=(?:\A|\n)(?:(?:[^`\n]|\\`|(?<![`\\])`(?!`)(?![^\n]*?(?<!`)`(?!`))|(?<![`\\])``(?!`)(?![^\n]*?(?<!`)``(?!`))|(?<![`\\])```(?!`)(?![^\n]*?(?<!`)```(?!`))|(?<!`)`{4,}(?!`))|(?:(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*(?<!`)`(?!`)|(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*(?<!`)``(?!`)|(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*(?<!`)```(?!`)))*(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*)(?=[^\n]*?(?<!`)`(?!`))|(?<=(?:\A|\n)(?:(?:[^`\n]|\\`|(?<![`\\])`(?!`)(?![^\n]*?(?<!`)`(?!`))|(?<![`\\])``(?!`)(?![^\n]*?(?<!`)``(?!`))|(?<![`\\])```(?!`)(?![^\n]*?(?<!`)```(?!`))|(?<!`)`{4,}(?!`))|(?:(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*(?<!`)`(?!`)|(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*(?<!`)``(?!`)|(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*(?<!`)```(?!`)))*(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*)(?=[^\n]*?(?<!`)``(?!`))|(?<=(?:\A|\n)(?:(?:[^`\n]|\\`|(?<![`\\])`(?!`)(?![^\n]*?(?<!`)`(?!`))|(?<![`\\])``(?!`)(?![^\n]*?(?<!`)``(?!`))|(?<![`\\])```(?!`)(?![^\n]*?(?<!`)```(?!`))|(?<!`)`{4,}(?!`))|(?:(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*(?<!`)`(?!`)|(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*(?<!`)``(?!`)|(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*(?<!`)```(?!`)))*(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*)(?=[^\n]*?(?<!`)```(?!`)))(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
 tests:
   - name: flags a bare URL and an autolink
     input: See https://example.com/x here, and <https://auto.example>.
@@ -79,3 +80,20 @@ tests:
     input: Run ``make`` and then open https://after-double.example today.
     contains:
       - "'https://after-double.example'"
+  - name: pairs backtick runs by length as CommonMark does
+    input: |
+      Run ``a ` b https://pair.example`` now.
+
+      A lone `` stray then `curl https://after-stray.example` now.
+    want: ''
+  - name: flags a bare URL after a backtick that opens no span
+    input: |
+      The ` key then https://lone.example now.
+
+      An escaped \` then https://escaped.example now.
+
+      A span `C:\` then https://backslash.example now.
+    contains:
+      - "'https://lone.example'"
+      - "'https://escaped.example'"
+      - "'https://backslash.example'"
