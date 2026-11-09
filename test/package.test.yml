@@ -100,3 +100,26 @@
     - ProseStyle.BareURL
   absent:
     - ProseStyle.BareURLInComment
+- name: a code in a Rust string literal passes
+  format: .rs
+  input: |
+    const SAMPLE: &str = indoc! {"
+        error: ticket EVO-9673 is closed, see #123
+    "};
+  want: ''
+- name: a bare code in a Rust comment fails once
+  format: .rs
+  input: |
+    /// Fixed in EVO-9673.
+    fn fix() {}
+  contains:
+    - ProseStyle.BareWorkItemInComment
+  absent:
+    - "ProseStyle.BareWorkItem:"
+- name: a bare code in Markdown fails through BareWorkItem
+  input: |
+    Fixed in EVO-9673.
+  contains:
+    - "ProseStyle.BareWorkItem:"
+  absent:
+    - ProseStyle.BareWorkItemInComment

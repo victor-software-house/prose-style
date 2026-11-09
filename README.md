@@ -13,7 +13,8 @@ Packages = https://github.com/victor-software-house/prose-style/releases/downloa
 ```
 
 The package's own `.vale.ini` turns the rules on for `*.{md,mdx,rs}` and reads Rust doc comments as Markdown.  
-In a Rust file, `BareURLInComment` takes the place of `BareURL` and reads comments only, so a URL in a string literal passes.  
+In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of `BareURL` and `BareWorkItem`.  
+They read comments only, so a URL or a code such as `#123` in a string literal passes.  
 A project adds sections only for other file types or its own exceptions.
 
 The zip holds every style the rules use, so `vale sync` makes one download.  
@@ -52,7 +53,7 @@ Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSen
 | "Kind" as a noun | `each kind`, `per kind`, `an unknown kind` | `KindAsNoun` |
 | Chatty headings | `Use it`, `What it turns on`, `How it works` | `ChattyHeadings` |
 | Generic table headers | `Details`, `Info`, `Kind` | `GenericHeaders` |
-| Bare links and codes | a pasted URL, `#123`, `EVO-9673` | `BareURL`, `BareURLInComment`, `BareWorkItem` |
+| Bare links and codes | a pasted URL, `#123`, `EVO-9673` | `BareURL`, `BareURLInComment`, `BareWorkItem`, `BareWorkItemInComment` |
 | Profanity | profanity in a tracked file, the sign of a pasted message | `Profanity` |
 | Walls of prose | sentences over 40 words, paragraphs and list items over 60 | `LongSentence`, `Paragraph`, `ListItem`, `TableRow` |
 
