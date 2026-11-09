@@ -1,10 +1,11 @@
 ## Why
 
 [BareURL][bareurl] and [BareURLInComment][bareurlincomment] decide whether a URL sits in a fenced block or a code span with lookbehinds.  
-The fence lookbehind reads from the top of the file, one loop step per line.  
+In BareURL the fence lookbehind reads from the top of the file, one loop step per line.  
+In BareURLInComment it reads back only to the first line of the URL's comment block, since v0.0.8: a fence in a doc comment cannot span a line of code.  
 The code-span lookbehinds read the URL's line, one loop step per character.  
 [regexp2][regexp2-limit] gives a match 100,000 backtracking slots, and Vale panics when a match runs out.  
-So a URL in a file of about 12,000 lines, or on a line of about 14,000 characters, stops the whole Vale run.
+So a URL in a Markdown file of about 12,000 lines, or on a line of about 14,000 characters in either format, stops the whole Vale run.
 
 A test planted URLs in comments, code and strings of 870 Rust files from a large crate, on one line in 25 and on every line over 14,000 characters.  
 Release v0.0.6 panicked on 14 files.  
