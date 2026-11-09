@@ -16,9 +16,10 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195 # v5.2.5
+      - uses: victor-software-house/actions/mise@c5ea40a355cb9e5ae9429827ccc1048d333c23b1 # main, 2026-11-09
         with:
           version: 2026.11.2
+          mirror-token: ${{ secrets.RELEASE_MIRROR_TOKEN }}
       - name: Test
         env:
           GITHUB_TOKEN: ${{ github.token }}
