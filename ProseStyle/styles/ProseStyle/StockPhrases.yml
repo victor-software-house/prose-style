@@ -5,6 +5,7 @@ level: error
 ignorecase: true
 tokens:
   - 'load[- ]bearing'
+  - 'harness(?:es)? the (?:full )?(?:power|potential)'
   - non-trivial
   - crucially
   - at its core
@@ -28,6 +29,10 @@ tests:
       - "'load-bearing'"
       - "'Crucially'"
       - "'non-trivial'"
+  - name: flags the verb harness before power
+    input: We harness the power of the cache.
+    contains:
+      - "'harness the power'"
   - name: leaves a mechanism alone
     input: The lock keeps two writers from the same file.
     want: ''
