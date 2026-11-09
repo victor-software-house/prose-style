@@ -7,6 +7,9 @@ The `README.md` lists the habits it flags and how a project uses it.
 
 - `ProseStyle/.vale.ini`: the package configuration a project reads before its own.
 - `ProseStyle/styles/ProseStyle/*.yml`: one rule per file, each with its `tests:`.
+- `upstream.toml`: the upstream styles the build packs, each release pinned by sha256.
+- `mise-tasks/build.py`: builds `ProseStyle.zip` with no nested `Packages`, so a project gets exactly what the tests ran on.
+- `test/`: a consumer project that syncs the built zip and runs `package.test.yml`.
 - `.github/workflows/`: `ci.yml` runs the tests; `release.yml` builds and attaches the zip on a tag.
 
 ## Writing a rule
@@ -27,8 +30,8 @@ The `README.md` lists the habits it flags and how a project uses it.
 
 - Tags are patch-only, from `v0.0.1`, annotated, on a `main` commit whose CI passed.  
   Never move or reuse a tag: projects pin the release URL.
-- Upstream packages are pinned by release URL in `ProseStyle/.vale.ini`.  
-  Std comes after Voices, so the pinned Std replaces the latest one Voices names.
+- Upstream styles are pinned in `upstream.toml` by release and sha256, and packed into the zip.  
+  To move one, change its tag and sha256 together, and keep its license files in the packed style.
 
 ## Writing in this repository
 
@@ -36,8 +39,11 @@ The package's own rules apply here: plain words, short sentences, no dashes as p
 A file, rule or value holds, shows, marks or matches; it never says, knows or wants.
 
 Use word pairs that occur in ordinary English.  
-Check a doubtful pair, such as "plain fix", against a common one in [Google Books Ngram][ngram].  
-A pair near zero is not English: rewrite it.  
+Check a doubtful pair, such as "plain fix", against its alternatives in [Google Books Ngram][ngram].  
+Rewrite a pair near zero when an alternative scores well: "plain fix" has 0 per billion words, "quick fix" 280.
+
+Books lag web and software usage.  
+When every choice is near zero, as with "wall of prose" and "wall of text", the counts decide nothing and the writer's wording stands.  
 The JSON form returns the same counts:  
 `https://books.google.com/ngrams/json?content=plain+fix,plain+words&corpus=en&year_start=2010&case_insensitive=true`.
 
