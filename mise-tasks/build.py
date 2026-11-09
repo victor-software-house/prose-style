@@ -13,6 +13,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import tomllib
@@ -77,6 +78,19 @@ def own_files() -> dict[str, bytes]:
     return {path: open(path, "rb").read() for path in paths}
 
 
+def check_rule_names(files: dict[str, bytes]) -> None:
+    """Fail when the package config sets a rule the zip does not hold.
+
+    Vale ignores a setting for a rule it cannot find, so a renamed rule
+    would silently drop its level or its exception.
+    """
+    config = files[f"{PACKAGE}/.vale.ini"].decode()
+    for style, rule in re.findall(r"^([A-Z][A-Za-z]*)\.([A-Za-z.]+)\s*=", config, re.MULTILINE):
+        path = f"{PACKAGE}/styles/{style}/{rule.replace('.', '/')}.yml"
+        if path not in files:
+            sys.exit(f"{PACKAGE}/.vale.ini sets {style}.{rule}, and the zip holds no {path}")
+
+
 def main() -> None:
     with open("upstream.toml", "rb") as config:
         pins = tomllib.load(config)["upstream"]
@@ -86,6 +100,7 @@ def main() -> None:
             if path in files:
                 sys.exit(f"{path} comes from two sources")
             files[path] = data
+    check_rule_names(files)
     with zipfile.ZipFile(OUTPUT, "w", zipfile.ZIP_DEFLATED) as out:
         for path in sorted(files):
             entry = zipfile.ZipInfo(path, EPOCH)
