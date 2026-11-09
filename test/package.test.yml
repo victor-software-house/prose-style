@@ -63,3 +63,40 @@
     They harnessed the cache. We are harnessing it.
   contains:
     - Voices.Banned
+- name: a URL in a Rust string literal passes
+  about: The shapes verctl reported, in a formatdoc! output, an indoc! error sample and an indoc! YAML fixture.
+  format: .rs
+  input: |
+    fn expected() -> String {
+        formatdoc! {"
+            Published to the registry.
+              base: https://example.test/v1
+        "}
+    }
+
+    const SAMPLE: &str = indoc! {"
+        error: the registry at https://crates.io refused the upload
+    "};
+
+    const FIXTURE: &str = indoc! {r#"
+        registries:
+          internal:
+            index: sparse+https://registry.example.com/index/
+    "#};
+  want: ''
+- name: a bare URL in a Rust comment fails once
+  format: .rs
+  input: |
+    /// Read https://doc.example first.
+    fn read() {}
+  contains:
+    - ProseStyle.BareURLInComment
+  absent:
+    - "ProseStyle.BareURL:"
+- name: a bare URL in Markdown fails through BareURL
+  input: |
+    Read https://doc.example first.
+  contains:
+    - ProseStyle.BareURL
+  absent:
+    - ProseStyle.BareURLInComment
