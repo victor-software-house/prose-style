@@ -1,19 +1,27 @@
 # A compound coined from a hyphen chain: one carrying "versus", or turned
 # into a noun with -ness or -ity. Ordinary hyphenated words are mostly real names.
+# Matched by case, a capital only first, so an all-caps code such as
+# M-INITIAL-CAPACITY is not a word.
 extends: existence
 message: "'%s' is a made-up word: say it in plain words."
 level: warning
-ignorecase: true
 nonword: true
 tokens:
-  - '\b[a-z]+(?:-[a-z]+)*-(?:versus|vs)-[a-z]+(?:-[a-z]+)*\b'
-  - '\b[a-z]+(?:-[a-z]+)+(?:ness|ity)\b'
+  - '\b[A-Za-z][a-z]*(?:-[a-z]+)*-(?:versus|vs)-[a-z]+(?:-[a-z]+)*\b'
+  - '\b[A-Za-z][a-z]*(?:-[a-z]+)+(?:ness|ity)\b'
 tests:
   - name: flags made-up words
     input: A top-to-bottomness check and a bullets-versus-numbered-paragraphs rule.
     contains:
       - "'top-to-bottomness'"
       - "'bullets-versus-numbered-paragraphs'"
+  - name: flags a made-up word at the start of a sentence
+    input: Top-to-bottomness is the goal.
+    contains:
+      - "'Top-to-bottomness'"
+  - name: leaves all-caps codes alone
+    input: The M-INITIAL-CAPACITY and API-VS-CLI codes stay.
+    want: ''
   - name: leaves real compounds alone
     input: End-to-end tests and a read-only view stay.
     want: ''
