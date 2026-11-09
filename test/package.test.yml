@@ -53,3 +53,13 @@
     /// The `load-bearing` flag.
     fn flag() {}
   want: ''
+- name: harness as a noun passes
+  about: Voices.Banned flags harness; the package vocabulary accepts the noun.
+  input: |
+    The freshness harness reads stdout. Run the measurement harnesses.
+  want: ''
+- name: harness as a verb fails
+  input: |
+    They harnessed the cache. We are harnessing it.
+  contains:
+    - Voices.Banned

@@ -25,7 +25,7 @@ The build packs the upstream styles that [`upstream.toml`][upstream] pins by sha
 | Style | Source | Rules |
 |:--|:--|:--|
 | `ProseStyle` | this repository | every rule in [`ProseStyle/styles/ProseStyle`][rules] |
-| `Voices` | [Voices v0.2.0][voices] | all, except `ColonReveal` |
+| `Voices` | [Voices v0.2.0][voices] | all, except `ColonReveal`; the noun `harness` passes `Banned` |
 | `Direct` | [Voices v0.2.0][voices] | all, `Length` as a warning, except `Ease` |
 | `Readability` | [Readability v0.2.0][readability] | `FleschKincaid`, as a suggestion |
 | `Std` | [Std v0.2.0][std] | `Latin`, `Spacing`, `GenderedPronouns`, `GenderedTerms`, as suggestions |
