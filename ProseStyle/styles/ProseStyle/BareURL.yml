@@ -3,14 +3,16 @@
 # code and reference definitions pass; autolinks count as bare.
 # Raw scope also reads fenced code blocks, so the first lookbehind skips a URL
 # after an odd number of fence lines (``` or ~~~, indented or not): a command
-# in a code block keeps its literal URL.
+# in a code block keeps its literal URL. The second lookbehind skips a URL
+# after an odd number of backticks on its line: a URL inside a code span,
+# such as `curl https://example.com`, is code, wherever it sits in the span.
 extends: existence
 message: "Bare URL '%s': put the link on the words that name it."
 level: error
 scope: raw
 nonword: true
 tokens:
-  - '(?<!\A(?:(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n))*(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*[^\n]*)(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
+  - '(?<!\A(?:(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n))*(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*[^\n]*)(?<!(?:\A|\n)(?:[^`\n]*`[^`\n]*`)*[^`\n]*`[^`\n]*)(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
 tests:
   - name: flags a bare URL and an autolink
     input: See https://example.com/x here, and <https://auto.example>.
@@ -56,3 +58,15 @@ tests:
       - "'https://after.example'"
     absent:
       - "inside.example"
+  - name: leaves a URL inside a code span after other words alone
+    input: |
+      Run `curl https://code.example/x` or `GET https://api.example/v1` first.
+
+      | Endpoint | Use |
+      |:--|:--|
+      | `POST https://table.example/batch` | events |
+    want: ''
+  - name: flags a bare URL after a closed code span
+    input: Run `make` and then open https://after-span.example today.
+    contains:
+      - "'https://after-span.example'"
