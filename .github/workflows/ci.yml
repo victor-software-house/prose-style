@@ -1,4 +1,4 @@
-# Runs every rule's cases and the package cases, then builds the zip.
+# Builds the zip, then runs every rule's cases and the package cases on it.
 name: CI
 
 on:
@@ -24,6 +24,6 @@ jobs:
         with:
           version: 2026.11.2
       - name: Test
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: mise run test
-      - name: Build
-        run: mise run build
