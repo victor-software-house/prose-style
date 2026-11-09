@@ -1,5 +1,7 @@
 # A heading names a topic. A pronoun or a question word makes it read like
 # chat: "Use it", "What it turns on", "How it works", "Let's begin".
+# OpenSpec's proposal template requires "Why" and "What Changes", so those
+# two headings, exactly, pass.
 extends: existence
 message: "'%s' in a heading reads like chat: use a noun, such as Setup, Styles or Development."
 level: warning
@@ -7,7 +9,7 @@ scope: heading
 ignorecase: true
 tokens:
   - '\b(?:it|its|you|your|we|our|us)\b'
-  - '^(?:What|How|Why|Where|When|Here''s|Let''s)\b'
+  - '^(?:What(?! Changes$)|How|Why(?!$)|Where|When|Here''s|Let''s)\b'
 tests:
   - name: flags pronoun and question headings
     input: |
@@ -26,6 +28,28 @@ tests:
       - "'it'"
       - "'What'"
       - "'How'"
+  - name: leaves the OpenSpec proposal headings alone
+    input: |
+      ## Why
+
+      Text.
+
+      ## What Changes
+
+      Text.
+    want: ''
+  - name: flags question words beyond the OpenSpec headings
+    input: |
+      ## Why this matters
+
+      Text.
+
+      ## What changes here
+
+      Text.
+    contains:
+      - "'Why'"
+      - "'What'"
   - name: leaves noun headings alone
     input: |
       # Setup
