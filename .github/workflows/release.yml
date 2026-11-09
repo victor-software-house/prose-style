@@ -20,9 +20,9 @@ jobs:
         with:
           version: 2026.11.2
       - name: Test
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: mise run test
-      - name: Build
-        run: mise run build
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}

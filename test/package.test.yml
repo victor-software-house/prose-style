@@ -1,5 +1,5 @@
-# Project cases: linted through ProseStyle/.vale.ini with the pinned upstream
-# packages, the way a project that names ProseStyle.zip runs.
+# Project cases: linted through the built ProseStyle.zip, the way a project
+# that names the release runs.
 - name: every enabled style reaches a Markdown file
   input: |
     The blocker is load-bearing — so we wait, e.g. a day.
@@ -20,4 +20,36 @@
 - name: short everyday prose passes
   input: |
     The worker reads the cache. It holds one file per session.
+  want: ''
+- name: the Voices style runs
+  input: |
+    We make a decision each week.
+  contains:
+    - Voices.WeakVerbs
+- name: a Rust doc comment is Markdown
+  format: .rs
+  input: |
+    /// The blocker is load-bearing, e.g. a day.
+    fn wait() {}
+  contains:
+    - ProseStyle.StockPhrases
+    - Std.Abbreviations.Latin
+- name: reading ease stays off in Rust
+  about: Direct.Ease fires on one-line paragraphs when it is on.
+  format: .rs
+  input: |
+    /// Closes the socket.
+    fn close() {}
+  want: ''
+- name: a text file is not prose
+  format: .txt
+  input: |
+    The blocker is load-bearing — so we wait.
+  want: ''
+- name: inline code in a Rust doc comment passes
+  about: Without rs = md, Vale reads the comment as plain text and flags the code.
+  format: .rs
+  input: |
+    /// The `load-bearing` flag.
+    fn flag() {}
   want: ''

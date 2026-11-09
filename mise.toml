@@ -12,14 +12,11 @@ description = "Every rule's own cases; every rule must fire in one"
 run = "vale test --coverage ProseStyle/styles/ProseStyle"
 
 [tasks."test:package"]
-description = "Sync the package into test/ as a project does, then run its project cases"
+description = "Sync the built zip into test/ as a project does, then run its project cases"
+depends = ["build"]
 dir = "test"
 run = ["vale sync --plain-progress", "vale test package.test.yml"]
 
 [tasks.test]
 description = "Rule cases and package cases"
 depends = ["test:rules", "test:package"]
-
-[tasks.build]
-description = "ProseStyle.zip from the committed ProseStyle folder"
-run = "git archive --format=zip --output=ProseStyle.zip HEAD ProseStyle"
