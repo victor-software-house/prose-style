@@ -1,15 +1,16 @@
 # A bare URL shows the reader an address in place of a name.
 # Raw scope, because Vale strips URLs from prose scopes. Link targets, inline
 # code and reference definitions pass; autolinks count as bare.
-# Known gap: raw scope also reads fenced code blocks. A config value such as
-# "Packages = https://..." passes.
+# Raw scope also reads fenced code blocks, so the first lookbehind skips a URL
+# after an odd number of fence lines (``` or ~~~, indented or not): a command
+# in a code block keeps its literal URL.
 extends: existence
 message: "Bare URL '%s': put the link on the words that name it."
 level: error
 scope: raw
 nonword: true
 tokens:
-  - '(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
+  - '(?<!\A(?:(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n))*(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*[^\n]*)(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
 tests:
   - name: flags a bare URL and an autolink
     input: See https://example.com/x here, and <https://auto.example>.
@@ -26,3 +27,32 @@ tests:
       Packages = https://pkg.example/A.zip
       ```
     want: ''
+  - name: leaves a command URL in a fenced block alone
+    input: |
+      # Install
+
+      ```sh
+      curl -fsSL https://mise.run | sh
+      ```
+
+      1. Run it.
+
+         ```sh
+         curl https://list.example | sh
+         ```
+
+      ~~~text
+      https://tilde.example
+      ~~~
+    want: ''
+  - name: flags a bare URL after a closed fence
+    input: |
+      ```sh
+      curl https://inside.example
+      ```
+
+      Then read https://after.example now.
+    contains:
+      - "'https://after.example'"
+    absent:
+      - "inside.example"
