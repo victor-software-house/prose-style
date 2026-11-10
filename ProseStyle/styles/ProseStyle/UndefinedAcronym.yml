@@ -1,5 +1,6 @@
 # A reader meets an acronym with no definition. Write "pull request (PR)" before the bare "PR".
-# The exception list holds acronyms a reader of technical prose knows; a project adds its own to the vocabulary.
+# The exception list holds acronyms a reader of technical prose knows, network, cloud and security terms included;
+# a project adds its own, such as a product name, to its vocabulary.
 # Source: Google developer documentation style guide, "Abbreviations".
 extends: conditional
 message: "Spell out '%s' on first use, as in 'pull request (PR)'."
@@ -8,44 +9,71 @@ ignorecase: false
 first: '\b([A-Z]{2,6})\b'
 second: '(?:\b[A-Za-z][\w-]*[ ]){1,6}\(([A-Z]{2,6})\)|\b([A-Z]{2,6})\b \((?:[A-Za-z][\w-]*[ ]?){1,6}\)'
 exceptions:
+  - AAAA
+  - ABI
+  - ACME
   - ADDED
   - AGENTS
   - AI
   - AND
   - ANSI
   - API
+  - ARM
   - ASCII
+  - AST
+  - AWS
+  - CA
   - CD
   - CHANGELOG
   - CI
+  - CIDR
   - CLI
+  - CNAME
+  - CORS
   - CPU
   - CRUD
+  - CSRF
   - CSS
   - CSV
+  - DELETE
+  - DHCP
+  - DMARC
   - DNS
   - DOM
   - FIXME
+  - FTP
   - GB
+  - GCP
   - GET
   - GIF
+  - GPG
   - GPU
   - GUI
   - HEAD
+  - HSTS
   - HTML
   - HTTP
   - HTTPS
+  - ICMP
   - ID
   - IDE
+  - IMAP
   - IO
   - IP
+  - ISP
+  - JIT
   - JPEG
   - JPG
   - JSON
   - JWT
   - KB
+  - KVM
+  - LAN
   - LICENSE
   - LLM
+  - LSP
+  - LTS
+  - MAC
   - MAY
   - MB
   - MCP
@@ -53,17 +81,28 @@ exceptions:
   - MODIFIED
   - MR
   - MUST
+  - MX
+  - NAT
+  - NFS
+  - NIC
   - NOT
   - NOTE
+  - NTP
   - 'NULL'
+  - OCI
+  - OIDC
   - OK
+  - OOM
   - OR
   - OS
   - PATCH
   - PDF
+  - PEM
+  - PGP
   - PID
   - PNG
   - POSIX
+  - POST
   - PR
   - PUT
   - QA
@@ -73,13 +112,22 @@ exceptions:
   - RENAMED
   - REST
   - RFC
+  - RPC
+  - SBOM
   - SDK
+  - SFTP
   - SHA
   - SHALL
   - SHOULD
+  - SMTP
+  - SOA
+  - SOCKS
+  - SPF
   - SQL
   - SSD
   - SSH
+  - SSL
+  - SSO
   - SVG
   - TB
   - TCP
@@ -90,8 +138,10 @@ exceptions:
   - TTL
   - TTY
   - TUI
+  - TXT
   - UDP
   - UI
+  - UID
   - URI
   - URL
   - US
@@ -99,9 +149,14 @@ exceptions:
   - UTF
   - UUID
   - UX
+  - VIP
   - VM
+  - VPN
+  - VPS
+  - WAN
   - WHEN
   - XML
+  - XSS
   - YAML
 tests:
   - name: flags an acronym used before its definition
@@ -111,5 +166,6 @@ tests:
     input: >
       The Domain Name System (DNS) record changed. The DNS zone is fine, and
       the API returns JSON for PR #12 at commit `ee9f207`. Set `RUST_LOG` for
-      the CLI. A virtual private server (VPS) is cheap, so the VPS stays.
+      the CLI. A virtual private server (VPS) is cheap, so the VPS stays. The ACME
+      client reaches the NAT over ICMP.
     want: ''

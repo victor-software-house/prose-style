@@ -2,7 +2,7 @@
 # Agent docs use these 9 times as often as human design docs. Put a file name in a code span.
 extends: existence
 message: "'%s' joins four words with hyphens: say it in plain words, or put a file name in a code span."
-level: suggestion
+level: error
 nonword: true
 exceptions:
   - end-to-end-\w+

@@ -8,14 +8,14 @@
 # comment as runs of characters other than *, so a line of thousands of
 # characters stays within regexp2's backtracking stack.
 # The rest matches BareWorkItem: a code in link text or backticks, and a
-# standard name such as SHA-256, passes.
+# standard name such as SHA-256 or DNS-01, passes.
 extends: existence
 message: "Bare reference '%s': write what it points to, such as pull request or ticket, and link it."
-level: warning
+level: error
 scope: raw.rs
 nonword: true
 tokens:
-  - '(?=(?:#\d{2,5}|![1-9]\d{1,4}|[A-Z][A-Z0-9]{1,6}-\d{2,5})(?![\w\]`-]))(?<![\[\w/`#&-])(?!(?:SHA|UTF|ISO|RFC|CVE|AES|TLS|HTTP|IPv|W)-)(?<=(?<![:/])//[^\n]*|(?<!\S)/\*[*!]?[ \t][^\n*]*(?:\*(?!/)[^\n*]*)*|(?:\A|\n)[ \t]*/\*[*!]?(?=\s)[^\n*]*(?:\*(?!/)[^\n*]*)*\n(?:[^\n*]*(?:\*(?!/)[^\n*]*)*\n){0,50}[^\n*]*(?:\*(?!/)[^\n*]*)*)(?:#\d{2,5}|![1-9]\d{1,4}|[A-Z][A-Z0-9]{1,6}-\d{2,5})(?![\w\]`-])'
+  - '(?=(?:#\d{2,5}|![1-9]\d{1,4}|[A-Z][A-Z0-9]{1,6}-\d{2,5})(?![\w\]`-]))(?<![\[\w/`#&-])(?!(?:SHA|UTF|ISO|RFC|CVE|AES|TLS|HTTP|DNS|UTC|GMT|IPv|W)-)(?<=(?<![:/])//[^\n]*|(?<!\S)/\*[*!]?[ \t][^\n*]*(?:\*(?!/)[^\n*]*)*|(?:\A|\n)[ \t]*/\*[*!]?(?=\s)[^\n*]*(?:\*(?!/)[^\n*]*)*\n(?:[^\n*]*(?:\*(?!/)[^\n*]*)*\n){0,50}[^\n*]*(?:\*(?!/)[^\n*]*)*)(?:#\d{2,5}|![1-9]\d{1,4}|[A-Z][A-Z0-9]{1,6}-\d{2,5})(?![\w\]`-])'
 tests:
   - name: flags a bare code in each kind of comment
     format: rs

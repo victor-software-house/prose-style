@@ -2,7 +2,7 @@
 # Agent docs use these verbs far more than human design docs. "Keeps" and "stays" are plain verbs and pass.
 extends: existence
 message: "'%s' gives a thing a person's action: say what it holds, rejects or blocks."
-level: suggestion
+level: error
 ignorecase: true
 tokens:
   - '(?:file|doc|log|row|table|spec|record|value|code|error|message|commit|adapter|store|server|client|command|program|tool|daemon|session|worker|crate|module|function|type|field|cache|journal|supervisor|process|test|loop|host|link|socket)s? (?:owns|refuses|survives|waits|sits|lives|carries)\b'

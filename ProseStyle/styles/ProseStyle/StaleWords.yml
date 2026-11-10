@@ -1,5 +1,7 @@
 # A document states what is true now. Words that narrate history go stale.
 # "No longer", "recently" and "newly" date the text the same way. "No longer than" passes.
+# An OpenSpec THEN or AND step states a result after the action, so "no longer"
+# passes there. "Was dropped" passes too: a firewall drops packets.
 extends: existence
 message: "'%s' ties the text to a moment: state the fact without it."
 level: warning
@@ -8,7 +10,7 @@ exceptions:
   - no longer than
 tokens:
   - currently
-  - no longer
+  - '(?<!\b(?-i:THEN|AND)\b[^\n.;]*)no longer'
   - recently
   - newly
   - previously
@@ -16,7 +18,7 @@ tokens:
   - used to
   - as of now
   - 'now (?:uses|reads|writes|has|takes|runs|keeps)'
-  - '(?:was|were|has been|have been) (?:renamed|replaced|moved|removed|dropped)'
+  - '(?:was|were|has been|have been) (?:renamed|replaced|moved|removed)'
 tests:
   - name: flags narration
     input: This tool currently uses the cache, which was renamed last week. It now reads the lock.
@@ -35,4 +37,12 @@ tests:
       - "'newly'"
   - name: leaves no longer than alone
     input: Keep the line no longer than 80 columns.
+    want: ''
+  - name: leaves an OpenSpec result step and a dropped packet alone
+    input: |
+      - **WHEN** the operator retires the host
+      - **THEN** the account no longer lists it
+      - **AND** the tailnet no longer lists the node
+
+      The probe packet was dropped at the edge.
     want: ''

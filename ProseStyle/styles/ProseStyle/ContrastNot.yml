@@ -2,7 +2,7 @@
 # Agent docs use it 4.2 times as often as human design docs.
 extends: existence
 message: "Contrast '%s': state the claim directly, or write 'X instead of Y'."
-level: suggestion
+level: error
 ignorecase: true
 nonword: true
 scope: ~heading

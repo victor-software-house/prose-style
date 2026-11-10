@@ -1,1 +1,5 @@
 harness(?:es)?
+linearizability
+serializability
+addressability
+cacheability

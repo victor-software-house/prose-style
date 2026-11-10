@@ -1,7 +1,7 @@
 # Technical prose states facts without emphasis.
 extends: existence
 message: "Exclamation mark: end the sentence with a period."
-level: warning
+level: error
 nonword: true
 tokens:
   - '(?<=[A-Za-z\)])!(?=\s|$)'
