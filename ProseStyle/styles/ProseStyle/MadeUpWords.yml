@@ -1,14 +1,17 @@
-# A compound coined from a hyphen chain: one carrying "versus", or turned
-# into a noun with -ness or -ity. Ordinary hyphenated words are mostly real names.
+# A compound coined from a hyphen chain: one carrying "versus", or a chain of
+# three or more parts turned into a noun with -ness or -ity. Two parts pass:
+# "source-integrity" and "high-quality" join real words. MadeUpNouns checks a
+# single -ness or -ity word against the dictionary.
 # Matched by case, a capital only first, so an all-caps code such as
 # M-INITIAL-CAPACITY is not a word.
 extends: existence
 message: "'%s' is a made-up word: say it in plain words."
-level: warning
+level: error
 nonword: true
 tokens:
   - '\b[A-Za-z][a-z]*(?:-[a-z]+)*-(?:versus|vs)-[a-z]+(?:-[a-z]+)*\b'
-  - '\b[A-Za-z][a-z]*(?:-[a-z]+)+(?:ness|ity)\b'
+  - '\b[A-Za-z][a-z]*(?:-[a-z]+)+-[a-z]*(?:ness|ity)\b'
+  - '\b[A-Za-z][a-z]*(?:-[a-z]+)*-(?:ness|ity)\b'
 tests:
   - name: flags made-up words
     input: A top-to-bottomness check and a bullets-versus-numbered-paragraphs rule.
@@ -19,9 +22,12 @@ tests:
     input: Top-to-bottomness is the goal.
     contains:
       - "'Top-to-bottomness'"
+  - name: flags a bare suffix part
+    input: Its determinism-ness is the goal.
+    contains: "'determinism-ness'"
   - name: leaves all-caps codes alone
     input: The M-INITIAL-CAPACITY and API-VS-CLI codes stay.
     want: ''
   - name: leaves real compounds alone
-    input: End-to-end tests and a read-only view stay.
+    input: End-to-end tests, source-integrity checks, the native-harness runner and a read-only view stay.
     want: ''

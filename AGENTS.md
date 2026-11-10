@@ -27,7 +27,9 @@ The `README.md` lists the habits it flags and how a project uses it.
    `mise run test:messages` lints every message through the built zip.
 5. A rule's name uses words people say, such as `StockPhrases` or `LeakedChat`.  
    Never a term of art such as diction, residue or coinage.
-6. Levels: `error` for a habit with no valid use, `warning` for one that needs a person's judgment, `suggestion` for a score or a style hint.
+6. Levels: `error` for an AI speech habit, such as a thing that speaks, a contrast frame or a made-up word, even when a rare valid use exists (operator, 2026-11-10).  
+   `warning` for length and sentence shape, and for words with plain uses a person has to judge.  
+   `suggestion` for a score or a hint whose fit depends on the file.
 
 ## Releases
 

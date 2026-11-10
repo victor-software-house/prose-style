@@ -1,37 +1,12 @@
 # Documentation reads serious and formal, in the terms experts use. Slang reads like chat.
+# A word inside a name, such as the package pi-btw or the library lol-html, passes.
 extends: existence
 message: "Slang '%s': use a plain, formal word."
-level: warning
+level: error
 ignorecase: true
+nonword: true
 tokens:
-  - gonna
-  - wanna
-  - gotta
-  - kinda
-  - sorta
-  - lemme
-  - dunno
-  - yeah
-  - yep
-  - nope
-  - nah
-  - lol
-  - tbh
-  - btw
-  - awesome
-  - legit
-  - nuke[sd]?
-  - hacky
-  - janky
-  - sketchy
-  - gotcha
-  - bonkers
-  - meh
-  - dude
-  - sucks
-  - no-brainer
-  - a ton of
-  - a bunch of
+  - '(?<![\w.-])(?:gonna|wanna|gotta|kinda|sorta|lemme|dunno|yeah|yep|nope|nah|lol|tbh|btw|awesome|legit|nuke[sd]?|hacky|janky|sketchy|gotcha|bonkers|meh|dude|sucks|no-brainer|a ton of|a bunch of)(?![\w-])'
 tests:
   - name: flags slang
     input: It's gonna be awesome, and that hack is janky. Nope.
@@ -41,5 +16,5 @@ tests:
       - "'janky'"
       - "'Nope'"
   - name: leaves formal words alone
-    input: The cache is expected to improve latency. A guide covers the hack in `legit.rs`.
+    input: The cache is expected to improve latency. A guide covers the hack in `legit.rs`. The pi-btw package and lol-html stay.
     want: ''

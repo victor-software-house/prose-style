@@ -2,7 +2,7 @@
 # Voices.BinaryContrast covers "is not X, it's Y".
 extends: existence
 message: "Straw-man contrast '%s': make the claim directly."
-level: suggestion
+level: error
 ignorecase: true
 nonword: true
 tokens:

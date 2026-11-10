@@ -2,7 +2,7 @@
 # ContrastNot misses short forms such as "Cache, not disk".
 extends: existence
 message: "Contrast '%s' in a heading: name what the section holds."
-level: warning
+level: error
 ignorecase: true
 nonword: true
 scope: heading

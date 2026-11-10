@@ -1,11 +1,12 @@
 # "Kind" as a noun for a category hides what varies. Natural uses such as
-# "the same kind of" and "three kinds of" pass. Code spans are skipped.
+# "the same kind of", "three kinds of" and "a work of this kind" pass: a kind
+# right after "of", or right before it, is plain English. Code spans are skipped.
 extends: existence
 message: "'%s': name what varies, such as record type, body type, column or group."
-level: warning
+level: error
 ignorecase: true
 tokens:
-  - '(?:each|every|per|by|one|this|that|its|their|the|a|an|new|unknown|record|body|which) kinds?'
+  - '(?<!\bof )(?:each|every|per|by|one|this|that|its|their|the|a|an|new|unknown|record|body|which) kinds?(?! of\b)'
 exceptions:
   - '(?:the same|what|which|any|another|some|this|that|one|two|three|four|several|many|other|every|each|a|the) kinds? of'
 tests:
@@ -29,4 +30,6 @@ tests:
       Say what kind of input it was.
 
       Use the `kind` field.
+
+      The book is the best work of this kind, a guide of a kind.
     want: ''

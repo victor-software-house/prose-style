@@ -2,7 +2,7 @@
 # leverage and facilitate.
 extends: substitution
 message: "Formal word: use '%s' instead of '%s'."
-level: warning
+level: error
 ignorecase: true
 swap:
   prior to: before

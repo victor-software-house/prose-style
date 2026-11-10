@@ -28,13 +28,15 @@ The build packs the upstream styles that [`upstream.toml`][upstream] pins by sha
 |:--|:--|:--|
 | `ProseStyle` | this repository | every rule in [`ProseStyle/styles/ProseStyle`][rules] |
 | `Voices` | [Voices v0.2.0][voices] | all, except `ColonReveal`; the noun `harness` passes `Banned` |
-| `Direct` | [Voices v0.2.0][voices] | all, `Length` as a warning, except `Ease` |
+| `Direct` | [Voices v0.2.0][voices] | all, `Length` as a suggestion, except `Ease` |
 | `Readability` | [Readability v0.2.0][readability] | `FleschKincaid`, as a suggestion |
 | `Std` | [Std v0.2.0][std] | `Latin`, `Spacing`, `GenderedPronouns`, `GenderedTerms`, as suggestions |
 
-Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSentence`).  
-The rules from `NounStack` to `HardBreak` are suggestions, except `ContrastInTitle`, `Slang`, `OneTermTwoWays` and `VagueLinkText`, which warn.  
-`ThingsSpeakNoun` warns like `ThingsSpeak`.  
+A rule that catches an AI speech habit fails as an error.  
+Rules on length and sentence shape warn, because a long table row or three sentences that open alike can be right: `Paragraph`, `ListItem`, `TableRow`, `ClauseChain`, `NounStack`, `PrepositionChain`, `SameSentenceStart` and `FlatRhythm`.  
+`StockWords` and `StaleWords` warn too, because their words have plain uses a person has to judge.  
+`UndefinedAcronym`, `SentencePerLine` and `HardBreak` are suggestions.  
+A sentence fails at 40 words (`ProseStyle.LongSentence`), and `Direct.Length` hints at 25 as a suggestion.  
 A project sees the suggestions when its `MinAlertLevel` is `suggestion`.  
 The part-of-speech rules need Vale 3.20 or later: `NounStack` and `PrepositionChain` use `min`, and `ThingsSpeakNoun` uses `exceptions`.  
 The repository pins Vale 3.26.0.
@@ -46,7 +48,7 @@ The repository pins Vale 3.26.0.
 | Stock phrases | `load-bearing`, `crucially`, `at its core`, `smoking gun` | `StockPhrases` |
 | Leaked chat replies | `You're right`, `Great question`, `Want me to fix it?` | `LeakedChat` |
 | Lingo and slang | `seams`, `on the wire`, `wire format`, `doctrine` | `Lingo` |
-| Made-up words | `top-to-bottomness`, `bullets-versus-numbered-paragraphs` | `MadeUpWords` |
+| Made-up words | `top-to-bottomness`, `bullets-versus-numbered-paragraphs`, `greppability` | `MadeUpWords`, `MadeUpNouns` |
 | Things that speak or think | `the log says`, `the adapter knows`, `the request asks` | `ThingsSpeak`, `ThingsSpeakNoun` |
 | Jargon | `land the PR`, `gate on CI`, `surfaces the error` | `Jargon` |
 | Formal words | `prior to`, `obtain`, `serves as`, `boasts` | `FormalWords` |
@@ -74,6 +76,16 @@ The repository pins Vale 3.26.0.
 | Acronyms with no definition | `DAFB` before `Data Analysis Facility Base (DAFB)` | `UndefinedAcronym` |
 | Vague or unpinned links | `[here](…)`, a link to `blob/main` | `VagueLinkText`, `UnpinnedCodeLink` |
 | Markdown line breaks | two sentences on one line, a continued line with no two trailing spaces | `SentencePerLine`, `HardBreak` |
+
+## Line breaks
+
+`SentencePerLine` and `HardBreak` read every Markdown file, since a rendered page drops a single line break.  
+A file that wraps at a column turns them off for itself, at its top:
+
+```markdown
+<!-- vale ProseStyle.SentencePerLine = NO -->
+<!-- vale ProseStyle.HardBreak = NO -->
+```
 
 ## Development
 
