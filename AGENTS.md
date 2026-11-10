@@ -23,7 +23,8 @@ The `README.md` lists the habits it flags and how a project uses it.
 3. Match the habit.  
    Let natural uses of the same word pass with `exceptions:`.  
    Check each hit on a real document before raising a level.
-4. A rule's message shows what to write instead.
+4. A rule's message shows what to write instead, and passes the package's own rules.  
+   `mise run test:messages` lints every message through the built zip.
 5. A rule's name uses words people say, such as `StockPhrases` or `LeakedChat`.  
    Never a term of art such as diction, residue or coinage.
 6. Levels: `error` for a habit with no valid use, `warning` for one that needs a person's judgment, `suggestion` for a score or a style hint.

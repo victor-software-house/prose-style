@@ -81,7 +81,10 @@ The repository pins Vale 3.26.0.
 
 | Task | Runs |
 |:--|:--|
-| `mise run test` | `vale test --coverage`: every rule's cases, and every rule must fire in one; then the package cases on the built zip |
+| `mise run test` | The three test tasks below |
+| `mise run test:rules` | `vale test --coverage`: every rule's cases, and every rule must fire in one |
+| `mise run test:package` | The package cases on the built zip |
+| `mise run test:messages` | Every rule's message, linted through the built zip |
 | `mise run build` | `ProseStyle.zip` from the tracked `ProseStyle/` folder and the upstream styles, downloaded through the GitHub API |
 
 Each rule carries its cases under `tests:`.  

@@ -10,7 +10,7 @@
 # The rest matches BareWorkItem: a code in link text or backticks, and a
 # standard name such as SHA-256, passes.
 extends: existence
-message: "'%s' is a bare code: say what it is, and link it."
+message: "Bare reference '%s': write what it points to, such as pull request or ticket, and link it."
 level: warning
 scope: raw.rs
 nonword: true
