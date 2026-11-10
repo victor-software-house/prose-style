@@ -12,7 +12,6 @@ swap:
   (?:on|over) the wire: in transit|as sent
   brain layer: the component's name
   doctrine: rule
-  waivers?: exception
   plain fix: quick fix
 tests:
   - name: flags each made-up term
@@ -28,8 +27,6 @@ tests:
   - name: leaves wire up alone
     input: Wire up the handler before the first request.
     want: ''
-  - name: flags waiver and plain fix
-    input: A waiver covers the gap. This is a plain fix.
-    contains:
-      - "use 'exception' instead of 'waiver'"
-      - "use 'quick fix' instead of 'plain fix'"
+  - name: flags plain fix
+    input: This is a plain fix.
+    contains: "use 'quick fix' instead of 'plain fix'"

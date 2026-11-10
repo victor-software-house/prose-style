@@ -35,7 +35,9 @@ The build packs the upstream styles that [`upstream.toml`][upstream] pins by sha
 Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSentence`).  
 The rules from `NounStack` to `HardBreak` are suggestions, except `ContrastInTitle`, `Slang`, `OneTermTwoWays` and `VagueLinkText`, which warn.  
 `ThingsSpeakNoun` warns like `ThingsSpeak`.  
-A project sees the suggestions when its `MinAlertLevel` is `suggestion`.
+A project sees the suggestions when its `MinAlertLevel` is `suggestion`.  
+The part-of-speech rules need Vale 3.20 or later: `NounStack` and `PrepositionChain` use `min`, and `ThingsSpeakNoun` uses `exceptions`.  
+The repository pins Vale 3.26.0.
 
 ## Habits
 
