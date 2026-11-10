@@ -1,13 +1,16 @@
 # A compound coined from a hyphen chain: one carrying "versus", or a chain of
 # three or more parts turned into a noun with -ness or -ity. Two parts pass:
 # "source-integrity" and "high-quality" join real words. MadeUpNouns checks a
-# single -ness or -ity word against the dictionary.
+# single -ness or -ity word against the dictionary. A chain that ends in a
+# common word, such as pi-test-harness or color-blindness, is a name and passes.
 # Matched by case, a capital only first, so an all-caps code such as
 # M-INITIAL-CAPACITY is not a word.
 extends: existence
 message: "'%s' is a made-up word: say it in plain words."
 level: error
 nonword: true
+exceptions:
+  - '[\w-]*-(?:harness|business|witness|blindness|awareness|readiness|opportunity|quality|security|identity|priority|capacity|availability|community|activity|entity|utility|authority|compatibility)'
 tokens:
   - '\b[A-Za-z][a-z]*(?:-[a-z]+)*-(?:versus|vs)-[a-z]+(?:-[a-z]+)*\b'
   - '\b[A-Za-z][a-z]*(?:-[a-z]+)+-[a-z]*(?:ness|ity)\b'
@@ -29,5 +32,5 @@ tests:
     input: The M-INITIAL-CAPACITY and API-VS-CLI codes stay.
     want: ''
   - name: leaves real compounds alone
-    input: End-to-end tests, source-integrity checks, the native-harness runner and a read-only view stay.
+    input: End-to-end tests, source-integrity checks, the native-harness runner, the pi-test-harness package, opponent-process-color-blindness and a read-only view stay.
     want: ''
