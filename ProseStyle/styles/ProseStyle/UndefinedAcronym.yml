@@ -1,9 +1,6 @@
-# An acronym needs its spelled-out form the first time a reader meets it.
-# Write "pull request (PR)" or "PR (pull request)" before the bare "PR". The
-# list below holds acronyms a reader of technical prose already knows; a
-# project adds its own through the Vale vocabulary.
-# Source: Google developer documentation style guide, "Abbreviations":
-# "Spell out abbreviations on first reference."
+# A reader meets an acronym with no definition. Write "pull request (PR)" before the bare "PR".
+# The exception list holds acronyms a reader of technical prose knows; a project adds its own to the vocabulary.
+# Source: Google developer documentation style guide, "Abbreviations".
 extends: conditional
 message: "Spell out '%s' on first use, as in 'pull request (PR)'."
 level: suggestion

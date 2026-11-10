@@ -1,0 +1,22 @@
+# A sentence that joins claims with two of a semicolon, a mid-sentence colon, ", so" and ", which" is a chain.
+# Agent docs use these 6.3 times as often as human design docs.
+# A label and a colon at the start of an item ("Cause: the socket closed") has too few words before the colon, so it passes.
+extends: existence
+message: "'%s' chains claims in one sentence: write one sentence per claim."
+level: suggestion
+nonword: true
+scope: sentence
+tokens:
+  - '(?:;\s|,\s(?:so|which)\b|\b(?:\w+\s+){4,}\w+:\s+[a-z])[^.!?]*(?:;\s|,\s(?:so|which)\b|:\s+[a-z])'
+tests:
+  - name: flags two chain markers in one sentence
+    input: >
+      The daemon waits for the host; the host sits idle, which is slow.
+    contains: "chains claims in one sentence"
+  - name: leaves one marker and a label colon alone
+    input: |
+      We checked the log, so the answer holds.
+
+      - Cause: the socket closed, so it retried.
+      - Status: the run passed; the log is clean.
+    want: ''

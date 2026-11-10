@@ -1,0 +1,42 @@
+text := import("text")
+
+// A sentence ends at ., ! or ? and a space before a capital letter.
+// Each entry holds a sentence's begin and end offsets in the paragraph.
+sentences := []
+start := 0
+ends := text.re_find(`([.!?]+["')\]]*)\s+[A-Z]`, scope, -1)
+if ends != undefined {
+	for e in ends {
+		sentences = append(sentences, {begin: start, end: e[1].end})
+		start = e[0].end - 1
+	}
+}
+sentences = append(sentences, {begin: start, end: len(scope)})
+
+// At least this many sentences, with a variance in length of at most this.
+// A variance of 16 is a standard deviation of 4 words.
+min_sentences := 5
+max_variance := 16.0
+
+matches := []
+if len(sentences) >= min_sentences {
+	lengths := []
+	total := 0
+	for s in sentences {
+		words := text.re_find(`\S+`, scope[s.begin:s.end], -1)
+		n := 0
+		if words != undefined {
+			n = len(words)
+		}
+		lengths = append(lengths, n)
+		total += n
+	}
+	mean := float(total) / float(len(lengths))
+	sum := 0.0
+	for n in lengths {
+		sum += (float(n) - mean) * (float(n) - mean)
+	}
+	if sum / float(len(lengths)) <= max_variance {
+		matches = append(matches, {begin: sentences[0].begin, end: sentences[len(sentences) - 1].end})
+	}
+}

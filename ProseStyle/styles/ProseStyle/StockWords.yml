@@ -1,0 +1,26 @@
+# Words agent docs use 67 times as often as human design docs, such as "durable" and "verbatim".
+# Say what happens: "written to disk", "unchanged".
+extends: existence
+message: "Stock word '%s': say what actually happens."
+level: suggestion
+ignorecase: true
+tokens:
+  - durable
+  - authoritative
+  - silently
+  - verbatim
+  - untouched
+  - byte[- ]identical
+  - byte for byte
+  - source of truth
+  - keeps its own
+tests:
+  - name: flags stock words
+    input: The log is durable and the copy is verbatim. The file is the source of truth.
+    contains:
+      - "'durable'"
+      - "'verbatim'"
+      - "'source of truth'"
+  - name: leaves plain words alone
+    input: The log is written to disk and the copy is unchanged.
+    want: ''

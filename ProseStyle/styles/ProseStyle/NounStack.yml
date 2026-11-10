@@ -1,8 +1,6 @@
-# Four nouns in a row leave the reader to guess how they relate. Add a verb
-# or a preposition between them. The tagger reads some verbs as nouns, so this
-# is a suggestion.
-# Source: Microsoft Writing Style Guide, "Writing tips for a global audience":
-# "Avoid modifier stacks."
+# Four nouns in a row hide how they relate. Add a verb or a preposition.
+# Agent docs hit this 1.4 times as often as human design docs, so the evidence is thin.
+# Source: Microsoft Writing Style Guide, "Writing tips for a global audience", "Avoid modifier stacks."
 extends: sequence
 message: "Noun stack '%[1]s %[2]s %[3]s %[4]s': four nouns in a row hide how they relate. Use a verb or a preposition between them."
 level: suggestion

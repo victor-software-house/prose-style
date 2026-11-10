@@ -1,0 +1,15 @@
+# A link into another repository's code follows a branch that moves. Pin it to a commit.
+extends: existence
+message: "Link '%s' follows a branch: pin it to a commit."
+level: suggestion
+nonword: true
+scope: raw
+tokens:
+  - 'https://github\.com/[^/\s)\]]+/[^/\s)\]]+/(?:blob|tree)/(?:main|master|develop|trunk)/'
+tests:
+  - name: flags a link to a branch
+    input: See [the loop](https://github.com/example/tool/blob/main/src/loop.rs).
+    contains: blob/main
+  - name: leaves a link pinned to a commit alone
+    input: See [the loop](https://github.com/example/tool/blob/ee9f2079/src/loop.rs).
+    want: ''

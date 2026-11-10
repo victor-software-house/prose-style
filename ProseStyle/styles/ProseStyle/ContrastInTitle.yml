@@ -1,0 +1,21 @@
+# A heading that ends ", not Y" frames its subject against a straw man.
+# ContrastNot misses short forms such as "Cache, not disk".
+extends: existence
+message: "Contrast '%s' in a heading: name what the section holds."
+level: warning
+ignorecase: true
+nonword: true
+scope: heading
+tokens:
+  - ',\s+not\b[^,.;:]*$'
+tests:
+  - name: flags a heading that ends with not and a word
+    input: |
+      # Fix the cache, not the disk
+    contains: "', not the disk'"
+  - name: leaves a plain heading and a body sentence alone
+    input: |
+      # Cache design
+
+      Fix the cache, not the disk.
+    want: ''

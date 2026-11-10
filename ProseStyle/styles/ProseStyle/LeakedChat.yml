@@ -7,6 +7,7 @@ ignorecase: true
 tokens:
   - "you're (?:absolutely |completely )?right"
   - good catch
+  - good point
   - great question
   - 'as you (?:said|mentioned|noted|asked|pointed out)'
   - want me to
@@ -22,3 +23,6 @@ tests:
   - name: leaves a statement of fact alone
     input: The run fails on the second step.
     want: ''
+  - name: flags good point
+    input: Good point, the cache is cold.
+    contains: "'Good point'"

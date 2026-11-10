@@ -3,8 +3,15 @@ extends: existence
 message: "Filler '%s': cut it."
 level: warning
 ignorecase: true
+exceptions:
+  - just in time
+  - just as
+  - just now
 tokens:
   - simply
+  - just
+  - easy
+  - easily
   - obviously
   - basically
   - essentially
@@ -19,4 +26,12 @@ tests:
       - "'basically'"
   - name: leaves text without filler alone
     input: Run it. It is done.
+    want: ''
+  - name: flags just and easy
+    input: Just run the tests. The setup is easy.
+    contains:
+      - "'Just'"
+      - "'easy'"
+  - name: leaves just in time alone
+    input: The job runs just in time, just as planned.
     want: ''
