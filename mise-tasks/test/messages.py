@@ -30,6 +30,16 @@ PAGE_CHECKS = {
 }
 
 
+def alerts_of(report: object) -> list[dict] | None:
+    """Every alert in a Vale JSON report, or None for a report of another shape."""
+    if not isinstance(report, dict):
+        return None
+    files = list(report.values())
+    if not all(isinstance(file, list) and all(isinstance(a, dict) for a in file) for file in files):
+        return None
+    return [a for file in files for a in file]
+
+
 def main() -> int:
     paragraphs = []
     for rule in sorted(RULES.glob("*.yml")):
@@ -47,15 +57,16 @@ def main() -> int:
             capture_output=True,
             text=True,
         )
-    # Vale prints a JSON object, {} with no alerts, and exits 1 only on an
-    # error-level alert. Anything else is a failed run, not a clean one.
+    # Vale prints a JSON object of alert lists by file, {} with no alerts, and
+    # exits 1 only on an error-level alert. A runtime error exits 2 with an
+    # object of another shape. Anything else is a failed run, not a clean one.
     try:
         report = json.loads(run.stdout)
     except json.JSONDecodeError:
         report = None
-    alerts = [a for file in (report or {}).values() for a in file]
-    errors = any(a["Severity"] == "error" for a in alerts)
-    if not isinstance(report, dict) or run.returncode not in (0, 1) or (run.returncode == 1) != errors:
+    alerts = alerts_of(report)
+    errors = alerts is not None and any(a.get("Severity") == "error" for a in alerts)
+    if alerts is None or run.returncode not in (0, 1) or (run.returncode == 1) != errors:
         print(f"vale exited {run.returncode} with an unexpected report", file=sys.stderr)
         print(run.stderr, end="", file=sys.stderr)
         return run.returncode or 1
