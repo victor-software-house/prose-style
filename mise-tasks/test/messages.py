@@ -47,11 +47,19 @@ def main() -> int:
             capture_output=True,
             text=True,
         )
-    if run.returncode not in (0, 1):
-        print(run.stderr, end="")
-        return run.returncode
+    # Vale prints a JSON object, {} with no alerts, and exits 1 only on an
+    # error-level alert. Anything else is a failed run, not a clean one.
+    try:
+        report = json.loads(run.stdout)
+    except json.JSONDecodeError:
+        report = None
+    alerts = [a for file in (report or {}).values() for a in file]
+    errors = any(a["Severity"] == "error" for a in alerts)
+    if not isinstance(report, dict) or run.returncode not in (0, 1) or (run.returncode == 1) != errors:
+        print(f"vale exited {run.returncode} with an unexpected report", file=sys.stderr)
+        print(run.stderr, end="", file=sys.stderr)
+        return run.returncode or 1
 
-    alerts = [a for file in json.loads(run.stdout or "{}").values() for a in file]
     failed = [a for a in alerts if a["Check"] not in PAGE_CHECKS]
     for alert in failed:
         rule, _ = paragraphs[(alert["Line"] - 1) // 2]
