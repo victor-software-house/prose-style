@@ -3,7 +3,7 @@
 # A label and a colon at the start of an item ("Cause: the socket closed") has too few words before the colon, so it passes.
 extends: existence
 message: "'%s' chains claims in one sentence: write one sentence per claim."
-level: suggestion
+level: warning
 nonword: true
 scope: sentence
 tokens:

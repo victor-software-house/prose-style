@@ -2,7 +2,7 @@
 # show. "Gate" is also a real CI noun, so only its verb forms match.
 extends: substitution
 message: "Jargon: use '%s' instead of '%s'."
-level: warning
+level: error
 ignorecase: true
 swap:
   land(?:s|ed|ing)? (?:the |a |this |that )?(?:PR|pull request|change|fix|branch|stack): merge
