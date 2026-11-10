@@ -1,7 +1,7 @@
 # A document states what is true now. Words that narrate history go stale.
 # "No longer", "recently" and "newly" date the text the same way. "No longer than" passes.
 extends: existence
-message: "'%s' narrates history or goes stale: state what is true."
+message: "'%s' ties the text to a moment: state the fact without it."
 level: warning
 ignorecase: true
 exceptions:

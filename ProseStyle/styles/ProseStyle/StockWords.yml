@@ -1,7 +1,7 @@
 # Words agent docs use 67 times as often as human design docs, such as "durable" and "verbatim".
 # Say what happens: "written to disk", "unchanged".
 extends: existence
-message: "Stock word '%s': say what actually happens."
+message: "Stock word '%s': write the concrete action or result it stands for."
 level: suggestion
 ignorecase: true
 tokens:

@@ -2,7 +2,7 @@
 # Agent docs hit this 1.4 times as often as human design docs, so the evidence is thin.
 # Source: Microsoft Writing Style Guide, "Writing tips for a global audience", "Avoid modifier stacks."
 extends: sequence
-message: "Noun stack '%[1]s %[2]s %[3]s %[4]s': four nouns in a row hide how they relate. Use a verb or a preposition between them."
+message: "Noun stack '%[1]s %[2]s %[3]s %[4]s': put a verb or a preposition between the nouns."
 level: suggestion
 tokens:
   - tag: NN|NNS|NNP|NNPS
