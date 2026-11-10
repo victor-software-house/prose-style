@@ -10,7 +10,7 @@ message: "'%s' is a made-up word: say it in plain words."
 level: error
 nonword: true
 exceptions:
-  - '[\w-]*-(?:harness|business|witness|blindness|awareness|readiness|opportunity|quality|security|identity|priority|capacity|availability|community|activity|entity|utility|authority|compatibility)'
+  - '^[\w-]*-(?:harness|business|witness|blindness|awareness|readiness|opportunity|quality|security|identity|priority|capacity|availability|community|activity|entity|utility|authority|compatibility)$'
 tokens:
   - '\b[A-Za-z][a-z]*(?:-[a-z]+)*-(?:versus|vs)-[a-z]+(?:-[a-z]+)*\b'
   - '\b[A-Za-z][a-z]*(?:-[a-z]+)+-[a-z]*(?:ness|ity)\b'
@@ -28,6 +28,9 @@ tests:
   - name: flags a bare suffix part
     input: Its determinism-ness is the goal.
     contains: "'determinism-ness'"
+  - name: flags a coined chain that holds a common word
+    input: Its top-quality-ness is the goal.
+    contains: "'top-quality-ness'"
   - name: leaves all-caps codes alone
     input: The M-INITIAL-CAPACITY and API-VS-CLI codes stay.
     want: ''
