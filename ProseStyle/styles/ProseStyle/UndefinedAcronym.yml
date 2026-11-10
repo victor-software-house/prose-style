@@ -1,0 +1,115 @@
+# A reader meets an acronym with no definition. Write "pull request (PR)" before the bare "PR".
+# The exception list holds acronyms a reader of technical prose knows; a project adds its own to the vocabulary.
+# Source: Google developer documentation style guide, "Abbreviations".
+extends: conditional
+message: "Spell out '%s' on first use, as in 'pull request (PR)'."
+level: suggestion
+ignorecase: false
+first: '\b([A-Z]{2,6})\b'
+second: '(?:\b[A-Za-z][\w-]*[ ]){1,6}\(([A-Z]{2,6})\)|\b([A-Z]{2,6})\b \((?:[A-Za-z][\w-]*[ ]?){1,6}\)'
+exceptions:
+  - ADDED
+  - AGENTS
+  - AI
+  - AND
+  - ANSI
+  - API
+  - ASCII
+  - CD
+  - CHANGELOG
+  - CI
+  - CLI
+  - CPU
+  - CRUD
+  - CSS
+  - CSV
+  - DNS
+  - DOM
+  - FIXME
+  - GB
+  - GET
+  - GIF
+  - GPU
+  - GUI
+  - HEAD
+  - HTML
+  - HTTP
+  - HTTPS
+  - ID
+  - IDE
+  - IO
+  - IP
+  - JPEG
+  - JPG
+  - JSON
+  - JWT
+  - KB
+  - LICENSE
+  - LLM
+  - MAY
+  - MB
+  - MCP
+  - MIT
+  - MODIFIED
+  - MR
+  - MUST
+  - NOT
+  - NOTE
+  - 'NULL'
+  - OK
+  - OR
+  - OS
+  - PATCH
+  - PDF
+  - PID
+  - PNG
+  - POSIX
+  - PR
+  - PUT
+  - QA
+  - RAM
+  - README
+  - REMOVED
+  - RENAMED
+  - REST
+  - RFC
+  - SDK
+  - SHA
+  - SHALL
+  - SHOULD
+  - SQL
+  - SSD
+  - SSH
+  - SVG
+  - TB
+  - TCP
+  - THEN
+  - TLS
+  - TODO
+  - TOML
+  - TTL
+  - TTY
+  - TUI
+  - UDP
+  - UI
+  - URI
+  - URL
+  - US
+  - UTC
+  - UTF
+  - UUID
+  - UX
+  - VM
+  - WHEN
+  - XML
+  - YAML
+tests:
+  - name: flags an acronym used before its definition
+    input: The DAFB is down.
+    contains: "Spell out 'DAFB'"
+  - name: leaves a defined acronym and a common one alone
+    input: >
+      The Domain Name System (DNS) record changed. The DNS zone is fine, and
+      the API returns JSON for PR #12 at commit `ee9f207`. Set `RUST_LOG` for
+      the CLI. A virtual private server (VPS) is cheap, so the VPS stays.
+    want: ''
