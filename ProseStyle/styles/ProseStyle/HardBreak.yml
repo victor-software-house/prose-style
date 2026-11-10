@@ -1,0 +1,17 @@
+# A line that continues a paragraph ends in two spaces, so the rendered page keeps the break.
+# The rule reads Markdown only: a comment in code or config takes no trailing spaces.
+extends: script
+message: "This line continues its paragraph: end it with two spaces, so the rendered page keeps the break."
+level: suggestion
+scope: raw
+script: HardBreak.tengo
+tests:
+  - name: flags a continued line with no hard break
+    input: "First line of a paragraph.\nSecond line of it.\n"
+    contains: end it with two spaces
+  - name: leaves two trailing spaces, list items, tables and fences alone
+    input: "First line of a paragraph.  \nSecond line of it.\n\n- item one\n- item two\n\n| a | b |\n|:--|:--|\n\n```\ncode\nmore\n```\n"
+    want: ''
+  - name: leaves a CRLF file with two trailing spaces alone
+    input: "First line of a paragraph.  \r\nSecond line of it.\r\n"
+    want: ''

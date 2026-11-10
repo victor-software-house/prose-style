@@ -1,0 +1,24 @@
+# ", not the ..." sets a claim against one nobody made.
+# Agent docs use it 4.2 times as often as human design docs.
+extends: existence
+message: "Contrast '%s': state the claim directly, or write 'X instead of Y'."
+level: suggestion
+ignorecase: true
+nonword: true
+scope: ~heading
+tokens:
+  - ',\s+not (?:the|an?|just|only|merely|every|any|one)\b'
+tests:
+  - name: flags a contrast with a following article
+    input: >
+      The reply is the plan, not the whole thing. Pick one lane, not an
+      entire road.
+    contains:
+      - "', not the'"
+      - "', not an'"
+  - name: leaves a list item label, a heading and a plain sentence alone
+    input: |
+      # Cache, not the disk
+
+      Use the cache. Keep `a`, not `b`, in `src/lib.rs` for PR #12.
+    want: ''

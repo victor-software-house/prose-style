@@ -1,0 +1,35 @@
+text := import("text")
+
+// A sentence ends at ., ! or ? and a space before a capital letter.
+// Each entry holds a sentence's begin and end offsets in the paragraph.
+sentences := []
+start := 0
+ends := text.re_find(`([.!?]+["')\]]*)\s+[A-Z]`, scope, -1)
+if ends != undefined {
+	for e in ends {
+		sentences = append(sentences, {begin: start, end: e[1].end})
+		start = e[0].end - 1
+	}
+}
+sentences = append(sentences, {begin: start, end: len(scope)})
+
+matches := []
+run := 0
+previous := ""
+for s in sentences {
+	first := text.re_find(`^[A-Za-z][A-Za-z'-]*`, scope[s.begin:s.end], 1)
+	word := ""
+	if first != undefined {
+		word = text.to_lower(first[0][0].text)
+	}
+	if word != "" && word == previous {
+		run += 1
+	} else {
+		run = 1
+	}
+	previous = word
+	// Report a run once, at the sentence that makes it three.
+	if word != "" && run == 3 {
+		matches = append(matches, {begin: s.begin, end: s.begin + len(word)})
+	}
+}

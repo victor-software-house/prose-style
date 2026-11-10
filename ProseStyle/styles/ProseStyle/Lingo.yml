@@ -12,6 +12,7 @@ swap:
   (?:on|over) the wire: in transit|as sent
   brain layer: the component's name
   doctrine: rule
+  plain fix: quick fix
 tests:
   - name: flags each made-up term
     input: The two runs disagree, the wire format changed, and the seams are odd. The doctrine holds.
@@ -26,3 +27,6 @@ tests:
   - name: leaves wire up alone
     input: Wire up the handler before the first request.
     want: ''
+  - name: flags plain fix
+    input: This is a plain fix.
+    contains: "use 'quick fix' instead of 'plain fix'"

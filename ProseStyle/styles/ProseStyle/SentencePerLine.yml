@@ -1,0 +1,14 @@
+# Markdown source puts each sentence on its own line, so a diff shows what changed.
+# The rule reads Markdown only: code spans, tables, headings, fences and link targets are skipped.
+extends: script
+message: "Two sentences share a line: start each sentence on its own line."
+level: suggestion
+scope: raw
+script: SentencePerLine.tengo
+tests:
+  - name: flags two sentences on one line
+    input: "First sentence here. Second sentence follows.\n"
+    contains: Two sentences share a line
+  - name: leaves one sentence, abbreviations, code spans, tables and fences alone
+    input: "One sentence per line.  \nSee e.g. the guide and `a. B` in [x](a.b/c. D).\n\n| a. B | c |\n|:--|:--|\n\n```\ncode. Block\n```\n"
+    want: ''

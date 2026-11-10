@@ -1,5 +1,5 @@
 # A heading names a topic. A pronoun or a question word makes it read like
-# chat: "Use it", "What it turns on", "How it works", "Let's begin".
+# chat: "Use it", "What it turns on", "How it works", "Let's begin". A vague noun such as "Piece" names no topic.
 extends: existence
 message: "'%s' in a heading reads like chat: use a noun, such as Setup, Styles or Development."
 level: warning
@@ -8,6 +8,7 @@ ignorecase: true
 tokens:
   - '\b(?:it|its|you|your|we|our|us)\b'
   - '^(?:What|How|Why|Where|When|Here''s|Let''s)\b'
+  - '^(?:Pieces?|Things?|Stuff|Misc)$'
 tests:
   - name: flags pronoun and question headings
     input: |
@@ -36,3 +37,9 @@ tests:
 
       Text.
     want: ''
+  - name: flags a vague noun heading
+    input: |
+      # Piece
+
+      Text.
+    contains: "'Piece'"
