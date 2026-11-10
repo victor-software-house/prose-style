@@ -1,0 +1,23 @@
+# Three sentences in a row that open with the same word read as a template.
+# Change the opening of one. The script reads paragraphs only, so parallel list
+# items and table rows, which should repeat their opening, pass.
+extends: script
+message: "Three sentences in a row open with '%s': change the opening of one."
+level: suggestion
+scope: paragraph
+script: SameSentenceStart.tengo
+tests:
+  - name: flags three sentences that open with one word
+    input: >
+      The worker reads the cache. The cache holds one file. The file keeps
+      one record.
+    contains: "open with 'The'"
+  - name: leaves varied openings and list items alone
+    input: |
+      The worker reads the cache. A file holds one record. The daemon writes
+      the log.
+
+      - Use the tool.
+      - Use the flag.
+      - Use more.
+    want: ''

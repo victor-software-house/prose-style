@@ -1,0 +1,23 @@
+# "Will fail" describes general behavior as if it were an event ahead of the
+# reader. Use the present tense. A real future event, such as a planned change,
+# may keep "will": this is a suggestion, not a ban.
+# Source: Google developer documentation style guide, "Present tense":
+# "Use present tense for statements that describe general behavior."
+extends: existence
+message: "'%s': use the present tense, as in 'the command fails', not 'will fail'."
+level: suggestion
+ignorecase: true
+tokens:
+  - '\b(?:will|won''t|shall)\b(?: not)? \w+'
+tests:
+  - name: flags will and shall
+    input: The command will fail. It won't run. We shall see.
+    contains:
+      - "'will fail'"
+      - "'won't run'"
+      - "'shall see'"
+  - name: leaves the present tense alone
+    input: >
+      The command fails when `Cargo.lock` changes. The server sends an
+      acknowledgment.
+    want: ''

@@ -1,0 +1,25 @@
+# One term written two ways in one file ("email" and "e-mail") makes the
+# reader wonder whether they differ. Pairs come from the repository's docs and
+# the operator's guides. Add a pair here when a file shows a new split.
+extends: consistency
+message: "Write '%s' one way in a file: this file already uses the other form."
+level: warning
+ignorecase: true
+either:
+  email: e-mail
+  filesystem: file system
+  codebase: code base
+  dataset: data set
+  lockfile: lock file
+  worktree: work tree
+  username: user name
+  backend: back[- ]end
+  frontend: front[- ]end
+tests:
+  - name: flags the second spelling in a file
+    input: Send an email. Read the e-mail.
+    contains: "Write 'e-mail' one way"
+  - name: leaves one spelling alone
+    input: >
+      The worktree holds the filesystem. Check the codebase and the email.
+    want: ''

@@ -1,0 +1,31 @@
+# Passive voice hides who acts, so the reader cannot tell who to ask or what to
+# change. Say who or what acts and make that the subject. Level: suggestion,
+# because the actor is sometimes unknown and the tagger reads a few states as
+# actions. Source: Google developer documentation style guide, "Active voice"
+# (https://developers.google.com/style/voice); Microsoft Writing Style Guide.
+extends: sequence
+message: "Passive voice '%[1]s %[2]s': say who or what acts, and make that the subject."
+level: suggestion
+ignorecase: true
+tokens:
+  - pattern: am|is|are|was|were|be|been|being|get|gets|got|getting|gotten
+  - tag: VBN
+# Participles that describe a state, not an action: "is done", "is named".
+exceptions:
+  - '\b(?:am|is|are|was|were|be|been|being) (?:based|called|concerned|designed|done|equipped|expected|finished|gone|held|intended|left|located|meant|named|needed|related|required|set|supported|supposed|tired)\b'
+tests:
+  - name: flags be or get with a past participle
+    input: >
+      The file was deleted by the installer. Mistakes were made.
+      The branch got merged.
+    contains:
+      - "'was deleted'"
+      - "'were made'"
+      - "'got merged'"
+  - name: leaves active voice, states and code alone
+    input: >
+      The installer deleted `config.toml` in `src/lib.rs`.
+      PR #123 fixes commit abc1234. Run `mise run test` before you push.
+      The cache is gone, the flag is set to `true`, and the name is called
+      `main`.
+    want: ''

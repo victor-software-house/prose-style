@@ -1,0 +1,62 @@
+text := import("text")
+
+// A sentence ends at ., ! or ? and a space before a capital letter.
+// Each entry holds a sentence's begin and end offsets in the paragraph.
+sentences := []
+start := 0
+ends := text.re_find(`([.!?]+["')\]]*)\s+[A-Z]`, scope, -1)
+if ends != undefined {
+	for e in ends {
+		sentences = append(sentences, {begin: start, end: e[1].end})
+		start = e[0].end - 1
+	}
+}
+sentences = append(sentences, {begin: start, end: len(scope)})
+
+// Sentences shorter than this are terse steps, not a drone.
+min_words := 6
+// A run of this many sentences within this many words of each other is flagged.
+run_length := 4
+spread := 3
+
+lengths := []
+for s in sentences {
+	words := text.re_find(`\S+`, scope[s.begin:s.end], -1)
+	n := 0
+	if words != undefined {
+		n = len(words)
+	}
+	lengths = append(lengths, n)
+}
+
+matches := []
+i := 0
+for i < len(sentences) {
+	j := i
+	low := lengths[i]
+	high := lengths[i]
+	if lengths[i] >= min_words {
+		for j + 1 < len(sentences) && lengths[j + 1] >= min_words {
+			next_low := low
+			next_high := high
+			if lengths[j + 1] < next_low {
+				next_low = lengths[j + 1]
+			}
+			if lengths[j + 1] > next_high {
+				next_high = lengths[j + 1]
+			}
+			if next_high - next_low > spread {
+				break
+			}
+			low = next_low
+			high = next_high
+			j += 1
+		}
+	}
+	if j - i + 1 >= run_length {
+		matches = append(matches, {begin: sentences[i].begin, end: sentences[j].end})
+		i = j + 1
+	} else {
+		i += 1
+	}
+}

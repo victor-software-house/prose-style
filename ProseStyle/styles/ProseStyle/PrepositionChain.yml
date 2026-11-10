@@ -1,0 +1,22 @@
+# Three prepositional phrases in a row ("the handling of errors in the parser
+# of the daemon") stack up and hide the verb. Cut one, or turn a phrase into a
+# verb. A chain of four or more can raise more than one alert.
+# Source: Google developer documentation style guide, "Prepositions": "don't
+# clutter the sentence with too many prepositions."
+extends: sequence
+message: "Three prepositional phrases in a row: cut one, or turn a phrase into a verb."
+level: suggestion
+tokens:
+  - pattern: \b(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b
+    tag: IN
+    skip: 3
+    min: 3
+tests:
+  - name: flags three prepositional phrases in a row
+    input: The handling of errors in the parser of the daemon fails.
+    contains: Three prepositional phrases
+  - name: leaves one or two phrases alone
+    input: >
+      The parser handles errors in large files. Run the tests in
+      `crates/a-store` for PR #12.
+    want: ''
