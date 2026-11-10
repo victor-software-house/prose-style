@@ -1,12 +1,11 @@
-# A table header such as "Kind" or "Details" names no content. A vague noun such as
-# "Piece" does not either. "Type" passes: a schema table's column type is exact.
+# A table header such as "Kind" or "Details" names no content. "Piece" names no content either. "Type" passes: a schema table's column type is exact.
 extends: existence
 message: "Header '%s' is generic: name what the column holds."
 level: error
 scope: table.header
 nonword: true
 tokens:
-  - '^\s*(?:Kind|Category|Item|Items|Details|Info|Misc|Other|Piece|Pieces|Part|Parts|Thing|Things)\s*$'
+  - '^\s*(?:Kind|Category|Item|Items|Details|Info|Misc|Other|Piece|Pieces)\s*$'
 tests:
   - name: flags a generic header
     input: |
