@@ -33,7 +33,8 @@ The build packs the upstream styles that [`upstream.toml`][upstream] pins by sha
 | `Std` | [Std v0.2.0][std] | `Latin`, `Spacing`, `GenderedPronouns`, `GenderedTerms`, as suggestions |
 
 Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSentence`).  
-The rules in the last twelve rows of the Habits table are suggestions, except `RepeatedWord` and `OneTermTwoWays`, which warn.  
+The rules from `NounStack` to `HardBreak` are suggestions, except `ContrastInTitle`, `Slang`, `OneTermTwoWays` and `VagueLinkText`, which warn.  
+`ThingsSpeakNoun` warns like `ThingsSpeak`.  
 A project sees the suggestions when its `MinAlertLevel` is `suggestion`.
 
 ## Habits
@@ -44,7 +45,7 @@ A project sees the suggestions when its `MinAlertLevel` is `suggestion`.
 | Leaked chat replies | `You're right`, `Great question`, `Want me to fix it?` | `LeakedChat` |
 | Lingo and slang | `seams`, `on the wire`, `wire format`, `doctrine` | `Lingo` |
 | Made-up words | `top-to-bottomness`, `bullets-versus-numbered-paragraphs` | `MadeUpWords` |
-| Things that speak or think | `the log says`, `the adapter knows`, `the request asks` | `ThingsSpeak` |
+| Things that speak or think | `the log says`, `the adapter knows`, `the request asks` | `ThingsSpeak`, `ThingsSpeakNoun` |
 | Jargon | `land the PR`, `gate on CI`, `surfaces the error` | `Jargon` |
 | Formal words | `prior to`, `obtain`, `serves as`, `boasts` | `FormalWords` |
 | Filler | `simply`, `basically`, `of course` | `Filler` |
@@ -58,18 +59,19 @@ A project sees the suggestions when its `MinAlertLevel` is `suggestion`.
 | Bare links and codes | a pasted URL, `#123`, `EVO-9673` | `BareURL`, `BareURLInComment`, `BareWorkItem`, `BareWorkItemInComment` |
 | Profanity | profanity in a tracked file, the sign of a pasted message | `Profanity` |
 | Walls of prose | sentences over 40 words, paragraphs and list items over 60 | `LongSentence`, `Paragraph`, `ListItem`, `TableRow` |
-| Passive voice | `was deleted`, `got merged` | `PassiveVoice` |
-| Verbs hidden in nouns | `perform an analysis of`, `the handling of` | `NounForVerb` |
 | Noun stacks | `session lake store path` | `NounStack` |
-| Bare demonstratives | `This is why`, `That means` | `BareDemonstrative` |
-| Stand-in subjects | `There is`, `It is clear that` | `EmptyOpener` |
-| Degree adverbs | `heavily relies`, `greatly improves` | `AdverbBeforeVerb` |
-| Future tense | `will fail`, `shall see` | `FutureTense` |
 | Chained prepositions | `the handling of errors in the parser of the daemon` | `PrepositionChain` |
-| Repeated words | `the the` | `RepeatedWord` |
-| Monotone rhythm | three sentences that open alike, four of near-equal length | `SameSentenceStart`, `SameSentenceLength` |
+| Contrast frames | `, not the`, a heading that ends `, not the disk` | `ContrastNot`, `ContrastInTitle` |
+| Clause chains | `waits for the host; the host sits idle, which is slow` | `ClauseChain` |
+| Stock words | `durable`, `verbatim`, `byte for byte` | `StockWords` |
+| Things that act | `the store owns`, `the daemon waits` | `ThingsAct` |
+| Hyphen chains | `claude-code-source-recovery` in running prose | `HyphenChain` |
+| Slang | `gonna`, `awesome`, `janky` | `Slang` |
+| Monotone rhythm | three sentences that open alike, five of near-equal length | `SameSentenceStart`, `FlatRhythm` |
 | One term two ways | `email` and `e-mail` in one file | `OneTermTwoWays` |
 | Acronyms with no definition | `DAFB` before `Data Analysis Facility Base (DAFB)` | `UndefinedAcronym` |
+| Vague or unpinned links | `[here](…)`, a link to `blob/main` | `VagueLinkText`, `UnpinnedCodeLink` |
+| Markdown line breaks | two sentences on one line, a continued line with no two trailing spaces | `SentencePerLine`, `HardBreak` |
 
 ## Development
 

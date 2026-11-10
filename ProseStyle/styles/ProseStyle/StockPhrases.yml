@@ -22,6 +22,8 @@ tokens:
   - shapes the entire
   - tinkerer
   - mannered
+  - deep dive
+  - just say the word
 tests:
   - name: flags stock phrases
     input: The lock is load-bearing. Crucially, the fix is non-trivial.
@@ -36,3 +38,8 @@ tests:
   - name: leaves a mechanism alone
     input: The lock keeps two writers from the same file.
     want: ''
+  - name: flags deep dive and just say the word
+    input: A deep dive into the log. Just say the word.
+    contains:
+      - "'deep dive'"
+      - "'Just say the word'"

@@ -1,6 +1,5 @@
-# Three sentences in a row that open with the same word read as a template.
-# Change the opening of one. The script reads paragraphs only, so parallel list
-# items and table rows, which should repeat their opening, pass.
+# Three sentences in a row that open with one word read as a template.
+# Agent docs hit this 4.9 times as often as human design docs. The script reads paragraphs, so list items pass.
 extends: script
 message: "Three sentences in a row open with '%s': change the opening of one."
 level: suggestion

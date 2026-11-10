@@ -10,6 +10,12 @@ tokens:
   - 'damn\w*'
   - dammit
   - wtf
+  - bullshit
+  - crap\w*
+  - goddamn\w*
+  - wth
+  - ffs
+  - piss\w*
 tests:
   - name: flags profanity
     input: Stop the damn retries, wtf.
@@ -19,3 +25,8 @@ tests:
   - name: leaves a polite request alone
     input: Stop the retries after three attempts.
     want: ''
+  - name: flags more profanity
+    input: This is crap. What the wth.
+    contains:
+      - "'crap'"
+      - "'wth'"

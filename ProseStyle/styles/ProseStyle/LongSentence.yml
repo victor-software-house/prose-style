@@ -1,10 +1,11 @@
 # One idea per sentence. Direct.Length warns at 25 words; this fails at 40.
+# Vale masks a code span as a run of asterisks, so each run counts as one word.
 extends: occurrence
 message: "Sentence runs to %d words. Split it: one idea per sentence."
 level: error
 scope: sentence
 max: 40
-token: \b(\w+)\b
+token: (?:\b\w+\b|\*+)
 tests:
   - name: flags a sentence over 40 words
     input: >
@@ -12,6 +13,12 @@ tests:
       fourteen fifteen sixteen seventeen eighteen nineteen twenty twenty-one
       twenty-two twenty-three twenty-four twenty-five twenty-six twenty-seven
       twenty-eight twenty-nine thirty and more words keep coming past the limit.
+    contains: ProseStyle.LongSentence
+  - name: counts each code span as a word
+    input: >
+      Run `a`, `b`, `c`, `d`, `e`, `f`, `g`, `h`, `i`, `j`, `k`, `l`, `m`, `n`,
+      `o`, `p`, `q`, `r`, `s`, `t`, `u`, `v`, `w`, `x`, `y`, `z`, `aa`, `bb`,
+      `cc`, `dd`, `ee`, `ff`, `gg`, `hh`, `ii`, `jj`, `kk`, `ll` and `mm` today.
     contains: ProseStyle.LongSentence
   - name: leaves a short sentence alone
     input: One idea fits in one sentence.

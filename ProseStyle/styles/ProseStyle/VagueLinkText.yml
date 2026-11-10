@@ -1,0 +1,19 @@
+# Link text names its target, so a reader who scans the links learns where each goes.
+extends: existence
+message: "Link text '%s' names nothing: use a few words that name the target."
+level: warning
+ignorecase: true
+nonword: true
+scope: raw
+tokens:
+  - '\[(?:here|this|link|this link|click here|read more|more|page|this page)\](?:\(|\[)'
+tests:
+  - name: flags vague link text
+    input: See [here](https://example.com/a) and [this link][ref] and [more](b.md).
+    contains:
+      - "'[here]("
+      - "'[this link]["
+      - "'[more]("
+  - name: leaves named link text alone
+    input: See [the Vale testing guide](https://vale.sh/docs/testing) and [PR 12][pr].
+    want: ''

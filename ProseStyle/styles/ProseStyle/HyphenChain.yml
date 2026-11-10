@@ -1,0 +1,28 @@
+# A word of four or more hyphen-joined parts is a coinage, or a file name in running prose.
+# Agent docs use these 9 times as often as human design docs. Put a file name in a code span.
+extends: existence
+message: "'%s' joins four words with hyphens: say it in plain words, or put a file name in a code span."
+level: suggestion
+nonword: true
+exceptions:
+  - end-to-end-\w+
+  - state-of-the-art
+  - up-to-date
+  - man-in-the-middle
+  - read-modify-write
+  - ahead-of-time
+  - just-in-time
+  - run-to-completion
+tokens:
+  - '\b[a-z]+(?:-[a-z]+){3,}\b'
+tests:
+  - name: flags four hyphen-joined words
+    input: The top-to-bottom-reading-order check and a claude-code-source-recovery note.
+    contains:
+      - "'top-to-bottom-reading-order'"
+      - "'claude-code-source-recovery'"
+  - name: leaves short compounds and real phrases alone
+    input: >
+      An end-to-end test of a read-only view, a state-of-the-art tool and an
+      up-to-date copy. The `pre-release-format-changes` file stays.
+    want: ''
