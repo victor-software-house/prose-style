@@ -1,12 +1,12 @@
 # "Kind" as a noun for a category hides what varies. Natural uses such as
 # "the same kind of", "three kinds of" and "a work of this kind" pass: a kind
-# right after "of", or right before it, is plain English. Code spans are skipped.
+# right before "of", or after "of this" or "of a", is plain English. Code spans are skipped.
 extends: existence
 message: "'%s': name what varies, such as record type, body type, column or group."
 level: error
 ignorecase: true
 tokens:
-  - '(?<!\bof )(?:each|every|per|by|one|this|that|its|their|the|a|an|new|unknown|record|body|which) kinds?(?! of\b)'
+  - '(?:(?<!\bof )(?:this|that|its|their|the|a|an)|each|every|per|by|one|new|unknown|record|body|which) kinds?(?! of\b)'
 exceptions:
   - '(?:the same|what|which|any|another|some|this|that|one|two|three|four|several|many|other|every|each|a|the) kinds? of'
 tests:
@@ -17,10 +17,13 @@ tests:
       An unknown kind refuses the whole body.
 
       The answer counts rows per kind.
+
+      Keep a list of record kinds.
     contains:
       - "'each kind'"
       - "'unknown kind'"
       - "'per kind'"
+      - "'record kinds'"
   - name: leaves natural uses alone
     input: |
       Look for the same kind of repeat in the log.
