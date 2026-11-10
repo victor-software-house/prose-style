@@ -32,7 +32,9 @@ The build packs the upstream styles that [`upstream.toml`][upstream] pins by sha
 | `Readability` | [Readability v0.2.0][readability] | `FleschKincaid`, as a suggestion |
 | `Std` | [Std v0.2.0][std] | `Latin`, `Spacing`, `GenderedPronouns`, `GenderedTerms`, as suggestions |
 
-Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSentence`).
+Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSentence`).  
+The rules in the last twelve rows of the Habits table are suggestions, except `RepeatedWord` and `OneTermTwoWays`, which warn.  
+A project sees the suggestions when its `MinAlertLevel` is `suggestion`.
 
 ## Habits
 
@@ -56,6 +58,18 @@ Sentences warn at 25 words (`Direct.Length`) and fail at 40 (`ProseStyle.LongSen
 | Bare links and codes | a pasted URL, `#123`, `EVO-9673` | `BareURL`, `BareURLInComment`, `BareWorkItem`, `BareWorkItemInComment` |
 | Profanity | profanity in a tracked file, the sign of a pasted message | `Profanity` |
 | Walls of prose | sentences over 40 words, paragraphs and list items over 60 | `LongSentence`, `Paragraph`, `ListItem`, `TableRow` |
+| Passive voice | `was deleted`, `got merged` | `PassiveVoice` |
+| Verbs hidden in nouns | `perform an analysis of`, `the handling of` | `NounForVerb` |
+| Noun stacks | `session lake store path` | `NounStack` |
+| Bare demonstratives | `This is why`, `That means` | `BareDemonstrative` |
+| Stand-in subjects | `There is`, `It is clear that` | `EmptyOpener` |
+| Degree adverbs | `heavily relies`, `greatly improves` | `AdverbBeforeVerb` |
+| Future tense | `will fail`, `shall see` | `FutureTense` |
+| Chained prepositions | `the handling of errors in the parser of the daemon` | `PrepositionChain` |
+| Repeated words | `the the` | `RepeatedWord` |
+| Monotone rhythm | three sentences that open alike, four of near-equal length | `SameSentenceStart`, `SameSentenceLength` |
+| One term two ways | `email` and `e-mail` in one file | `OneTermTwoWays` |
+| Acronyms with no definition | `DAFB` before `Data Analysis Facility Base (DAFB)` | `UndefinedAcronym` |
 
 ## Development
 

@@ -1,0 +1,20 @@
+# Four nouns in a row leave the reader to guess how they relate. Add a verb
+# or a preposition between them. The tagger reads some verbs as nouns, so this
+# is a suggestion.
+# Source: Microsoft Writing Style Guide, "Writing tips for a global audience":
+# "Avoid modifier stacks."
+extends: sequence
+message: "Noun stack '%[1]s %[2]s %[3]s %[4]s': four nouns in a row hide how they relate. Use a verb or a preposition between them."
+level: suggestion
+tokens:
+  - tag: NN|NNS|NNP|NNPS
+    min: 4
+tests:
+  - name: flags four nouns in a row
+    input: The session lake store path is long.
+    contains: "'session lake store path'"
+  - name: leaves three nouns, and code spans, alone
+    input: >
+      The store path of the session lake is long. Run `cargo test` in
+      `crates/a-store/src/lib.rs` for PR #123 at commit `ee9f207`.
+    want: ''

@@ -1,0 +1,22 @@
+# Four or more sentences in a row within three words of each other in length
+# read as monotone, a sign of generated text. Vary the rhythm or merge two.
+# Sentences under six words are skipped: a run of short steps is fine.
+# The script reads paragraphs only.
+extends: script
+message: "Four or more sentences in a row run to nearly the same length: vary the rhythm, or merge two."
+level: suggestion
+scope: paragraph
+script: SameSentenceLength.tengo
+tests:
+  - name: flags four sentences of nearly equal length
+    input: >
+      The worker reads the cache every minute. The daemon writes the log each
+      second. A client reads the log on demand. The store keeps every record
+      forever.
+    contains: Four or more sentences
+  - name: leaves varied lengths and short steps alone
+    input: >
+      The worker reads the cache every minute. The daemon writes. A client
+      reads the log on demand because the store keeps every record forever and
+      needs no index. Short. Run it. Stop it. Fix it. Run it again.
+    want: ''
