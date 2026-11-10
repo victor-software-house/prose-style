@@ -1,6 +1,6 @@
-# Stock phrases that stand in for a real explanation. Say what actually happens.
+# Stock phrases that stand in for a real explanation. Write the concrete action or result instead.
 extends: existence
-message: "Stock phrase '%s': say what actually happens."
+message: "Stock phrase '%s': write the concrete action or result it stands for."
 level: error
 ignorecase: true
 tokens:
