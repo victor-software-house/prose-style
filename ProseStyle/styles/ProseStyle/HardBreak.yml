@@ -1,7 +1,7 @@
 # A line that continues a paragraph ends in two spaces, so the rendered page keeps the break.
 # The rule reads Markdown only: a comment in code or config takes no trailing spaces.
 extends: script
-message: "This line continues its paragraph: end it with two spaces, so the rendered page keeps the break."
+message: "This line continues its paragraph: end it with two spaces to keep the break on the rendered page."
 level: suggestion
 scope: raw
 script: HardBreak.tengo

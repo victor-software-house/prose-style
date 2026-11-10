@@ -1,12 +1,12 @@
 # A bare PR, MR, ticket or ledger code names nothing a reader knows.
-# Say what it is, and link it. Raw scope, so a code in link
+# Write what it points to, and link it. Raw scope, so a code in link
 # text or in backticks passes. Standard names such as SHA-256 and UTF-8 pass.
 # A code inside a longer code span, such as `feat: fix the parser (#12)`, is
 # code too. The lookahead in front runs the span check only where a code
 # starts; the span check is the one BareURL uses, pairing backtick runs on the
 # line as CommonMark does.
 extends: existence
-message: "'%s' is a bare code: say what it is, and link it."
+message: "Bare reference '%s': write what it points to, such as pull request or ticket, and link it."
 level: warning
 scope: raw
 nonword: true

@@ -1,6 +1,6 @@
 # Technical prose states facts without emphasis.
 extends: existence
-message: "Exclamation mark: state it plainly."
+message: "Exclamation mark: end the sentence with a period."
 level: warning
 nonword: true
 tokens:
