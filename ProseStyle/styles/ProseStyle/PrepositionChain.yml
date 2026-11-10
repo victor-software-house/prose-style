@@ -3,7 +3,7 @@
 # Source: Google developer documentation style guide, "Prepositions".
 extends: sequence
 message: "Three prepositional phrases in a row: cut one, or turn a phrase into a verb."
-level: suggestion
+level: warning
 tokens:
   - pattern: \b(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b
     tag: IN

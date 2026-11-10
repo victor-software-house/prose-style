@@ -1,4 +1,4 @@
-# One idea per sentence. Direct.Length warns at 25 words; this fails at 40.
+# One idea per sentence. Direct.Length hints at 25 words, as a suggestion; this fails at 40.
 # Vale masks a code span as a run of asterisks, so each run counts as one word.
 extends: occurrence
 message: "Sentence runs to %d words, over 40: split it into one sentence per idea."

@@ -1,7 +1,7 @@
 # Words that add tone and no content.
 extends: existence
 message: "Filler '%s': cut it."
-level: warning
+level: error
 ignorecase: true
 exceptions:
   - just in time

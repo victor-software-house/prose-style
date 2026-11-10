@@ -1,19 +1,21 @@
 # Words agent docs use 67 times as often as human design docs, such as "durable" and "verbatim".
 # Say what happens: "written to disk", "unchanged".
+# A warning: "silently" and "source of truth" have plain uses a person judges.
+# "Byte-identical" and "keeps its own" pass: one is an exact term, the other plain English.
+# "Authoritative" passes in a DNS sense, such as an authoritative name server.
 extends: existence
 message: "Stock word '%s': write the concrete action or result it stands for."
-level: suggestion
+level: warning
 ignorecase: true
+exceptions:
+  - 'authoritative (?:DNS|name ?servers?|servers?|zones?|answers?|records?)'
 tokens:
   - durable
   - authoritative
   - silently
   - verbatim
   - untouched
-  - byte[- ]identical
-  - byte for byte
   - source of truth
-  - keeps its own
 tests:
   - name: flags stock words
     input: The log is durable and the copy is verbatim. The file is the source of truth.
@@ -23,4 +25,7 @@ tests:
       - "'source of truth'"
   - name: leaves plain words alone
     input: The log is written to disk and the copy is unchanged.
+    want: ''
+  - name: leaves exact terms alone
+    input: The build is byte-identical, Incus keeps its own dnsmasq, and the authoritative name server answers.
     want: ''

@@ -2,7 +2,7 @@
 # Agent docs hit this 4.9 times as often as human design docs. The script reads paragraphs, so list items pass.
 extends: script
 message: "Three sentences in a row open with '%s': change the opening of one."
-level: suggestion
+level: warning
 scope: paragraph
 script: SameSentenceStart.tengo
 tests:

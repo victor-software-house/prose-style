@@ -1,12 +1,17 @@
 # A heading names a topic. A pronoun or a question word makes it read like
 # chat: "Use it", "What it turns on", "How it works", "Let's begin". A vague noun such as "Piece" names no topic.
+# An OpenSpec requirement or scenario title is a sentence about its subject, so
+# "Scenario: Incus keeps its own dnsmasq" passes it and its. You and we still fail.
+# OpenSpec's "Why" and "What Changes" fail: a repository renames them through
+# its openspec/config.yaml.
 extends: existence
 message: "'%s' in a heading reads like chat: use a noun, such as Setup, Styles or Development."
-level: warning
+level: error
 scope: heading
 ignorecase: true
 tokens:
-  - '\b(?:it|its|you|your|we|our|us)\b'
+  - '(?<!^(?:Requirement|Scenario):.*)\b(?:it|its)\b'
+  - '\b(?:you|your|we|our|us)\b'
   - '^(?:What|How|Why|Where|When|Here''s|Let''s)\b'
   - '^(?:Pieces?|Things?|Stuff|Misc)$'
 tests:
@@ -43,3 +48,19 @@ tests:
 
       Text.
     contains: "'Piece'"
+  - name: leaves it in an OpenSpec scenario title alone
+    input: |
+      #### Scenario: Incus keeps its own dnsmasq
+
+      Text.
+
+      ### Requirement: An alias resolves to the device that serves it
+
+      Text.
+    want: ''
+  - name: flags you in an OpenSpec scenario title
+    input: |
+      #### Scenario: You restart the host
+
+      Text.
+    contains: "'You'"

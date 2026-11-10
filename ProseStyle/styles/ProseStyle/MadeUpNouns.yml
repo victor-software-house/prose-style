@@ -1,0 +1,22 @@
+# A noun coined with -ness or -ity, such as "greppability" or "skimmability",
+# names a quality no reader has a word for. Say what can be done with it.
+# The rule checks each word that ends in -ness or -ity against Vale's en_US
+# dictionary and skips every other word. A project accepts a real term, such
+# as a database's "linearizability", in its vocabulary.
+# The filter is RE2: it matches the words to skip, those whose ending is not
+# -ness or -ity, and words of four letters or fewer.
+extends: spelling
+message: "'%s' is a made-up word: say what it lets a reader do, in plain words."
+level: error
+filters:
+  - '(?i)^(?:.*[^sy]|.*[^s]s|.*[^e]ss|.*[^n]ess|.*[^t]y|.*[^i]ty|.{1,4})$'
+tests:
+  - name: flags coined -ness and -ity nouns
+    input: Its greppability and skimmability are high, and so is its swappability.
+    contains:
+      - "'greppability'"
+      - "'skimmability'"
+      - "'swappability'"
+  - name: leaves dictionary words alone
+    input: The harness checks integrity, readiness, observability and the business rules. A tpyo elsewhere passes.
+    want: ''

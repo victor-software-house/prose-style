@@ -3,7 +3,7 @@
 # Paragraph-level evidence is thin: 7 of 34 agent paragraphs and 9 of 84 human ones have a deviation of 4 or less.
 extends: script
 message: "Five or more sentences run to almost the same length: vary them, or join two."
-level: suggestion
+level: warning
 scope: paragraph
 script: FlatRhythm.tengo
 tests:
