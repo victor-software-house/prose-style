@@ -80,7 +80,7 @@ The repository pins Vale 3.26.0.
 ## Pull requests
 
 The organization's required `PR prose` check lints each pull request's title and description.  
-It reads `ProseStyle.zip`, then `PullRequestStyle.zip`, then the repository's own `.github/pr-prose.ini` from the base branch.  
+It reads `ProseStyle.zip`, then `PullRequestStyle.zip`, with the same levels in every repository.  
 It writes the title to a `.pr-title` file and the description to a `.pr-body` file, so every setting for pull request text sits in sections for those two extensions and never reaches a project's docs.
 
 | File | Rules |
@@ -92,12 +92,7 @@ The check writes each reference GitHub links as a link before it lints: an issue
 `BareWorkItem` then flags only what GitHub leaves as plain text.  
 A repository makes its own ids pass by adding an autolink reference for their prefix.
 
-A repository changes a level for its pull requests alone in `.github/pr-prose.ini`:
-
-```ini
-[*.pr-body]
-ProseStyle.BareWorkItem = warning
-```
+A repository cannot change a level for its pull requests until the check moves to hakkiri (operator, 2026-11-11).
 
 [autolinks]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/configuring-autolinks-to-reference-external-resources
 
