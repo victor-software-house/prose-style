@@ -1,11 +1,12 @@
 # One idea per sentence. SentenceLength hints at 25 words, as a suggestion; this fails at 40.
-# Vale masks a code span as a run of asterisks, so each run counts as one word.
+# A code span adds no word: hakkiri leaves it out of the sentence, where Vale
+# masked it as a run of asterisks that counted as one word.
 extends: occurrence
 message: "Sentence runs to %d words, over 40: split it into one sentence per idea."
 level: error
 scope: sentence
 max: 40
-token: (?:\b\w+\b|\*+)
+token: \b\w+\b
 tests:
   - name: flags a sentence over 40 words
     input: >
@@ -14,12 +15,13 @@ tests:
       twenty-two twenty-three twenty-four twenty-five twenty-six twenty-seven
       twenty-eight twenty-nine thirty and more words keep coming past the limit.
     contains: ProseStyle.LongSentence
-  - name: counts each code span as a word
+  - name: leaves each code span out of the count
+    about: Vale counted each code span as one word, so this sentence ran to 43 words there.
     input: >
       Run `a`, `b`, `c`, `d`, `e`, `f`, `g`, `h`, `i`, `j`, `k`, `l`, `m`, `n`,
       `o`, `p`, `q`, `r`, `s`, `t`, `u`, `v`, `w`, `x`, `y`, `z`, `aa`, `bb`,
       `cc`, `dd`, `ee`, `ff`, `gg`, `hh`, `ii`, `jj`, `kk`, `ll` and `mm` today.
-    contains: ProseStyle.LongSentence
+    want: ''
   - name: leaves a short sentence alone
     input: One idea fits in one sentence.
     want: ''

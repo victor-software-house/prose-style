@@ -1,12 +1,13 @@
 # A reader meets an acronym with no definition. Write "pull request (PR)" before the bare "PR".
 # The exception list holds acronyms a reader of technical prose knows, network, cloud and security terms included;
 # a project adds its own, such as a product name, to its vocabulary.
+# The prefix of a work-item code such as VER-117 is a name, not an acronym to spell out.
 # Source: Google developer documentation style guide, "Abbreviations".
 extends: conditional
 message: "Spell out '%s' on first use, as in 'pull request (PR)'."
 level: suggestion
 ignorecase: false
-first: '\b([A-Z]{2,6})\b'
+first: '\b([A-Z]{2,6})\b(?!-\d)'
 second: '(?:\b[A-Za-z][\w-]*[ ]){1,6}\(([A-Z]{2,6})\)|\b([A-Z]{2,6})\b \((?:[A-Za-z][\w-]*[ ]?){1,6}\)'
 exceptions:
   - AAAA
@@ -162,6 +163,9 @@ tests:
   - name: flags an acronym used before its definition
     input: The DAFB is down.
     contains: "Spell out 'DAFB'"
+  - name: leaves the prefix of a linked work-item code alone
+    input: See [VER-117](https://example.com/x) and [QCTL-6](https://example.com/y).
+    want: ''
   - name: leaves a defined acronym and a common one alone
     input: >
       The Domain Name System (DNS) record changed. The DNS zone is fine, and

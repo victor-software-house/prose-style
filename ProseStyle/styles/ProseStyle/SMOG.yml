@@ -1,7 +1,7 @@
 # Derived from errata-ai/Readability (MIT). See NOTICE.
 # Off until a project turns it on.
 extends: metric
-message: "Try to keep the SMOG grade (%s) below 10."
+message: "Try to keep the Simple Measure of Gobbledygook (SMOG) grade (%s) below 10."
 link: https://en.wikipedia.org/wiki/SMOG
 
 formula: |
@@ -12,7 +12,7 @@ tests:
   - name: fires on a hard text
     input: >
       Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
-    contains: SMOG grade
+    contains: (SMOG) grade
   - name: leaves a plain text alone
     input: The cat sat on the mat.
     want: ""
