@@ -1,14 +1,31 @@
 # Technical prose states facts without emphasis.
+# A changeset's front matter maps a package to its bump, and `patch!` marks a
+# breaking patch there, so a value that is only a bump word keeps its mark.
 extends: existence
 message: "Exclamation mark: end the sentence with a period."
 level: error
 nonword: true
 tokens:
-  - '(?<=[A-Za-z\)])!(?=\s|$)'
+  - '(?<=[A-Za-z\)])!(?=\s|$)(?!(?<=^["'']?(?:major|minor|patch)!)["'']?$)'
 tests:
   - name: flags an exclamation
     input: Run it now! It works.
     contains: ProseStyle.Exclamation
+  - name: flags a bump word in a sentence
+    input: Ship the patch! It works.
+    contains: ProseStyle.Exclamation
+  - name: flags a bump word that starts a sentence
+    input: patch! This breaks the API.
+    contains: ProseStyle.Exclamation
   - name: leaves negation and codes alone
     input: Use `!=` and see !294 in the tracker.
+    want: ''
+  - name: leaves a changeset bump value alone
+    input: |
+      ---
+      verctl: patch!
+      "other": "minor!"
+      ---
+
+      Add a breaking patch bump.
     want: ''
