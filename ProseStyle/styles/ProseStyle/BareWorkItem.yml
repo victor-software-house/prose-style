@@ -9,7 +9,7 @@ message: "Bare reference '%s': write what it points to, such as pull request or 
 level: error
 scope: text & ~code & ~link
 raw:
-  - '(?<![\[\w/`#&-])(?!(?:SHA|UTF|ISO|RFC|CVE|AES|TLS|HTTP|DNS|UTC|GMT|IPv|W)-)(?:#\d{2,5}|![1-9]\d{1,4}|[A-Z][A-Z0-9]{1,6}-\d+)(?![\w\]`-])'
+  - '(?<![\[\w/`#&-])(?!(?:SHA|UTF|ISO|RFC|CVE|AES|TLS|HTTP|DNS|UTC|GMT|IPv|W)-)(?:#\d+|![1-9]\d*|[A-Z][A-Z0-9]{1,6}-\d+)(?![\w\]`-])'
 tests:
   - name: flags PR, ticket and MR codes
     input: 'See PR #123, EVO-9673, and !294 for details.'
@@ -41,11 +41,14 @@ tests:
       ```
     want: |
       5:6:ProseStyle.BareWorkItem:Bare reference 'EVO-9673': write what it points to, such as pull request or ticket, and link it.
-  - name: flags a code with one digit
-    input: 'See QCTL-6 and VER-117 for details.'
+  - name: flags a code with one digit or many
+    input: 'See QCTL-6, VER-117, PR #1, MR !2 and PR #123456 for details.'
     contains:
       - "'QCTL-6'"
       - "'VER-117'"
+      - "'#1'"
+      - "'!2'"
+      - "'#123456'"
   - name: flags a code after a closed code span
     input: 'Run `make` and then read PR #123 and EVO-9673 today.'
     contains:
