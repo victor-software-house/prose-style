@@ -9,7 +9,7 @@ exceptions:
   - just now
 tokens:
   - simply
-  - just
+  - just(?!-in-time)
   - easy
   - easily
   - obviously
@@ -33,5 +33,5 @@ tests:
       - "'Just'"
       - "'easy'"
   - name: leaves just in time alone
-    input: The job runs just in time, just as planned.
+    input: The job runs just in time, just as planned, with a just-in-time runner.
     want: ''
