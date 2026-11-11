@@ -5,11 +5,13 @@
 # parenthesis or code span ends a chain, so a list of short phrases such as
 # "`x` at `p`, with `y` after it" passes.
 # Source: Google developer documentation style guide, "Prepositions".
-extends: script
+extends: existence
 message: "Three prepositional phrases in a row: cut one, or turn a phrase into a verb."
 level: warning
 scope: sentence
-script: PrepositionChain.tengo
+ignorecase: true
+raw:
+  - '\b(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b(?:[ \t]+(?!(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b)[A-Za-z0-9][\w'']*(?:-[\w'']+)*){0,2}[ \t]+(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b(?:[ \t]+(?!(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b)[A-Za-z0-9][\w'']*(?:-[\w'']+)*){0,2}[ \t]+(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b'
 tests:
   - name: flags three prepositional phrases in a row
     input: The handling of errors in the parser of the daemon fails.
