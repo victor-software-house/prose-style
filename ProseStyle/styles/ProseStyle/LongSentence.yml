@@ -1,11 +1,13 @@
 # One idea per sentence. SentenceLength hints at 25 words, as a suggestion; this fails at 40.
-# Vale masks a code span as a run of asterisks, so each run counts as one word.
-extends: occurrence
-message: "Sentence runs to %d words, over 40: split it into one sentence per idea."
+# The words formula counts each code span as one word, as Vale's mask of a span
+# counted when this rule was an occurrence rule. An occurrence counts no match
+# that overlaps a code span in hakkiri, so it would count none.
+extends: metric
+message: "Sentence runs to %s words, over 40: split it into one sentence per idea."
 level: error
 scope: sentence
-max: 40
-token: (?:\b\w+\b|\*+)
+formula: words
+condition: '> 40'
 tests:
   - name: flags a sentence over 40 words
     input: >
