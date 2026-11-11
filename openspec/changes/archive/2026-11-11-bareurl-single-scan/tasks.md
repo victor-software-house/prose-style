@@ -10,6 +10,8 @@
   Evidence, 2026-11-11 (UTC): in a box, hakkiri 0.0.5 ran BareURL and BareURLInComment on generated files without a failure.  
   A Markdown file of 12,000 lines with 480 bare URLs took 0.67 s for the rule alone, and a line of 14,000 characters 0.00 s.  
   A Rust file of 50,000 lines with 2,000 comment URLs took 0.29 s, and a comment line of 50,000 characters 0.01 s.  
-  On a planted file of Markdown and Rust shapes, Vale 3.26.0 with the v0.0.14 rules gave 57 alerts and hakkiri 66.  
-  The Rust alerts of `BareURLInComment` were identical, and the 9 extra Markdown alerts are the three shapes of the second requirement.  
+  On a planted file of 24 Markdown shapes and a Rust file, Vale 3.26.0 with the v0.0.14 rules and hakkiri gave alerts on the same lines, with two exceptions.  
+  The Rust alerts of `BareURLInComment` were identical.  
+  hakkiri flags a URL in plain parentheses or double quotes that v0.0.14 passes, and v0.0.14 flags a URL in a link title that hakkiri cannot read.  
+  A URL in link text or in the alt text of an image is flagged by both, once the rule reads the `alt` scope.  
   The hakkiri check over 233 Markdown files printed no backtrack alert.
