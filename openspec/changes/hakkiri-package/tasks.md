@@ -43,14 +43,18 @@ The alert diff and the proposal's `block_ignores` entry wait for the release aft
 
 - [ ] 3.2 Pin hakkiri 0.0.5 in `mise.toml`, regenerate `mise.lock` for `linux-x64` and `macos-arm64`, and move the three test tasks and `test/` to hakkiri.  
   Verify `mise run test` passes in CI on the pinned release.  
-  Evidence, 2026-11-11 (UTC): the pin and the lock are written, `test:package` (17 cases), `test:messages` (76 messages) and `test:pull-request` (8 cases) pass in a box, and `test:rules` fails on the three cases above. CI has not run.
+  Evidence, 2026-11-11 (UTC): the pin and the lock are written, `test:messages` (76 messages) and `test:pull-request` (8 cases) pass in a box.  
+  `test:rules` fails on the three cases above, and `test:package` fails on one case, "harness as a noun passes", because hakkiri's tagger reads `reads` as a noun and `NounStack` flags the stack.  
+  The other 16 cases pass. CI has not run.
 
 ## 4. Release and describe
 
 - [ ] 4.1 Print the `packages:` entry in the release notes and attach `ProseStyle.zip` with `PullRequestStyle.zip`.  
   Verify a tag on a branch of the fork shows the block with the hash of the uploaded file.
 - [ ] 4.2 Rewrite `README.md` and `AGENTS.md` for the hakkiri package, and close `bareurl-single-scan` once `BareURL` is rewritten.  
-  Verify the lint of the repository's own Markdown passes.
+  Verify the lint of the repository's own Markdown passes.  
+  Evidence, 2026-11-11 (UTC): `bareurl-single-scan` is archived with the evidence of its tasks, and `openspec validate --all --strict` passes.  
+  The lint of the repository's own Markdown has not run.
 
 ## 5. Gate
 
