@@ -37,8 +37,8 @@ None.
 - `BareURL.yml` and `BareURLInComment.yml` change scope or kind; their tests keep every current case.
 - Projects that leave large generated files out for this reason can lint them again.
 
-[bareurl]: ../../../ProseStyle/styles/ProseStyle/BareURL.yml
-[bareurlincomment]: ../../../ProseStyle/styles/ProseStyle/BareURLInComment.yml
+[bareurl]: ../../../../ProseStyle/styles/ProseStyle/BareURL.yml
+[bareurlincomment]: ../../../../ProseStyle/styles/ProseStyle/BareURLInComment.yml
 [regexp2-limit]: https://github.com/jdkato/regexp2/blob/af31cb0c57f76300c511ddf59009a2b27c2ade4b/options.go#L8
 [vale-md]: https://github.com/vale-cli/vale/blob/e2d4374b1c66c8a1dd6d912bebc135040d8833fa/internal/lint/md.go#L20-L22
 [vale-ast]: https://github.com/vale-cli/vale/blob/e2d4374b1c66c8a1dd6d912bebc135040d8833fa/internal/lint/ast.go#L41
