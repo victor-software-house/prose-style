@@ -77,6 +77,30 @@ The repository pins Vale 3.26.0.
 | Vague or unpinned links | `[here](…)`, a link to `blob/main` | `VagueLinkText`, `UnpinnedCodeLink` |
 | Markdown line breaks | two sentences on one line, a continued line with no two trailing spaces | `SentencePerLine`, `HardBreak` |
 
+## Pull requests
+
+The organization's required `PR prose` check lints each pull request's title and description.  
+It reads `ProseStyle.zip`, then `PullRequestStyle.zip`, then the repository's own `.github/pr-prose.ini` from the base branch.  
+It writes the title to a `.pr-title` file and the description to a `.pr-body` file, so every setting for pull request text sits in sections for those two extensions and never reaches a project's docs.
+
+| File | Rules |
+|:--|:--|
+| `.pr-title` | `PullRequestStyle.ConventionalTitle`, then the prose rules on the subject after the type and scope |
+| `.pr-body` | the prose rules, with `HardBreak` off: GitHub shows a line break in a description as a break |
+
+The check writes each reference GitHub links as a link before it lints: an issue or pull request number, and an id an [autolink reference][autolinks] covers.  
+`BareWorkItem` then flags only what GitHub leaves as plain text.  
+A repository makes its own ids pass by adding an autolink reference for their prefix.
+
+A repository changes a level for its pull requests alone in `.github/pr-prose.ini`:
+
+```ini
+[*.pr-body]
+ProseStyle.BareWorkItem = warning
+```
+
+[autolinks]: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/configuring-autolinks-to-reference-external-resources
+
 ## Line breaks
 
 `SentencePerLine` and `HardBreak` read every Markdown file, since a rendered page drops a single line break.  
@@ -97,10 +121,10 @@ A file that wraps at a column turns them off for itself, at its top:
 | `mise run test:rules` | `vale test --coverage`: every rule's cases, and every rule must fire in one |
 | `mise run test:package` | The package cases on the built zip |
 | `mise run test:messages` | Every rule's message, linted through the built zip |
-| `mise run build` | `ProseStyle.zip` from the tracked `ProseStyle/` folder and the upstream styles, downloaded through the GitHub API |
+| `mise run build` | `ProseStyle.zip` from the tracked `ProseStyle/` folder and the upstream styles, downloaded through the GitHub API, and `PullRequestStyle.zip` from `PullRequestStyle/` |
 
 Each rule carries its cases under `tests:`.  
-A tag `v0.0.N` on `main` publishes `ProseStyle.zip` as a release asset.
+A tag `v0.0.N` on `main` publishes `ProseStyle.zip` and `PullRequestStyle.zip` as release assets.
 
 [Vale]: https://vale.sh
 [mise]: https://mise.jdx.dev
