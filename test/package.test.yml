@@ -38,12 +38,11 @@
     fn flag() {}
   want: ''
 - name: harness as a noun passes
-  about: ProseStyle.SlopWords flags harness; the package vocabulary accepts the noun. The case checks that rule alone, because hakkiri's tagger reads "reads" in the first line as a noun and NounStack flags the four-word stack.
+  about: ProseStyle.SlopWords flags harness; the package vocabulary accepts the noun.
   input: |
     The freshness harness reads stdout.  
     Run the measurement harnesses.
-  absent:
-    - ProseStyle.SlopWords
+  want: ''
 - name: harness as a verb fails
   input: |
     They harnessed the cache. We are harnessing it.
