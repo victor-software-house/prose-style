@@ -15,13 +15,14 @@ exceptions:
   - just-in-time
   - run-to-completion
 tokens:
-  - '(?<![\w/.-])[a-z]+(?:-[a-z]+){3,}\b'
+  - '(?<![\w/.-])[A-Za-z][a-z]*(?:-[a-z]+){3,}\b'
 tests:
   - name: flags four hyphen-joined words
-    input: The top-to-bottom-reading-order check and a claude-code-source-recovery note.
+    input: The top-to-bottom-reading-order check and a claude-code-source-recovery note. Left-to-right-reading-order fails too.
     contains:
       - "'top-to-bottom-reading-order'"
       - "'claude-code-source-recovery'"
+      - "'Left-to-right-reading-order'"
   - name: leaves short compounds and real phrases alone
     input: >
       An end-to-end test of a read-only view, a state-of-the-art tool and an
