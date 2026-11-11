@@ -11,15 +11,19 @@ permissions:
 
 jobs:
   release:
+    permissions:
+      contents: write
+      # The mise action exchanges it for the mirror's session token.
+      id-token: write
     name: Release
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: victor-software-house/actions/mise@e6e13c808cce87ac8f1faf59cfaf2bab34bda7aa # main, 2026-11-11
+      - uses: victor-software-house/actions/mise@4168002fe58fd0b310bd2b65f9db2262fc0e21d3 # main, 2026-11-11
         with:
           mirror-url: ${{ secrets.RELEASE_MIRROR_URL }}
-          mirror-password: ${{ secrets.RELEASE_MIRROR_CI_PASSWORD }}
+          mirror-key: ${{ secrets.RELEASE_MIRROR_CI_KEY }}
           version: 2026.11.6
       - name: Test
         env:
