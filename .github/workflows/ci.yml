@@ -15,15 +15,20 @@ concurrency:
 
 jobs:
   test:
+    permissions:
+      contents: read
+      # The mise action exchanges it for the mirror's session token.
+      id-token: write
     name: Test
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: victor-software-house/actions/mise@c5ea40a355cb9e5ae9429827ccc1048d333c23b1 # main, 2026-11-09
+      - uses: victor-software-house/actions/mise@4168002fe58fd0b310bd2b65f9db2262fc0e21d3 # main, 2026-11-11
         with:
-          version: 2026.11.2
-          mirror-token: ${{ secrets.RELEASE_MIRROR_TOKEN }}
+          mirror-url: ${{ secrets.RELEASE_MIRROR_URL }}
+          mirror-key: ${{ secrets.RELEASE_MIRROR_CI_KEY }}
+          version: 2026.11.6
       - name: Test
         env:
           GITHUB_TOKEN: ${{ github.token }}
