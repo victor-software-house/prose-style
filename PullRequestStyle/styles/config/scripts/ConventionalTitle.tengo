@@ -1,9 +1,9 @@
 // Fails a title that is not `type(scope)!: subject`, with a type from the
 // Conventional Commits set that commitlint's conventional config allows.
+// The alert spans the whole raw scope, so its offsets match Vale's.
 text := import("text")
 matches := []
-title := text.trim_space(scope)
-shape := `^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9][a-z0-9._/-]*\))?!?: \S`
-if !text.re_match(shape, title) {
-  matches = append(matches, {begin: 0, end: len(title)})
+shape := `^\s*(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z0-9][a-z0-9._/-]*\))?!?: \S`
+if !text.re_match(shape, scope) {
+  matches = append(matches, {begin: 0, end: len(scope)})
 }
