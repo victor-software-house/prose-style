@@ -1,4 +1,4 @@
-min_version = "2026.11.2"
+min_version = "2026.11.6"
 
 [tools]
 "aqua:vale-cli/vale" = "3.26.0"
