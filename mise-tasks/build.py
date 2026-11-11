@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-#MISE description="ProseStyle.zip: the tracked ProseStyle folder and the styles upstream.toml pins"
+#MISE description="ProseStyle.zip, with the styles upstream.toml pins, and PullRequestStyle.zip"
 #MISE tools = { python = "3.15.2" }
-"""Build ProseStyle.zip, a package that needs no further download.
+"""Build ProseStyle.zip, a package that needs no further download, and
+PullRequestStyle.zip, the config and rules a pull request's text adds to it.
 
 Vale fetches each name in a package's `Packages`, and their own `Packages` in
 turn, so a project that synced the upstream packages got whatever release they
@@ -22,7 +23,8 @@ import zipfile
 from pathlib import PurePosixPath
 
 PACKAGE = "ProseStyle"
-OUTPUT = "ProseStyle.zip"
+# Read only with ProseStyle beside it, so it packs no upstream styles.
+PULL_REQUEST = "PullRequestStyle"
 # A fixed time for every entry, so the same inputs build the same bytes.
 EPOCH = (1980, 1, 1, 0, 0, 0)
 
@@ -71,43 +73,51 @@ def upstream_files(pin: dict) -> dict[str, bytes]:
     return files
 
 
-def own_files() -> dict[str, bytes]:
-    """Map each tracked file under ProseStyle/ to its bytes."""
-    listed = subprocess.run(["git", "ls-files", "-z", PACKAGE], check=True, capture_output=True).stdout
+def own_files(package: str) -> dict[str, bytes]:
+    """Map each tracked file under one package folder to its bytes."""
+    listed = subprocess.run(["git", "ls-files", "-z", package], check=True, capture_output=True).stdout
     paths = [p for p in listed.decode().split("\0") if p]
     return {path: open(path, "rb").read() for path in paths}
 
 
-def check_rule_names(files: dict[str, bytes]) -> None:
-    """Fail when the package config sets a rule the zip does not hold.
+def check_rule_names(package: str, files: dict[str, bytes], styles: set[str]) -> None:
+    """Fail when a package config sets a rule that no built zip holds.
 
     Vale ignores a setting for a rule it cannot find, so a renamed rule
     would silently drop its level or its exception.
     """
-    config = files[f"{PACKAGE}/.vale.ini"].decode()
+    config = files[f"{package}/.vale.ini"].decode()
     for style, rule in re.findall(r"^([A-Z][A-Za-z]*)\.([A-Za-z.]+)\s*=", config, re.MULTILINE):
-        path = f"{PACKAGE}/styles/{style}/{rule.replace('.', '/')}.yml"
-        if path not in files:
-            sys.exit(f"{PACKAGE}/.vale.ini sets {style}.{rule}, and the zip holds no {path}")
+        rule_path = f"styles/{style}/{rule.replace('.', '/')}.yml"
+        if rule_path not in styles:
+            sys.exit(f"{package}/.vale.ini sets {style}.{rule}, and no zip holds {rule_path}")
 
 
-def main() -> None:
-    with open("upstream.toml", "rb") as config:
-        pins = tomllib.load(config)["upstream"]
-    files = own_files()
-    for pin in pins:
-        for path, data in upstream_files(pin).items():
-            if path in files:
-                sys.exit(f"{path} comes from two sources")
-            files[path] = data
-    check_rule_names(files)
-    with zipfile.ZipFile(OUTPUT, "w", zipfile.ZIP_DEFLATED) as out:
+def write_zip(output: str, files: dict[str, bytes]) -> None:
+    """Write the files with fixed times and modes, so the same inputs build the same bytes."""
+    with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as out:
         for path in sorted(files):
             entry = zipfile.ZipInfo(path, EPOCH)
             entry.external_attr = 0o644 << 16
             entry.compress_type = zipfile.ZIP_DEFLATED
             out.writestr(entry, files[path])
-    print(f"{OUTPUT}: {len(files)} files")
+    print(f"{output}: {len(files)} files")
 
+
+def main() -> None:
+    with open("upstream.toml", "rb") as config:
+        pins = tomllib.load(config)["upstream"]
+    files = own_files(PACKAGE)
+    for pin in pins:
+        for path, data in upstream_files(pin).items():
+            if path in files:
+                sys.exit(f"{path} comes from two sources")
+            files[path] = data
+    pull_request = own_files(PULL_REQUEST)
+    styles = {path.split("/", 1)[1] for path in [*files, *pull_request]}
+    check_rule_names(PACKAGE, files, styles)
+    check_rule_names(PULL_REQUEST, pull_request, styles)
+    write_zip(f"{PACKAGE}.zip", files)
+    write_zip(f"{PULL_REQUEST}.zip", pull_request)
 
 main()

@@ -1,0 +1,21 @@
+# A pull request title becomes the squash commit's subject, and release tools
+# read its type, so it follows Conventional Commits 1.0.0.
+extends: script
+message: "Not a Conventional Commit title. Write it as type(scope): subject, as in fix(parser): keep a trailing comma."
+level: error
+scope: raw
+script: ConventionalTitle.tengo
+tests:
+  - name: flags a title with no type
+    input: Updated the parser
+    contains: PullRequestStyle.ConventionalTitle
+  - name: flags an unknown type and a capital
+    input: |
+      Feature: add a parser
+    contains: PullRequestStyle.ConventionalTitle
+  - name: passes a type, a scope and a breaking mark
+    input: "feat(parser)!: keep a trailing comma"
+    want: ''
+  - name: passes a plain type
+    input: "docs: name the config file"
+    want: ''

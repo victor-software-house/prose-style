@@ -15,7 +15,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-RULES = Path("ProseStyle/styles/ProseStyle")
+RULES = [Path("ProseStyle/styles/ProseStyle"), Path("PullRequestStyle/styles/PullRequestStyle")]
 MESSAGE = re.compile(r'^message: "(.*)"$', re.MULTILINE)
 VERB = re.compile(r"%(?:\[\d+\])?[sd]")
 # Checks that read line layout or compare paragraphs, which a one-line message
@@ -42,7 +42,7 @@ def alerts_of(report: object) -> list[dict] | None:
 
 def main() -> int:
     paragraphs = []
-    for rule in sorted(RULES.glob("*.yml")):
+    for rule in sorted(path for folder in RULES for path in folder.glob("*.yml")):
         found = MESSAGE.findall(rule.read_text())
         if len(found) != 1:
             print(f"{rule}: expected one message line, found {len(found)}")
