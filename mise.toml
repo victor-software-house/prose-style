@@ -22,4 +22,4 @@ run = ["vale sync --plain-progress", "vale test package.test.yml"]
 
 [tasks.test]
 description = "Rule cases and package cases"
-depends = ["test:rules", "test:package", "test:messages"]
+depends = ["test:rules", "test:package", "test:messages", "test:alerts"]

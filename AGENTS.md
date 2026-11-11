@@ -13,6 +13,8 @@ The `README.md` lists the habits it flags and how a project uses it.
   Its `.vale.ini` sets the rules for the `.pr-title` and `.pr-body` files that check writes, and its style holds the rules only pull request text needs.
 - `upstream.toml`: the upstream styles the build packs, each release pinned by sha256.
 - `mise-tasks/build.py`: builds `ProseStyle.zip` with no nested `Packages`, so a project gets exactly what the tests ran on, and `PullRequestStyle.zip`.
+- `mise-tasks/alerts/diff.py`: `mise run alerts:diff` runs Vale and hakkiri over the files of some checkouts and diffs their alerts by rule.  
+  Its arguments name the checkouts, the binaries and the package, and the tables go to an output folder, so this repository holds nothing of the projects it runs on.
 - `test/`: a consumer project that syncs both built zips and runs `package.test.yml`.
 - `.github/workflows/`: `ci.yml` runs the tests; `release.yml` builds and attaches both zips on a tag.
 
