@@ -8,7 +8,7 @@ ignorecase: true
 nonword: true
 scope: raw
 tokens:
-  - '(?m)(?<=^[^`\n]*(?:`[^`\n]*`[^`\n]*)*)\[(?:here|this|link|this link|click here|read more|more|page|this page)\](?:\(|\[)'
+  - '(?m)(?<!`)(?<=^[^`\n]*(?:`[^`\n]*`[^`\n]*)*)\[(?:here|this|link|this link|click here|read more|more|page|this page)\](?:\(|\[)'
 tests:
   - name: flags vague link text
     input: See [here](https://example.com/a) and [this link][ref] and `x` then [more](b.md).
@@ -17,5 +17,5 @@ tests:
       - "'[this link]["
       - "'[more]("
   - name: leaves named link text alone
-    input: See [the Vale testing guide](https://vale.sh/docs/testing) and [PR 12][pr]. Do not write `[here](…)`. The input `A **bold** [link](https://a.example) here.` parses.
+    input: See [the Vale testing guide](https://vale.sh/docs/testing) and [PR 12][pr]. Do not write `[here](…)`. The input `A **bold** [link](https://a.example) here.` parses, and so does ``[here](x)``.
     want: ''
