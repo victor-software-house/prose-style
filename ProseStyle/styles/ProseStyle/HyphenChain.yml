@@ -6,10 +6,10 @@ message: "'%s' joins four words with hyphens: say it in plain words, or put a fi
 level: error
 nonword: true
 exceptions:
-  - end-to-end-\w+
-  - state-of-the-art
+  - (?i)end-to-end-\w+
+  - (?i)state-of-the-art
   - up-to-date
-  - man-in-the-middle
+  - (?i)man-in-the-middle
   - read-modify-write
   - ahead-of-time
   - just-in-time
@@ -25,7 +25,7 @@ tests:
       - "'Left-to-right-reading-order'"
   - name: leaves short compounds and real phrases alone
     input: >
-      An end-to-end test of a read-only view, a state-of-the-art tool and an
+      End-to-end-tested code. An end-to-end test of a read-only view, a state-of-the-art tool and an
       up-to-date copy. The `pre-release-format-changes` file stays.
       [writer]: ../decisions/2026-11-01-recorder-writer-fixed-chunks.md
     want: ''
