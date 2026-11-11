@@ -1,4 +1,4 @@
-# Everyday words over formal ones. Voices.InflatedWords covers utilize,
+# Everyday words over formal ones. InflatedWords covers utilize,
 # leverage and facilitate.
 extends: substitution
 message: "Formal word: use '%s' instead of '%s'."
@@ -15,7 +15,7 @@ swap:
   assist(?:s|ed|ing)?: help
   obtain(?:s|ed|ing)?: get
   serves as: is
-  stands as: is
+  stands as(?! a testament): is
   functions as: is
   boasts: has
 tests:

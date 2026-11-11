@@ -1,0 +1,20 @@
+# Derived from errata-ai/Readability (MIT). See NOTICE.
+#
+# The grade of a file, as a suggestion: the fit depends on the file.
+extends: metric
+level: suggestion
+message: "Try to keep the Flesch–Kincaid grade level (%s) below 8."
+link: https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests
+
+formula: |
+  (0.39 * (words / sentences)) + (11.8 * (syllables / words)) - 15.59
+
+condition: "> 8"
+tests:
+  - name: fires on a hard text
+    input: >
+      Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
+    contains: Flesch–Kincaid grade level
+  - name: leaves a plain text alone
+    input: The cat sat on the mat.
+    want: ""

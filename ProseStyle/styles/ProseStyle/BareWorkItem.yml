@@ -4,11 +4,12 @@
 # or UTC-3.
 # A script reads the file once. A regex with a fence lookbehind rescanned the
 # file from the top at each code: 64 s on a file of 8,000 codes.
-extends: script
+extends: existence
 message: "Bare reference '%s': write what it points to, such as pull request or ticket, and link it."
 level: error
-scope: raw
-script: BareWorkItem.tengo
+scope: text & ~code & ~link
+raw:
+  - '(?<![\[\w/`#&-])(?!(?:SHA|UTF|ISO|RFC|CVE|AES|TLS|HTTP|DNS|UTC|GMT|IPv|W)-)(?:#\d{2,5}|![1-9]\d{1,4}|[A-Z][A-Z0-9]{1,6}-\d{2,5})(?![\w\]`-])'
 tests:
   - name: flags PR, ticket and MR codes
     input: 'See PR #123, EVO-9673, and !294 for details.'
