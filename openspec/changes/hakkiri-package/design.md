@@ -169,6 +169,8 @@ Each of those files draws an error in place of an alert.
 
 A probe rule on the `link` scope, with `raw: '^https?://\S+$'`, flagged a bare URL, an autolink in angle brackets and a link whose text is its URL.  
 It passed a link with words as text, a URL in a code span and a URL in a fenced block.  
+The rule reads the `link` and `alt` scopes with the pattern `https?://[^\s<>]+`, so a URL in link text or in the alt text of an image draws an alert too.
+A planted comparison with Vale at `v0.0.14` gave alerts on the same lines, except that hakkiri flags a URL in plain parentheses or double quotes and cannot read a link's title attribute.
 So the rewrite is the first change of that open change, and it stands on its own.  
 `BareURLInComment` ran on the Rust files with no limit alert and stays as it is.
 
@@ -251,6 +253,8 @@ Each of those files draws an error in place of an alert.
 
 A probe rule on the `link` scope, with `raw: '^https?://\S+$'`, flagged a bare URL, an autolink in angle brackets and a link whose text is its URL.  
 It passed a link with words as text, a URL in a code span and a URL in a fenced block.  
+The rule reads the `link` and `alt` scopes with the pattern `https?://[^\s<>]+`, so a URL in link text or in the alt text of an image draws an alert too.
+A planted comparison with Vale at `v0.0.14` gave alerts on the same lines, except that hakkiri flags a URL in plain parentheses or double quotes and cannot read a link's title attribute.
 So the rewrite is the first change of that open change, and it stands on its own.  
 `BareURLInComment` ran on the Rust files with no limit alert and stays as it is.
 

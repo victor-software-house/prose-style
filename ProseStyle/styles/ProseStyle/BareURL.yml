@@ -1,17 +1,21 @@
 # A bare URL shows the reader an address in place of a name.
 # The rule reads the link scope, where a URL written bare, an autolink and a
-# link whose text is its URL show as a link whose text starts with http. A
-# link with words as text, a URL in a code span or a fenced block, a link
-# target and a reference definition never reach that scope, so a command in a
-# code block keeps its literal URL. The earlier pattern looked behind each URL
-# for fences and code spans and ran out of backtracking steps on long files.
+# link whose text holds a URL show as a link, and the alt scope, where the text
+# of an image holds one. A link with words as text, a URL in a code span or a
+# fenced block, a link target and a reference definition never reach those
+# scopes, so a command in a code block keeps its literal URL. The earlier
+# pattern looked behind each URL for fences and code spans and ran out of
+# backtracking steps on long files. A URL in a link's title attribute is in no
+# scope hakkiri reads.
 extends: existence
 message: "Bare URL '%s': put the link on the words that name it."
 level: error
-scope: link
+scope:
+  - link
+  - alt
 nonword: true
 raw:
-  - '^https?://\S+$'
+  - 'https?://[^\s<>]+'
 tests:
   - name: flags a bare URL and an autolink
     input: See https://example.com/x here, and <https://auto.example>.
@@ -46,6 +50,29 @@ tests:
       https://tilde.example
       ~~~
     want: ''
+  - name: flags a URL in link text, in parentheses and in the alt text of an image
+    input: |
+      Link text [see https://text.example/a for details](https://target.example/b) here.
+
+      A note (https://paren.example/x) and a quote "https://quote.example/y" here.
+
+      An image ![logo https://alt.example/a](https://img.example/b) and ![https://alt2.example/c](https://img.example/d).
+    contains:
+      - "'https://text.example/a'"
+      - "'https://paren.example/x'"
+      - "'https://quote.example/y'"
+      - "'https://alt.example/a'"
+      - "'https://alt2.example/c'"
+    absent:
+      - "target.example"
+      - "img.example"
+  - name: flags a reference definition that continues a paragraph
+    about: CommonMark reads the line as paragraph text, and Vale's lookbehind passed it.
+    input: |
+      A line of text
+      [ref]: https://continued.example/x
+    contains:
+      - "'https://continued.example/x'"
   - name: flags a bare URL after a closed fence
     input: |
       ```sh
