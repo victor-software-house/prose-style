@@ -1,5 +1,6 @@
-# A tag v0.0.N on main publishes ProseStyle.zip as the release asset that
-# projects pin in their Packages list.
+# A tag v0.0.N on main publishes ProseStyle.zip, the asset projects pin in
+# their Packages list, and PullRequestStyle.zip, which the organization's pull
+# request check reads after it.
 name: Release
 
 on:
@@ -34,5 +35,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
         run: |
-          url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/ProseStyle.zip"
-          gh release create "$TAG" ProseStyle.zip --title "$TAG" --notes "Packages = $url"
+          base="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}"
+          gh release create "$TAG" ProseStyle.zip PullRequestStyle.zip --title "$TAG" \
+            --notes "Packages = ${base}/ProseStyle.zip"

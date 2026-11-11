@@ -125,3 +125,29 @@
     - "ProseStyle.BareWorkItem:"
   absent:
     - ProseStyle.BareWorkItemInComment
+- name: a pull request title runs the title rule and the prose rules
+  format: .pr-title
+  input: |
+    Updated the parser!
+  contains:
+    - PullRequestStyle.ConventionalTitle
+    - ProseStyle.Exclamation
+  absent: Direct.Ease
+- name: a Conventional Commit title passes, its type and scope unread
+  format: .pr-title
+  input: |
+    feat(ver)!: add a breaking patch bump
+  want: ''
+- name: a pull request body flags a bare work item and keeps line breaks plain
+  format: .pr-body
+  input: |
+    The bump needs VER-117 first.
+    Its tests pass in CI.
+  contains:
+    - ProseStyle.BareWorkItem
+  absent: ProseStyle.HardBreak
+- name: a pull request body passes a reference GitHub linked
+  format: .pr-body
+  input: |
+    The bump needs [VER-117](https://example.com/queue/VER-117) first.
+  absent: ProseStyle.BareWorkItem

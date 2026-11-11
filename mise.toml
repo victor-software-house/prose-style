@@ -9,7 +9,10 @@ locked = true
 
 [tasks."test:rules"]
 description = "Every rule's own cases; every rule must fire in one"
-run = "vale test --coverage ProseStyle/styles/ProseStyle"
+run = [
+  "vale test --coverage ProseStyle/styles/ProseStyle",
+  "vale test --coverage PullRequestStyle/styles/PullRequestStyle",
+]
 
 [tasks."test:package"]
 description = "Sync the built zip into test/ as a project does, then run its project cases"
