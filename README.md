@@ -38,7 +38,7 @@ Rules on length and sentence shape warn, because a long table row or three sente
 `UndefinedAcronym`, `SentencePerLine` and `HardBreak` are suggestions.  
 A sentence fails at 40 words (`ProseStyle.LongSentence`), and `Direct.Length` hints at 25 as a suggestion.  
 A project sees the suggestions when its `MinAlertLevel` is `suggestion`.  
-The part-of-speech rules need Vale 3.20 or later: `NounStack` and `PrepositionChain` use `min`, and `ThingsSpeakNoun` uses `exceptions`.  
+The part-of-speech rules need Vale 3.20 or later: `NounStack` uses `min`, and `ThingsSpeakNoun` uses `exceptions`.  
 The repository pins Vale 3.26.0.
 
 ## Habits

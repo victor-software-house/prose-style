@@ -1,20 +1,30 @@
 # Three prepositional phrases in a row bury the verb. Cut one, or turn a phrase into a verb.
-# Agent docs hit this 1.7 times as often as human design docs; a longer chain can alert twice.
+# Agent docs hit this 1.7 times as often as human design docs.
+# A script counts a chain: three prepositions, each at most two words after the
+# last, and a number counts as a word. A comma, colon, semicolon, dash,
+# parenthesis or code span ends a chain, so a list of short phrases such as
+# "`x` at `p`, with `y` after it" passes.
 # Source: Google developer documentation style guide, "Prepositions".
-extends: sequence
+extends: script
 message: "Three prepositional phrases in a row: cut one, or turn a phrase into a verb."
 level: warning
-tokens:
-  - pattern: \b(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b
-    tag: IN
-    skip: 3
-    min: 3
+scope: sentence
+script: PrepositionChain.tengo
 tests:
   - name: flags three prepositional phrases in a row
     input: The handling of errors in the parser of the daemon fails.
+    contains: Three prepositional phrases
+  - name: flags a chain over short noun groups
+    input: The scopes of each token of each line of the text, innermost last.
     contains: Three prepositional phrases
   - name: leaves one or two phrases alone
     input: >
       The parser handles errors in large files. Run the tests in
       `crates/a-store` for PR #12.
+    want: ''
+  - name: leaves phrases split by commas, dashes, code spans and numbers alone
+    input: >
+      The match of `(TEXT)` at `p`, with `x` after it. Lex a line of 101 and
+      of 12,001 bytes, without a limit. The end of the run of keyword
+      operator characters at the cursor.
     want: ''
