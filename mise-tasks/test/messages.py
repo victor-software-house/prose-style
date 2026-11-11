@@ -2,10 +2,11 @@
 #MISE description="Lint every rule's message with the built package, so the package's own words pass its rules"
 #MISE depends=["test:package"]
 #MISE tools = { python = "3.15.2" }
-"""Lint each rule's message as a Markdown paragraph through test/.vale.ini.
+"""Lint each rule's message as a Markdown paragraph through test/.ctl/hakkiri.yaml.
 
-`test:package` syncs the built zip into test/styles first. A rule file with no
-one-line `message:` fails, so a message this script cannot read is never skipped.
+`test:package` unpacks the built zip into test/package first. A rule file with
+no one-line `message:` fails, so a message this script cannot read is never
+skipped.
 """
 
 import json
@@ -26,18 +27,8 @@ PAGE_CHECKS = {
     "ProseStyle.OneTermTwoWays",
     "ProseStyle.SameSentenceStart",
     "ProseStyle.SentencePerLine",
-    "Readability.FleschKincaid",
+    "ProseStyle.GradeLevel",
 }
-
-
-def alerts_of(report: object) -> list[dict] | None:
-    """Every alert in a Vale JSON report, or None for a report of another shape."""
-    if not isinstance(report, dict):
-        return None
-    files = list(report.values())
-    if not all(isinstance(file, list) and all(isinstance(a, dict) for a in file) for file in files):
-        return None
-    return [a for file in files for a in file]
 
 
 def main() -> int:
@@ -49,32 +40,32 @@ def main() -> int:
             return 1
         paragraphs.append((rule.stem, VERB.sub("x", found[0])))
 
-    with tempfile.TemporaryDirectory() as tmp:
+    # The page sits under test/, so the glob of the package settings selects it.
+    with tempfile.TemporaryDirectory(dir="test") as tmp:
         page = Path(tmp, "messages.md")
         page.write_text("".join(f"{text}\n\n" for _, text in paragraphs))
         run = subprocess.run(
-            ["vale", "--config", "test/.vale.ini", "--output", "JSON", str(page)],
+            ["hakkiri", "check", "--format", "json", "--config", "test/.ctl/hakkiri.yaml", str(page)],
             capture_output=True,
             text=True,
         )
-    # Vale prints a JSON object of alert lists by file, {} with no alerts, and
-    # exits 1 only on an error-level alert. A runtime error exits 2 with an
-    # object of another shape. Anything else is a failed run, not a clean one.
+    # hakkiri exits 1 on an error-level alert, 2 on a failure, and prints one
+    # JSON object either way. Anything else is a failed run, not a clean one.
     try:
         report = json.loads(run.stdout)
     except json.JSONDecodeError:
         report = None
-    alerts = alerts_of(report)
-    errors = alerts is not None and any(a.get("Severity") == "error" for a in alerts)
-    if alerts is None or run.returncode not in (0, 1) or (run.returncode == 1) != errors:
-        print(f"vale exited {run.returncode} with an unexpected report", file=sys.stderr)
-        print(run.stderr, end="", file=sys.stderr)
+    alerts = report.get("alerts") if isinstance(report, dict) else None
+    errors = alerts is not None and any(a.get("level") == "error" for a in alerts)
+    if alerts is None or report["failures"] or run.returncode not in (0, 1) or (run.returncode == 1) != errors:
+        print(f"hakkiri exited {run.returncode} with an unexpected report", file=sys.stderr)
+        print(run.stdout, run.stderr, end="", file=sys.stderr)
         return run.returncode or 1
 
-    failed = [a for a in alerts if a["Check"] not in PAGE_CHECKS]
+    failed = [a for a in alerts if a["rule"] not in PAGE_CHECKS]
     for alert in failed:
-        rule, _ = paragraphs[(alert["Line"] - 1) // 2]
-        print(f"{rule}: {alert['Check']}: {alert['Message']}")
+        rule, _ = paragraphs[(alert["line"] - 1) // 2]
+        print(f"{rule}: {alert['rule']}: {alert['message']}")
     print(f"{len(paragraphs)} messages, {len(failed)} failed")
     return 1 if failed else 0
 

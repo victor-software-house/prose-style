@@ -1,0 +1,10 @@
+# A consumer project for the package cases. `mise run test:package` unpacks the
+# zip `mise run build` writes into package/, as a project unpacks a release,
+# and lists its styles folder: hakkiri then reads the package settings that sit
+# beside it.
+packages:
+  - path: package/ProseStyle/styles
+files:
+  # The package settings turn PassiveVoice off. A glob of the project wins.
+  '*.rs':
+    ProseStyle.PassiveVoice: on

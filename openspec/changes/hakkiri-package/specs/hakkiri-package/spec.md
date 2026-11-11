@@ -91,12 +91,12 @@ The zip SHALL hold `ProseStyle/NOTICE` and `ProseStyle/LICENSE`.
 
 ### Requirement: The release prints a packages entry
 
-The release notes SHALL hold a `packages:` block with the `url` of the zip and its `sha256`, and the release SHALL attach one asset, `ProseStyle.zip`.
+The release notes SHALL hold a `packages:` block with the `url` of the zip and its `sha256`, and the release SHALL attach `ProseStyle.zip` as the hakkiri package, beside `PullRequestStyle.zip`.
 
 #### Scenario: A release
 
 - **WHEN** the tag job finishes
-- **THEN** the notes hold a `url` that ends in `/ProseStyle.zip` and the 64 hex digits of the hash of the uploaded file, and the release holds no other asset
+- **THEN** the notes hold a `url` that ends in `/ProseStyle.zip` and the 64 hex digits of the hash of the uploaded file, and the release holds `PullRequestStyle.zip` and no other asset
 
 ### Requirement: BareURL runs on every Markdown file
 
