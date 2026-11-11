@@ -30,6 +30,12 @@
   contains:
     - ProseStyle.StockPhrases
     - ProseStyle.LatinAbbreviation
+- name: a text file is not prose
+  about: The globs of the package select Markdown, MDX and Rust, so a text file draws no alert.
+  format: txt
+  input: |
+    The blocker is load-bearing — so we wait.
+  want: ''
 - name: inline code in a Rust doc comment passes
   about: hakkiri reads a Rust comment as Markdown, so the code span passes.
   format: rs
