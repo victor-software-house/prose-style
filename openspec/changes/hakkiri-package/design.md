@@ -136,7 +136,8 @@ It lost because a pin by exact release is what a project does.
 
 ### 7. The release prints a `packages:` entry
 
-A tag builds the zip and publishes it as the one asset, `ProseStyle.zip`.  
+A tag builds both zips and publishes them.
+`ProseStyle.zip` is the one asset of the hakkiri package, and `PullRequestStyle.zip` is the Vale package of the pull request check.  
 The release notes hold a block a project pastes into `.ctl/hakkiri.yaml`:
 
 ```yaml

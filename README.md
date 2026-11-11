@@ -1,45 +1,49 @@
 # prose-style
 
-A [Vale] package that flags the speech habits of AI-written text.
+A [hakkiri] package that flags the speech habits of AI-written text.
 
 ## Setup
 
-Add the release zip to `Packages` in a project's `.vale.ini`, then run `vale sync`:
+Pin the release in a project's `.ctl/hakkiri.yaml` by `url` and `sha256`.
+The release notes print the entry:
 
-```ini
-StylesPath = .vale/styles
-MinAlertLevel = warning
-Packages = https://github.com/victor-software-house/prose-style/releases/download/v0.0.1/ProseStyle.zip
+```yaml
+packages:
+  - url: https://github.com/victor-software-house/prose-style/releases/download/<tag>/ProseStyle.zip
+    sha256: <the hash in the release notes>
 ```
 
-The package's own `.vale.ini` turns the rules on for `*.{md,mdx,rs}` and reads Rust doc comments as Markdown.  
-In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of `BareURL` and `BareWorkItem`.  
-They read comments only, so a URL or a code such as `#123` in a string literal passes.  
-A project adds sections only for other file types or its own exceptions.
+The package's own `.ctl/hakkiri.yaml` turns the style on for `*.{md,mdx,rs}`.
+It names the vocabulary `ProseStyle`, and hakkiri reads a Rust comment as Markdown.
+In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of `BareURL` and `BareWorkItem`.
+They read comments only, so a URL or a code such as `#123` in a string literal passes.
+A project adds globs only for other file types or its own exceptions, and its settings win over the package's.
 
-The zip holds every style the rules use, so `vale sync` makes one download.  
-Ignore the synced styles in Git: `vale sync` rebuilds them from `Packages`.
+The zip holds the whole style, so hakkiri makes one download and caches it.
+`v0.0.14` is the last release a Vale project can pin: from the next release the zip is a hakkiri package, and Vale reads it no more.
 
-## Styles
+## Style
 
-The build packs the upstream styles that [`upstream.toml`][upstream] pins by sha256, with their licenses.
+The one style `ProseStyle` holds every rule, in [`ProseStyle/styles/ProseStyle`][rules].
+Seventeen of its rules are ports of rules from [Vale Voices][voices], [Std][std] and [Readability][readability], renamed and kept native: `SlopWords`, `BinaryContrast`, `InflatedWords`, `Puffery`, `RecapOpener`, `SuperficialAnalysis`, `ThroatClearing`, `WeakVerbs`, `VagueAttribution`, `Hedging`, `SentenceLength`, `Preamble`, `GradeLevel`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms`.
+[`NOTICE`][notice] credits each source rule by rule, and [`LICENSE`][license] holds the MIT text.
 
-| Style | Source | Rules |
-|:--|:--|:--|
-| `ProseStyle` | this repository | every rule in [`ProseStyle/styles/ProseStyle`][rules] |
-| `Voices` | [Voices v0.2.0][voices] | all, except `ColonReveal`; the noun `harness` passes `Banned` |
-| `Direct` | [Voices v0.2.0][voices] | all, `Length` as a suggestion, except `Ease` |
-| `Readability` | [Readability v0.2.0][readability] | `FleschKincaid`, as a suggestion |
-| `Std` | [Std v0.2.0][std] | `Latin`, `Spacing`, `GenderedPronouns`, `GenderedTerms`, as suggestions |
+Fourteen more ship off, for a project to turn on with `ProseStyle.<Rule>: on` under a glob of its own:
 
-A rule that catches an AI speech habit fails as an error.  
-Rules on length and sentence shape warn, because a long table row or three sentences that open alike can be right: `Paragraph`, `ListItem`, `TableRow`, `ClauseChain`, `NounStack`, `PrepositionChain`, `SameSentenceStart` and `FlatRhythm`.  
-`StockWords` and `StaleWords` warn too, because their words have plain uses a person has to judge.  
-`UndefinedAcronym`, `SentencePerLine` and `HardBreak` are suggestions.  
-A sentence fails at 40 words (`ProseStyle.LongSentence`), and `Direct.Length` hints at 25 as a suggestion.  
-A project sees the suggestions when its `MinAlertLevel` is `suggestion`.  
-The part-of-speech rules need Vale 3.20 or later: `NounStack` uses `min`, and `ThingsSpeakNoun` uses `exceptions`.  
-The repository pins Vale 3.26.0.
+| Rules | Reads |
+|:--|:--|
+| `AutomatedReadability`, `ColemanLiau`, `FleschReadingEase`, `GunningFog`, `LIX`, `SMOG`, `Polysyllables` | a readability score per file |
+| `PassiveVoice`, `OxfordComma`, `Contractions` | grammar and punctuation habits |
+| `FirstPersonPlural`, `FirstPersonSingular` | the person of the text |
+| `DateFormat`, `TimeFormat` | how dates and times are written |
+
+A rule that catches an AI speech habit fails as an error.
+Rules on length and sentence shape warn, because a long table row or three sentences that open alike can be right: `Paragraph`, `ListItem`, `TableRow`, `ClauseChain`, `NounStack`, `PrepositionChain`, `SameSentenceStart` and `FlatRhythm`.
+`StockWords` and `StaleWords` warn too, because their words have plain uses a person has to judge.
+`UndefinedAcronym`, `SentencePerLine`, `HardBreak`, `GradeLevel`, `SentenceLength`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms` are suggestions.
+A sentence fails at 40 words (`LongSentence`), and `SentenceLength` hints at 25 as a suggestion.
+A project sees the suggestions when its `level` is `suggestion`.
+The repository pins hakkiri 0.0.5.
 
 ## Habits
 
@@ -80,7 +84,7 @@ The repository pins Vale 3.26.0.
 ## Pull requests
 
 The organization's required `PR prose` check lints each pull request's title and description.  
-It reads `ProseStyle.zip`, then `PullRequestStyle.zip`, with the same levels in every repository.  
+It runs on Vale, and reads the `v0.0.14` `ProseStyle.zip`, then `PullRequestStyle.zip`, with the same levels in every repository.  
 It writes the title to a `.pr-title` file and the description to a `.pr-body` file, so every setting for pull request text sits in sections for those two extensions and never reaches a project's docs.
 
 | File | Rules |
@@ -102,29 +106,34 @@ A repository cannot change a level for its pull requests until the check moves t
 A file that wraps at a column turns them off for itself, at its top:
 
 ```markdown
-<!-- vale ProseStyle.SentencePerLine = NO -->
-<!-- vale ProseStyle.HardBreak = NO -->
+<!-- hakkiri ProseStyle.SentencePerLine: off -->
+<!-- hakkiri ProseStyle.HardBreak: off -->
 ```
+
+The hakkiri release after 0.0.5 reads these comments, and Vale's own `<!-- vale ... -->` form.
 
 ## Development
 
-[mise] pins Vale and Python and holds the tasks.
+[mise] pins hakkiri, Vale and Python and holds the tasks.
+Vale runs only the pull request package.
 
 | Task | Runs |
 |:--|:--|
-| `mise run test` | The three test tasks below |
-| `mise run test:rules` | `vale test --coverage`: every rule's cases, and every rule must fire in one |
-| `mise run test:package` | The package cases on the built zip |
+| `mise run test` | The four test tasks below |
+| `mise run test:rules` | `hakkiri test --coverage`: every rule's cases, and every rule must fire in one |
+| `mise run test:package` | The package cases on the built zip, unpacked and listed as a project does |
 | `mise run test:messages` | Every rule's message, linted through the built zip |
-| `mise run build` | `ProseStyle.zip` from the tracked `ProseStyle/` folder and the upstream styles, downloaded through the GitHub API, and `PullRequestStyle.zip` from `PullRequestStyle/` |
+| `mise run test:pull-request` | The pull request package's rules and cases, on Vale |
+| `mise run build` | `ProseStyle.zip` from the tracked `ProseStyle/` folder, and `PullRequestStyle.zip` from `PullRequestStyle/` |
 
 Each rule carries its cases under `tests:`.  
-A tag `v0.0.N` on `main` publishes `ProseStyle.zip` and `PullRequestStyle.zip` as release assets.
+A tag `v0.0.N` on `main` publishes `ProseStyle.zip` and `PullRequestStyle.zip` as release assets, and the release notes print the `packages:` entry for the first.
 
-[Vale]: https://vale.sh
+[hakkiri]: https://github.com/victor-software-house/hakkiri
+[license]: ProseStyle/LICENSE
 [mise]: https://mise.jdx.dev
+[notice]: ProseStyle/NOTICE
 [rules]: ProseStyle/styles/ProseStyle
-[upstream]: upstream.toml
 [voices]: https://github.com/jdkato/voices/releases/tag/v0.2.0
 [readability]: https://github.com/vale-cli/Readability/releases/tag/v0.2.0
 [std]: https://github.com/vale-cli/Std/releases/tag/v0.2.0

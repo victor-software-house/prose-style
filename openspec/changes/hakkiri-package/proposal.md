@@ -13,7 +13,8 @@ hakkiri replaces Vale for it, and hakkiri runs none of those three things as the
 - it reads no `.vale.ini`, so no rule is on and the settings of the package do not apply;
 - it runs the 36 copied rules, but the package owns none of them, and 19 of them no project turned on.
 
-The operator decided that ProseStyle owns its rules, that the zip becomes the hakkiri package from its next release, and that the zip stays one asset (operator, 2026-11-11).
+The operator decided that ProseStyle owns its rules, that the zip becomes the hakkiri package from its next release, and that the hakkiri package is one asset (operator, 2026-11-11).
+`PullRequestStyle.zip`, the Vale package of the pull request check, stays beside it.
 
 ## Changes
 

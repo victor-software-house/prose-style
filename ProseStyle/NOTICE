@@ -1,0 +1,80 @@
+ProseStyle
+
+This package holds rules ported from MIT-licensed sources. Each source, its
+copyright line and the rules taken from it are listed here, and LICENSE holds
+the MIT text. Each rule file that was ported names its source in a header
+comment.
+
+------------------------------------------------------------------------------
+no-ai-slop
+------------------------------------------------------------------------------
+
+https://github.com/petergyang/no-ai-slop, Copyright (c) 2026 Peter Yang,
+licensed under the MIT License.
+
+The word lists and patterns of SlopWords, InflatedWords, BinaryContrast,
+ThroatClearing, Puffery, VagueAttribution, RecapOpener, SuperficialAnalysis
+and WeakVerbs were transcribed from that project's SKILL.md, through Vale
+Voices. The rules are a translation of those lists into hakkiri's check syntax,
+and the replacements of InflatedWords and WeakVerbs are this package's own.
+
+------------------------------------------------------------------------------
+Vale Voices
+------------------------------------------------------------------------------
+
+https://github.com/jdkato/voices (v0.2.0), Copyright (c) 2026 Joseph Kato and
+contributors, licensed under the MIT License.
+
+The nine rules above, and Hedging, SentenceLength and Preamble, come from
+Voices and its Direct voice.
+
+------------------------------------------------------------------------------
+awesome-claude-output-styles
+------------------------------------------------------------------------------
+
+https://github.com/smixs/awesome-claude-output-styles, Copyright (c) 2026
+Serge Shima, licensed under the MIT License.
+
+Hedging, SentenceLength and Preamble are shaped after the Direct output style
+of that catalogue, through Vale Voices: a sentence budget stated as a rule.
+
+------------------------------------------------------------------------------
+errata-ai/Google
+------------------------------------------------------------------------------
+
+Copyright (c) Joseph Kato, licensed under the MIT License, through the Vale
+Std package v0.2.0.
+
+GenderedPronouns, and the base of LatinAbbreviation and GenderedTerms.
+The opt-in rules PassiveVoice, OxfordComma, FirstPersonPlural, DateFormat and
+TimeFormat.
+
+------------------------------------------------------------------------------
+errata-ai/Microsoft
+------------------------------------------------------------------------------
+
+Copyright (c) 2018-2019 Joseph Kato, licensed under the MIT License, through
+the Vale Std package v0.2.0.
+
+SentenceSpacing, and entries of GenderedTerms.
+The opt-in rules FirstPersonSingular and Contractions.
+
+------------------------------------------------------------------------------
+errata-ai/IBM
+------------------------------------------------------------------------------
+
+Copyright (c) Joseph Kato, licensed under the MIT License, through the Vale
+Std package v0.2.0.
+
+SentenceLength, and entries of LatinAbbreviation.
+
+------------------------------------------------------------------------------
+Vale Readability
+------------------------------------------------------------------------------
+
+https://github.com/vale-cli/Readability (v0.2.0), Copyright (c) 2026 Joseph
+Kato, licensed under the MIT License.
+
+GradeLevel, from FleschKincaid. The opt-in scores AutomatedReadability,
+ColemanLiau, FleschReadingEase, GunningFog, LIX and SMOG. Polysyllables is a
+native port of that package's script.
