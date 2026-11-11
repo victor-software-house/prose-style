@@ -1,5 +1,6 @@
 # A word of four or more hyphen-joined parts is a coinage, or a file name in running prose.
 # Agent docs use these 9 times as often as human design docs. Put a file name in a code span.
+# A part of a path or a dated file name, such as decisions/2026-11-01-a-b-c-d.md, passes.
 extends: existence
 message: "'%s' joins four words with hyphens: say it in plain words, or put a file name in a code span."
 level: error
@@ -14,7 +15,7 @@ exceptions:
   - just-in-time
   - run-to-completion
 tokens:
-  - '\b[a-z]+(?:-[a-z]+){3,}\b'
+  - '(?<![\w/.-])[a-z]+(?:-[a-z]+){3,}\b'
 tests:
   - name: flags four hyphen-joined words
     input: The top-to-bottom-reading-order check and a claude-code-source-recovery note.
@@ -25,4 +26,5 @@ tests:
     input: >
       An end-to-end test of a read-only view, a state-of-the-art tool and an
       up-to-date copy. The `pre-release-format-changes` file stays.
+      [writer]: ../decisions/2026-11-01-recorder-writer-fixed-chunks.md
     want: ''
