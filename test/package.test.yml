@@ -128,10 +128,11 @@
 - name: a pull request title runs the title rule and the prose rules
   format: .pr-title
   input: |
-    Updated the parser, it works great!
+    Updated the parser!
   contains:
     - PullRequestStyle.ConventionalTitle
     - ProseStyle.Exclamation
+  absent: Direct.Ease
 - name: a Conventional Commit title passes, its type and scope unread
   format: .pr-title
   input: |
