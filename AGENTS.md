@@ -9,10 +9,12 @@ The `README.md` lists the habits it flags and how a project uses it.
 - `ProseStyle/styles/ProseStyle/*.yml`: one rule per file, each with its `tests:`.
 - `ProseStyle/styles/config/vocabularies/ProseStyle/accept.txt`: words an upstream rule flags that have a plain technical use, such as the noun `harness`.  
   Vale reads each entry as an exception, so `Voices.Banned` lets the noun pass and still flags `harnessed` and `harnessing`.
+- `PullRequestStyle/`: the second package, read after ProseStyle by the organization's pull request check.  
+  Its `.vale.ini` sets the rules for the `.pr-title` and `.pr-body` files that check writes, and its style holds the rules only pull request text needs.
 - `upstream.toml`: the upstream styles the build packs, each release pinned by sha256.
-- `mise-tasks/build.py`: builds `ProseStyle.zip` with no nested `Packages`, so a project gets exactly what the tests ran on.
-- `test/`: a consumer project that syncs the built zip and runs `package.test.yml`.
-- `.github/workflows/`: `ci.yml` runs the tests; `release.yml` builds and attaches the zip on a tag.
+- `mise-tasks/build.py`: builds `ProseStyle.zip` with no nested `Packages`, so a project gets exactly what the tests ran on, and `PullRequestStyle.zip`.
+- `test/`: a consumer project that syncs both built zips and runs `package.test.yml`.
+- `.github/workflows/`: `ci.yml` runs the tests; `release.yml` builds and attaches both zips on a tag.
 
 ## Writing a rule
 
