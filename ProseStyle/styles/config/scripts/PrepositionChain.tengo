@@ -14,7 +14,7 @@ matches := []
 count := 0
 start := 0
 gap := 0
-found := text.re_find(`[A-Za-z0-9][\w'-]*|\*+|-+|[,;:()—–]`, scope, -1)
+found := text.re_find(`[A-Za-z0-9][\w']*(?:-[\w']+)*|\*+|-+|[,;:()—–]`, scope, -1)
 if found != undefined {
 	for m in found {
 		word := m[0].text
