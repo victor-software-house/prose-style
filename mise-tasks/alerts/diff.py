@@ -524,7 +524,7 @@ def main(argv: list[str]) -> int:
         ("hakkiri-level ", args.hakkiri),
         ("package ", args.hakkiri),
     )
-    dropped = tuple(prefix for prefix, did in ran if did)
+    dropped = ("level ", *(prefix for prefix, did in ran if did))
     notes = [line for line in (meta.read_text().splitlines() if meta.exists() else []) if not line.startswith(dropped)]
     if args.vale:
         notes.append(f"vale-level {args.min_level or 'own'}")
@@ -550,11 +550,18 @@ def main(argv: list[str]) -> int:
     tables = [out / "alerts-vale.tsv", out / "alerts-hakkiri.tsv"]
     if all(table.exists() for table in tables):
         levels = {line.split(" ", 1)[0]: line.split(" ", 1)[1] for line in notes if line.startswith(("vale-level ", "hakkiri-level "))}
-        if len({levels.get("vale-level"), levels.get("hakkiri-level")} - {None}) > 1:
-            raise SystemExit(
+        refusal = None
+        if None in (levels.get("vale-level"), levels.get("hakkiri-level")):
+            refusal = "the folder does not record the level of both tables: run both tools again with the same --min-level"
+        elif levels["vale-level"] != levels["hakkiri-level"]:
+            refusal = (
                 f"the tables were taken at different levels, Vale at {levels['vale-level']} and hakkiri at "
                 f"{levels['hakkiri-level']}: run one tool again with the same --min-level, so no difference is only a level"
             )
+        if refusal:
+            for stale in (out / "diff.md", out / "diff.tsv"):
+                stale.unlink(missing_ok=True)
+            raise SystemExit(refusal)
         write_diff(out, read_table(tables[0]), read_table(tables[1]), renames)
     return 0
 
