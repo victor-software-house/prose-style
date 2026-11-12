@@ -303,6 +303,26 @@ class Run(unittest.TestCase):
             self.assertIn("hakkiri-level suggestion", meta)
             self.assertEqual(diff.main([*common, "--vale", str(vale), "--min-level", "suggestion"]), 0)
             self.assertTrue((out / "diff.md").exists())
+            self.assertTrue((out / "diff.tsv").exists())
+            with self.assertRaises(SystemExit):
+                diff.main([*common, "--vale", str(vale)])
+            self.assertFalse((out / "diff.md").exists(), "a refusal leaves no diff of an earlier run")
+            self.assertFalse((out / "diff.tsv").exists(), "a refusal leaves no diff of an earlier run")
+
+    def test_a_folder_that_records_no_level_for_a_table_is_not_diffed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            out = Path(folder)
+            diff.write_table(out / "alerts-vale.tsv", [])
+            diff.write_table(out / "alerts-hakkiri.tsv", [])
+            (out / "diff.md").write_text("old\n")
+            (out / "diff.tsv").write_text("old\n")
+            (out / "meta.txt").write_text("level warning\nhakkiri-level warning\n")
+            with self.assertRaises(SystemExit) as refused:
+                diff.main(["--out", str(out)])
+            self.assertIn("does not record the level of both tables", str(refused.exception))
+            self.assertFalse((out / "diff.md").exists())
+            self.assertFalse((out / "diff.tsv").exists())
+            self.assertEqual((out / "meta.txt").read_text(), "hakkiri-level warning\n", "the old level line is dropped")
 
 
 if __name__ == "__main__":
