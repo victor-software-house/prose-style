@@ -1,6 +1,7 @@
 # Four nouns in a row hide how they relate. Add a verb or a preposition.
 # Agent docs hit this 1.4 times as often as human design docs, so the evidence is thin.
-# Each noun is a lowercase word: a title-case heading, a table pipe or an arrow the tagger reads as a noun passes.
+# Each noun is a lowercase word with no hyphen: a title-case heading, a table pipe or an arrow the tagger reads as a noun passes,
+# and a hyphenated word such as 'integration-test' is a modifier that ends the run.
 # The pattern looks around the word instead of anchoring it, since an anchor never matches a word inside its sentence,
 # and so a name such as GitHub or AMD does not count on its inner lowercase letters.
 # Source: Microsoft Writing Style Guide, "Writing tips for a global audience", "Avoid modifier stacks."
@@ -9,7 +10,7 @@ message: "Noun stack '%[1]s %[2]s %[3]s %[4]s': put a verb or a preposition betw
 level: warning
 tokens:
   - tag: NN|NNS
-    pattern: '(?<![A-Za-z])[a-z][a-z-]*(?![A-Za-z])'
+    pattern: '(?<![A-Za-z-])[a-z]+(?![A-Za-z-])'
     min: 4
 tests:
   - name: flags four nouns in a row
@@ -19,6 +20,13 @@ tests:
     input: >
       The store path of the session lake is long. Run `cargo test` in
       `crates/a-store/src/lib.rs` for PR #123 at commit `ee9f207`.
+    want: ''
+  - name: leaves a hyphenated word out of the stack
+    about: A hyphenated word is a modifier, so it ends the run of nouns.
+    input: |
+      The integration-test binary pull request is large.
+
+      The session lake store-path rule is long.
     want: ''
   - name: leaves a stack of capitalized names alone
     about: A name such as Tailnet or GitHub is not a lowercase noun, though its inner letters are lowercase.
