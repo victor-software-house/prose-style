@@ -1,9 +1,12 @@
 # Three prepositional phrases in a row bury the verb. Cut one, or turn a phrase into a verb.
 # Agent docs hit this 1.7 times as often as human design docs.
-# A script counts a chain: three prepositions, each at most two words after the
-# last, and a number counts as a word. A comma, colon, semicolon, dash,
-# parenthesis or code span ends a chain, so a list of short phrases such as
-# "`x` at `p`, with `y` after it" passes.
+# A chain is three prepositions, each at most two words after the last, and a
+# number counts as a word. A comma, colon, semicolon, dash, parenthesis or code
+# span ends a chain, so a list of short phrases such as "`x` at `p`, with `y`
+# after it" passes. Any other character between words, a line break and a
+# comment marker included, is skipped, and a hyphenated word such as in-memory
+# is one word, so its first part is no preposition. A code span reads as the word x, which
+# is no word of a chain, so a chain after it is still found.
 # Source: Google developer documentation style guide, "Prepositions".
 extends: existence
 message: "Three prepositional phrases in a row: cut one, or turn a phrase into a verb."
@@ -11,7 +14,7 @@ level: warning
 scope: sentence
 ignorecase: true
 raw:
-  - '\b(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b(?:[ \t]+(?!(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b)[A-Za-z0-9][\w'']*(?:-[\w'']+)*){0,2}[ \t]+(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b(?:[ \t]+(?!(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b)[A-Za-z0-9][\w'']*(?:-[\w'']+)*){0,2}[ \t]+(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)\b'
+  - '(?<![A-Za-z0-9_''-])(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)(?![A-Za-z0-9_''-])(?:(?:[^A-Za-z0-9_,;:()—–*`''-]|''(?=[A-Za-z0-9]))+(?!(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)(?![A-Za-z0-9_''-]))(?!x(?![A-Za-z0-9_''-]))[A-Za-z0-9][A-Za-z0-9_'']*(?:-[A-Za-z0-9_'']+)*){0,2}(?:[^A-Za-z0-9_,;:()—–*`''-]|''(?=[A-Za-z0-9]))+(?<![A-Za-z0-9_''-])(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)(?![A-Za-z0-9_''-])(?:(?:[^A-Za-z0-9_,;:()—–*`''-]|''(?=[A-Za-z0-9]))+(?!(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)(?![A-Za-z0-9_''-]))(?!x(?![A-Za-z0-9_''-]))[A-Za-z0-9][A-Za-z0-9_'']*(?:-[A-Za-z0-9_'']+)*){0,2}(?:[^A-Za-z0-9_,;:()—–*`''-]|''(?=[A-Za-z0-9]))+(?<![A-Za-z0-9_''-])(?:of|in|on|at|for|with|from|by|into|onto|over|under|through|across|between|within|without|about|against|during|after|before)(?![A-Za-z0-9_''-])'
 tests:
   - name: flags three prepositional phrases in a row
     input: The handling of errors in the parser of the daemon fails.
@@ -30,3 +33,19 @@ tests:
       of 12,001 bytes, without a limit. The end of the run of keyword
       operator characters at the cursor.
     want: ''
+  - name: reads a chain across a line break and a comment marker
+    input: |
+      /// A lease is renewed with a check of the clock
+      /// during the sweep of each shard.
+      fn renew() {}
+    contains: Three prepositional phrases
+    format: rs
+  - name: reads a chain over a percentage and a unit
+    input: A queue that grows by well over 5% on busy hosts is flagged.
+    contains: Three prepositional phrases
+  - name: leaves a hyphenated word alone
+    input: The in-memory copy of the stand-in for the opt-in flag is by-feel.
+    want: ''
+  - name: reads a chain after a code span
+    input: Rows from `seq` on are dropped from the index in memory.
+    contains: Three prepositional phrases
