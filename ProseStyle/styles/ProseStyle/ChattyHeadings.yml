@@ -2,8 +2,8 @@
 # chat: "Use it", "What it turns on", "How it works", "Let's begin". A vague noun such as "Piece" names no topic.
 # An OpenSpec requirement or scenario title is a sentence about its subject, so
 # "Scenario: Incus keeps its own dnsmasq" passes it and its. You and we still fail.
-# OpenSpec's "Why" and "What Changes" fail: a repository renames them through
-# its openspec/config.yaml.
+# OpenSpec's "Why" and "What Changes" fail anywhere but the proposal.md of a
+# change, which the package's settings skip: OpenSpec requires them there.
 extends: existence
 message: "'%s' in a heading reads like chat: use a noun, such as Setup, Styles or Development."
 level: error
