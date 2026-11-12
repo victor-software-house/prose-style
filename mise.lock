@@ -20,19 +20,21 @@ url = "https://github.com/vale-cli/vale/releases/download/v3.26.0/vale_3.26.0_ma
 url_api = "https://api.github.com/repos/vale-cli/vale/releases/assets/695682018"
 
 [[tools."github:victor-software-house/hakkiri"]]
-version = "0.0.5"
+version = "0.0.6"
 backend = "github:victor-software-house/hakkiri"
-specifiers = ["0.0.5"]
+specifiers = ["0.0.6"]
 
 [tools."github:victor-software-house/hakkiri"."platforms.linux-x64"]
-checksum = "sha256:0d43690b8884ba1cb44eb87c1c892e6019a3eca8e9b7f6140247371bf4796a68"
-url = "https://github.com/victor-software-house/hakkiri/releases/download/v0.0.5/hakkiri_0.0.5_linux_x64.tar.gz"
-url_api = "https://api.github.com/repos/victor-software-house/hakkiri/releases/assets/737130222"
+checksum = "sha256:968346f7f06e99454ec632c4095d9e1f60e3c1e3a0d357d6788c517f50d53d54"
+checksum_source = "mise-versions"
+url = "https://github.com/victor-software-house/hakkiri/releases/download/v0.0.6/hakkiri_0.0.6_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/victor-software-house/hakkiri/releases/assets/737705869"
 
 [tools."github:victor-software-house/hakkiri"."platforms.macos-arm64"]
-checksum = "sha256:7966ce08989e8828b92b6c93d36aafb9b6ef89f76507176ed2dbe565e55ed203"
-url = "https://github.com/victor-software-house/hakkiri/releases/download/v0.0.5/hakkiri_0.0.5_macos_arm64.tar.gz"
-url_api = "https://api.github.com/repos/victor-software-house/hakkiri/releases/assets/737132818"
+checksum = "sha256:e74f812873864e51a5e1429168536b3d43edf827c1c60e5921b7a3b8d8c93c21"
+checksum_source = "mise-versions"
+url = "https://github.com/victor-software-house/hakkiri/releases/download/v0.0.6/hakkiri_0.0.6_macos_arm64.tar.gz"
+url_api = "https://api.github.com/repos/victor-software-house/hakkiri/releases/assets/737710432"
 
 [[tools.python]]
 version = "3.15.2"

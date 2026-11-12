@@ -3,7 +3,7 @@ min_version = "2026.11.6"
 [tools]
 # The rules and the package cases run on hakkiri; Vale runs only the pull
 # request package, which reads the frozen v0.0.14 ProseStyle zip.
-"github:victor-software-house/hakkiri" = "0.0.5"
+"github:victor-software-house/hakkiri" = "0.0.6"
 "aqua:vale-cli/vale" = "3.26.0"
 
 [settings]
