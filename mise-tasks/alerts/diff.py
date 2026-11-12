@@ -13,6 +13,13 @@ reads an environment variable, and a flag wins over its variable:
     --package   ALERTS_DIFF_PACKAGE   the ProseStyle package hakkiri reads, a
                                       folder with a styles folder, or a zip
     --out       ALERTS_DIFF_OUT       where the tables and the diff go
+    --renames   ALERTS_DIFF_RENAMES   the rule renames, see below; by default
+                                      `renames.tsv` in the package, if it holds one
+    --min-level ALERTS_DIFF_MIN_LEVEL suggestion, warning or error: the lowest
+                                      level both tools report, in place of each
+                                      repository's own `MinAlertLevel`. The
+                                      folder records the level of each table,
+                                      and the diff refuses two that differ.
 
 Nothing about a repository is kept in this repository: the names, the paths and
 the alerts come from the arguments and go to the output folder only.
@@ -22,16 +29,29 @@ runs each repository's own `.vale.ini`, after `vale sync`. hakkiri runs the
 equivalent of that file, written to a temporary config in the checkout and
 removed afterwards, over the package. The conversion keeps the glob sections in
 order with their styles, rule settings and ignores, `MinAlertLevel`, `Vocab`
-and `[formats]`, and notes every key it leaves out in `conversion.txt`.
+and `[formats]`, and notes every key it leaves out in `conversion.txt`. The
+config then names what the package holds: the styles `Direct`, `Voices`,
+`Readability` and `Std` become `ProseStyle`, a rule setting follows the rename
+file, and `[formats] rs = md` is dropped, since hakkiri reads Rust comments as
+Markdown.
+
+A repository that keeps itself clean at its own level shows no alert, because
+`MinAlertLevel = warning` hides the suggestions. `--min-level suggestion` makes
+both tools report them, so the diff has something to compare there.
+
+A rename file holds one rule per line: the name Vale gives, a tab, and the name
+the hakkiri package gives it, or `-` when the package drops the rule. A line that
+starts with `#` is a comment. The diff pairs a Vale rule with its renamed rule,
+and an alert of a dropped rule is its own kind, `dropped`.
 
 The output folder holds `alerts-vale.tsv` and `alerts-hakkiri.tsv`, one row per
 alert, and `diff.md` and `diff.tsv` once both tables exist. The diff pairs the
 alerts of one rule in one file: an alert at the same line and column is the
 same alert, and one with a different message or level is `changed`. A leftover
-alert with the same matched text on both sides is `moved`, and what remains is
+alert with the same matched text on both sides, or on the same line, is `moved`, and what remains is
 `only-vale` or `only-hakkiri`. A run with one tool writes that tool's table and
 diffs against the table the other tool left in the folder, so the two sides can
-run at different times.
+run at different times. A run with no tool diffs the two tables that are there.
 """
 
 from __future__ import annotations
@@ -54,7 +74,7 @@ LEVELS = {"suggestion", "warning", "error"}
 CHUNK = 300
 # Examples per rule and kind in diff.md. diff.tsv holds every row.
 EXAMPLES = 8
-KINDS = ["only-vale", "only-hakkiri", "moved", "changed"]
+KINDS = ["only-vale", "only-hakkiri", "moved", "changed", "dropped"]
 
 
 def run(command: list[str], cwd: Path, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -96,7 +116,7 @@ def alert(repo: str, path: str, line: int, column: int, level: str, rule: str, m
     }
 
 
-def vale_alerts(binary: Path, repo: Path, name: str, out: Path) -> list[dict[str, str]]:
+def vale_alerts(binary: Path, repo: Path, name: str, out: Path, level: str | None) -> list[dict[str, str]]:
     """The alerts Vale gives for the tracked files of `repo`, under its own config."""
     folder = out / name
     folder.mkdir(parents=True, exist_ok=True)
@@ -107,7 +127,8 @@ def vale_alerts(binary: Path, repo: Path, name: str, out: Path) -> list[dict[str
     found: list[dict[str, str]] = []
     errors = []
     for files in chunks(tracked_files(repo)):
-        done = run([str(binary), "--output=JSON", "--no-exit", *files], repo)
+        flags = [f"--minAlertLevel={level}"] if level else []
+        done = run([str(binary), "--output=JSON", "--no-exit", *flags, *files], repo)
         errors.append(done.stderr)
         try:
             table = json.loads(done.stdout or "{}")
@@ -143,6 +164,33 @@ def package_folder(package: Path, out: Path) -> Path:
     return package.resolve()
 
 
+def renames_from(text: str) -> dict[str, str | None]:
+    """The rule renames of a rename file: Vale's name to the package's, or None when dropped."""
+    renames: dict[str, str | None] = {}
+    for number, line in enumerate(text.splitlines(), 1):
+        if not line.strip() or line.startswith("#"):
+            continue
+        cells = line.split("\t")
+        if len(cells) != 2 or not cells[0].strip():
+            raise SystemExit(f"renames line {number}: want a Vale rule, a tab, and a hakkiri rule or -")
+        vale, hakkiri = cells[0].strip(), cells[1].strip()
+        renames[vale] = None if hakkiri in ("", "-") else hakkiri
+    return renames
+
+
+def package_renames(package: Path) -> str | None:
+    """The text of `renames.tsv` in the top of a package folder or zip, if it holds one."""
+    if package.is_file():
+        with zipfile.ZipFile(package) as archive:
+            for member in archive.namelist():
+                if member.count("/") <= 1 and member.rsplit("/", 1)[-1] == "renames.tsv":
+                    return archive.read(member).decode()
+        return None
+    top = package.parent if package.name == "styles" else package
+    file = top / "renames.tsv"
+    return file.read_text() if file.is_file() else None
+
+
 def words(value: str) -> list[str]:
     return [word.strip() for word in value.split(",") if word.strip()]
 
@@ -157,7 +205,10 @@ def setting(value: str) -> str | None:
     return word.lower() if word.lower() in LEVELS else None
 
 
-def convert(ini: str, styles: Path) -> tuple[dict, list[str]]:
+UPSTREAM_STYLES = {"Direct", "Voices", "Readability", "Std"}
+
+
+def convert(ini: str, styles: Path, level: str | None = None) -> tuple[dict, list[str]]:
     """The hakkiri config that equals a `.vale.ini`, and a note for each key left out."""
     parser = configparser.ConfigParser(interpolation=None, strict=False, delimiters=("=",), comment_prefixes=("#", ";"))
     parser.optionxform = str
@@ -178,6 +229,8 @@ def convert(ini: str, styles: Path) -> tuple[dict, list[str]]:
                 notes.append(f"{key}: replaced by the package of the run")
             case _:
                 notes.append(f"{key}: no hakkiri key")
+    if level:
+        config["level"] = level
     config["packages"] = [{"path": str(styles)}]
     formats: dict[str, str] = {}
     files: dict[str, dict] = {}
@@ -208,14 +261,38 @@ def convert(ini: str, styles: Path) -> tuple[dict, list[str]]:
     return config, notes
 
 
-def hakkiri_alerts(binary: Path, repo: Path, name: str, styles: Path, out: Path) -> list[dict[str, str]]:
+def port_config(config: dict, notes: list[str], renames: dict[str, str | None]) -> None:
+    """Edit a converted config, in place, so it names what the package holds.
+
+    A style of the upstream packages becomes ProseStyle, a rule setting takes its renamed or dropped
+    rule from `renames`, and `[formats] rs = md` goes because hakkiri reads Rust comments as Markdown.
+    """
+    if config.get("formats") == {"rs": "md"}:
+        del config["formats"]
+        notes.append("[formats] rs = md dropped: hakkiri reads Rust comments as Markdown natively")
+    for glob, settings in config["files"].items():
+        if "styles" in settings:
+            settings["styles"] = list(dict.fromkeys("ProseStyle" if each in UPSTREAM_STYLES else each for each in settings["styles"]))
+        for key in [key for key in settings if key in renames]:
+            value, new = settings.pop(key), renames[key]
+            if new is None:
+                notes.append(f"[{glob}] {key} dropped: the package holds no such rule")
+            else:
+                settings[new] = value
+                notes.append(f"[{glob}] {key} renamed to {new}")
+
+
+def hakkiri_alerts(
+    binary: Path, repo: Path, name: str, styles: Path, out: Path, level: str | None, renames: dict[str, str | None]
+) -> list[dict[str, str]]:
     """The alerts hakkiri gives for the tracked files of `repo`, under the converted config."""
     folder = out / name
     folder.mkdir(parents=True, exist_ok=True)
     ini = repo / ".vale.ini"
     if not ini.is_file():
         raise SystemExit(f"{name}: no .vale.ini to convert")
-    config, notes = convert(ini.read_text(), styles)
+    config, notes = convert(ini.read_text(), styles, level)
+    port_config(config, notes, renames)
     (folder / "conversion.txt").write_text("\n".join(notes) + ("\n" if notes else ""))
     (folder / "hakkiri.yaml").write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n")
     # Not in `.ctl`, so the project root is the checkout, and not the repository's own hakkiri config.
@@ -279,15 +356,42 @@ def position(each: dict[str, str]) -> tuple[int, int]:
     return int(each["line"]), int(each["column"])
 
 
-def diff(vale: list[dict[str, str]], hakkiri: list[dict[str, str]]) -> tuple[list[dict[str, str]], dict[str, int]]:
-    """The differing alerts of two tables, one row each, and the count of alerts both gave alike."""
+def dropped_row(each: dict[str, str]) -> dict[str, str]:
+    """The row of an alert Vale gave from a rule the package drops."""
+    return {
+        "kind": "dropped",
+        "rule": each["rule"],
+        "vale_rule": each["rule"],
+        "repo": each["repo"],
+        "path": each["path"],
+        "vale": "{}:{}".format(*position(each)),
+        "hakkiri": "",
+        "vale_message": each["message"],
+        "hakkiri_message": "",
+        "match": each["match"],
+    }
+
+
+def diff(
+    vale: list[dict[str, str]], hakkiri: list[dict[str, str]], renames: dict[str, str | None] | None = None
+) -> tuple[list[dict[str, str]], dict[str, int]]:
+    """The differing alerts of two tables, one row each, and the count of alerts both gave alike.
+
+    A Vale rule that `renames` maps to another name is paired under the new name, and an alert of a
+    rule it maps to None is a `dropped` row.
+    """
+    renames = renames or {}
     groups: dict[tuple[str, str, str], tuple[list, list]] = defaultdict(lambda: ([], []))
-    for each in vale:
-        groups[(each["repo"], each["path"], each["rule"])][0].append(each)
-    for each in hakkiri:
-        groups[(each["repo"], each["path"], each["rule"])][1].append(each)
     rows: list[dict[str, str]] = []
     same: dict[str, int] = defaultdict(int)
+    for each in vale:
+        if each["rule"] in renames and renames[each["rule"]] is None:
+            rows.append(dropped_row(each))
+            continue
+        named = renames.get(each["rule"]) or each["rule"]
+        groups[(each["repo"], each["path"], named)][0].append({**each, "rule": named, "vale_rule": each["rule"]})
+    for each in hakkiri:
+        groups[(each["repo"], each["path"], each["rule"])][1].append(each)
 
     def row(kind: str, left: dict | None, right: dict | None) -> None:
         source = left or right
@@ -296,6 +400,7 @@ def diff(vale: list[dict[str, str]], hakkiri: list[dict[str, str]]) -> tuple[lis
             {
                 "kind": kind,
                 "rule": source["rule"],
+                "vale_rule": left["vale_rule"] if left else "",
                 "repo": source["repo"],
                 "path": source["path"],
                 "vale": "{}:{}".format(*position(left)) if left else "",
@@ -324,29 +429,52 @@ def diff(vale: list[dict[str, str]], hakkiri: list[dict[str, str]]) -> tuple[lis
         by_match = defaultdict(list)
         for each in rest_right:
             by_match[each["match"]].append(each)
+        unmatched = []
         for each in rest_left:
             partner = by_match[each["match"]].pop(0) if by_match[each["match"]] else None
+            if partner is None:
+                unmatched.append(each)
+            else:
+                row("moved", each, partner)
+        # A rule that reports a whole line in one tool and a point in it in the other still pairs by line.
+        by_line = defaultdict(list)
+        for matches in by_match.values():
+            for each in matches:
+                by_line[position(each)[0]].append(each)
+        for each in unmatched:
+            partner = by_line[position(each)[0]].pop(0) if by_line[position(each)[0]] else None
             if partner is None:
                 row("only-vale", each, None)
             else:
                 row("moved", each, partner)
-        for matches in by_match.values():
+        for matches in by_line.values():
             for each in matches:
                 row("only-hakkiri", None, each)
     return rows, same
 
 
-DIFF_COLUMNS = ["kind", "rule", "repo", "path", "vale", "hakkiri", "vale_message", "hakkiri_message", "match"]
+DIFF_COLUMNS = ["kind", "rule", "vale_rule", "repo", "path", "vale", "hakkiri", "vale_message", "hakkiri_message", "match"]
 
 
-def write_diff(out: Path, vale: list[dict[str, str]], hakkiri: list[dict[str, str]]) -> None:
-    rows, same = diff(vale, hakkiri)
+def write_diff(
+    out: Path, vale: list[dict[str, str]], hakkiri: list[dict[str, str]], renames: dict[str, str | None]
+) -> None:
+    rows, same = diff(vale, hakkiri, renames)
     lines = ["\t".join(DIFF_COLUMNS)] + ["\t".join(escape(each[column]) for column in DIFF_COLUMNS) for each in rows]
     (out / "diff.tsv").write_text("\n".join(lines) + "\n")
     by_rule: dict[str, dict[str, list[dict[str, str]]]] = defaultdict(lambda: {kind: [] for kind in KINDS})
     for each in rows:
         by_rule[each["rule"]][each["kind"]].append(each)
-    rules = sorted(set(by_rule) | set(same), key=lambda rule: (-sum(map(len, by_rule[rule].values())), rule))
+    dropped = {rule for rule, new in renames.items() if new is None}
+    olds: dict[str, set[str]] = defaultdict(set)
+    for old, new in renames.items():
+        if new is not None and new != old:
+            olds[new].add(old)
+
+    def label(rule: str) -> str:
+        return f"{rule} (Vale: {', '.join(sorted(olds[rule]))})" if olds.get(rule) else rule
+
+    rules = sorted(set(by_rule) | set(same) | dropped, key=lambda rule: (-sum(map(len, by_rule[rule].values())), rule))
     total = {kind: sum(len(by_rule[rule][kind]) for rule in by_rule) for kind in KINDS}
     md = [
         "# Alert diff",
@@ -359,11 +487,11 @@ def write_diff(out: Path, vale: list[dict[str, str]], hakkiri: list[dict[str, st
         "|:--|--:|" + "--:|" * len(KINDS),
     ]
     for rule in rules:
-        md.append(f"| {rule} | {same.get(rule, 0)} | " + " | ".join(str(len(by_rule[rule][kind])) for kind in KINDS) + " |")
+        md.append(f"| {label(rule)} | {same.get(rule, 0)} | " + " | ".join(str(len(by_rule[rule][kind])) for kind in KINDS) + " |")
     for rule in rules:
         if not any(by_rule[rule].values()):
             continue
-        md += ["", f"## {rule}"]
+        md += ["", f"## {label(rule)}"]
         for kind in KINDS:
             found = by_rule[rule][kind]
             if not found:
@@ -389,13 +517,19 @@ def parse(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--hakkiri", default=os.environ.get("ALERTS_DIFF_HAKKIRI"))
     parser.add_argument("--package", default=os.environ.get("ALERTS_DIFF_PACKAGE"))
     parser.add_argument("--out", default=os.environ.get("ALERTS_DIFF_OUT"))
+    parser.add_argument("--renames", default=os.environ.get("ALERTS_DIFF_RENAMES"))
+    parser.add_argument("--min-level", choices=sorted(LEVELS), default=os.environ.get("ALERTS_DIFF_MIN_LEVEL") or None)
     args = parser.parse_args(argv)
+    # argparse checks `choices` for a flag and not for the value of the variable.
+    if args.min_level is not None and args.min_level not in LEVELS:
+        parser.error(f"ALERTS_DIFF_MIN_LEVEL: {args.min_level!r} is not one of {', '.join(sorted(LEVELS))}")
     if args.repos is None:
         args.repos = [path for path in os.environ.get("ALERTS_DIFF_REPOS", "").split(os.pathsep) if path]
     if not args.out:
         parser.error("--out or ALERTS_DIFF_OUT names where the tables go")
-    if not args.vale and not args.hakkiri:
-        parser.error("give --vale, --hakkiri or both")
+    tables = [Path(args.out) / "alerts-vale.tsv", Path(args.out) / "alerts-hakkiri.tsv"]
+    if not args.vale and not args.hakkiri and not all(table.exists() for table in tables):
+        parser.error("give --vale, --hakkiri or both, or an --out folder that holds both tables")
     if args.hakkiri and not args.package:
         parser.error("hakkiri needs --package or ALERTS_DIFF_PACKAGE")
     if (args.vale or args.hakkiri) and not args.repos:
@@ -411,19 +545,32 @@ def main(argv: list[str]) -> int:
     names = [repo.name for repo in repos]
     if len(set(names)) != len(names):
         raise SystemExit("two checkouts share a folder name, and the tables name a repository by it")
+    text = Path(args.renames).read_text() if args.renames else (package_renames(Path(args.package).resolve()) if args.package else None)
+    renames = renames_from(text) if text else {}
     meta = out / "meta.txt"
-    dropped = tuple(prefix for prefix, ran in (("vale ", args.vale), ("hakkiri ", args.hakkiri), ("package ", args.hakkiri)) if ran)
+    ran = (
+        ("vale ", args.vale),
+        ("vale-level ", args.vale),
+        ("hakkiri ", args.hakkiri),
+        ("hakkiri-level ", args.hakkiri),
+        ("package ", args.hakkiri),
+    )
+    dropped = ("level ", *(prefix for prefix, did in ran if did))
     notes = [line for line in (meta.read_text().splitlines() if meta.exists() else []) if not line.startswith(dropped)]
     if args.vale:
+        notes.append(f"vale-level {args.min_level or 'own'}")
+    if args.hakkiri:
+        notes.append(f"hakkiri-level {args.min_level or 'own'}")
+    if args.vale:
         binary = Path(args.vale).resolve()
-        alerts = [each for repo in repos for each in vale_alerts(binary, repo, repo.name, out)]
+        alerts = [each for repo in repos for each in vale_alerts(binary, repo, repo.name, out, args.min_level)]
         write_table(out / "alerts-vale.tsv", alerts)
         notes.append(f"vale {version(binary)}")
     if args.hakkiri:
         binary = Path(args.hakkiri).resolve()
         package = Path(args.package).resolve()
         styles = package_folder(package, out)
-        alerts = [each for repo in repos for each in hakkiri_alerts(binary, repo, repo.name, styles, out)]
+        alerts = [each for repo in repos for each in hakkiri_alerts(binary, repo, repo.name, styles, out, args.min_level, renames)]
         write_table(out / "alerts-hakkiri.tsv", alerts)
         notes.append(f"hakkiri {version(binary)}")
         digest = hashlib.sha256(package.read_bytes()).hexdigest() if package.is_file() else "folder"
@@ -431,7 +578,20 @@ def main(argv: list[str]) -> int:
     meta.write_text("\n".join(notes) + "\n")
     tables = [out / "alerts-vale.tsv", out / "alerts-hakkiri.tsv"]
     if all(table.exists() for table in tables):
-        write_diff(out, read_table(tables[0]), read_table(tables[1]))
+        levels = {line.split(" ", 1)[0]: line.split(" ", 1)[1] for line in notes if line.startswith(("vale-level ", "hakkiri-level "))}
+        refusal = None
+        if None in (levels.get("vale-level"), levels.get("hakkiri-level")):
+            refusal = "the folder does not record the level of both tables: run both tools again with the same --min-level"
+        elif levels["vale-level"] != levels["hakkiri-level"]:
+            refusal = (
+                f"the tables were taken at different levels, Vale at {levels['vale-level']} and hakkiri at "
+                f"{levels['hakkiri-level']}: run one tool again with the same --min-level, so no difference is only a level"
+            )
+        if refusal:
+            for stale in (out / "diff.md", out / "diff.tsv"):
+                stale.unlink(missing_ok=True)
+            raise SystemExit(refusal)
+        write_diff(out, read_table(tables[0]), read_table(tables[1]), renames)
     return 0
 
 
