@@ -10,7 +10,7 @@ exceptions:
 tokens:
   - tag: NN|NNS
     pattern: '[A-Za-z][\w-]*'
-  - tag: VB|VBD|VBP|VBZ
+  - tag: ^(?:VB|VBD|VBP|VBZ)$
     pattern: says?|said|tells?|told|knows?|knew|thinks?|thought|wants?|agrees?|asks?|asked|believes?|hopes?|understands?|insists?
 tests:
   - name: flags a noun for a thing that speaks or thinks
