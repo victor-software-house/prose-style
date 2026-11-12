@@ -36,3 +36,10 @@ files:
   # An OpenSpec change describes a change, so words about time belong there.
   '**/openspec/changes/**/*.md':
     ProseStyle.StaleWords: off
+
+  # OpenSpec requires the headings Why and What Changes in a proposal, and
+  # ChattyHeadings flags both. Only those two lines are skipped, and only in
+  # proposal.md files, the archive's included.
+  '**/openspec/changes/**/proposal.md':
+    block_ignores:
+      - '(?m)^## (?:Why|What Changes)$'

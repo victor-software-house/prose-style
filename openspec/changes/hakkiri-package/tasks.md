@@ -1,9 +1,8 @@
 # Tasks
 
 Every compile, lint and test step of a rule runs in the pull request's CI.  
-The pinned hakkiri is the 0.0.5 release, the first that reads a package's settings.  
-Three rule cases fail on it, in rules that were already here, until the hakkiri release that fixes indexed message verbs (`HKR-045`) and a fence across a blank doc-comment line (`HKR-046`).  
-The alert diff and the proposal's `block_ignores` entry wait for the release after that.
+The pinned hakkiri is the 0.0.6 release, which holds the package settings, `block_ignores`, `formats` and the indexed message verbs.  
+The tagger corrections wait for 0.0.7.
 
 ## 1. Write the rules
 
@@ -41,7 +40,7 @@ The alert diff and the proposal's `block_ignores` entry wait for the release aft
   Verify the zip holds the style, `config`, the settings file, `NOTICE` and `LICENSE`, and two builds give the same bytes.  
   Evidence, 2026-11-11 (UTC): the build wrote 79 files for `ProseStyle.zip` and 3 for `PullRequestStyle.zip`.
 
-- [ ] 3.2 Pin hakkiri 0.0.5 in `mise.toml`, regenerate `mise.lock` for `linux-x64` and `macos-arm64`, and move the three test tasks and `test/` to hakkiri.  
+- [ ] 3.2 Pin hakkiri 0.0.6 in `mise.toml`, regenerate `mise.lock` for `linux-x64` and `macos-arm64`, and move the three test tasks and `test/` to hakkiri.  
   Verify `mise run test` passes in CI on the pinned release.  
   Evidence, 2026-11-11 (UTC): the pin and the lock are written, `test:messages` (76 messages) and `test:pull-request` (8 cases) pass in a box.  
   `test:rules` fails on the three cases above, and `test:package` fails on one case, "harness as a noun passes", because hakkiri's tagger reads `reads` as a noun and `NounStack` flags the stack.  
