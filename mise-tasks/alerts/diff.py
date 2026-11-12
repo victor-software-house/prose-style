@@ -17,7 +17,9 @@ reads an environment variable, and a flag wins over its variable:
                                       `renames.tsv` in the package, if it holds one
     --min-level ALERTS_DIFF_MIN_LEVEL suggestion, warning or error: the lowest
                                       level both tools report, in place of each
-                                      repository's own `MinAlertLevel`
+                                      repository's own `MinAlertLevel`. The
+                                      folder records the level of each table,
+                                      and the diff refuses two that differ.
 
 Nothing about a repository is kept in this repository: the names, the paths and
 the alerts come from the arguments and go to the output folder only.
@@ -489,6 +491,9 @@ def parse(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--renames", default=os.environ.get("ALERTS_DIFF_RENAMES"))
     parser.add_argument("--min-level", choices=sorted(LEVELS), default=os.environ.get("ALERTS_DIFF_MIN_LEVEL") or None)
     args = parser.parse_args(argv)
+    # argparse checks `choices` for a flag and not for the value of the variable.
+    if args.min_level is not None and args.min_level not in LEVELS:
+        parser.error(f"ALERTS_DIFF_MIN_LEVEL: {args.min_level!r} is not one of {', '.join(sorted(LEVELS))}")
     if args.repos is None:
         args.repos = [path for path in os.environ.get("ALERTS_DIFF_REPOS", "").split(os.pathsep) if path]
     if not args.out:
@@ -512,11 +517,19 @@ def main(argv: list[str]) -> int:
     if len(set(names)) != len(names):
         raise SystemExit("two checkouts share a folder name, and the tables name a repository by it")
     meta = out / "meta.txt"
-    ran = (("vale ", args.vale), ("hakkiri ", args.hakkiri), ("package ", args.hakkiri), ("level ", args.vale or args.hakkiri))
+    ran = (
+        ("vale ", args.vale),
+        ("vale-level ", args.vale),
+        ("hakkiri ", args.hakkiri),
+        ("hakkiri-level ", args.hakkiri),
+        ("package ", args.hakkiri),
+    )
     dropped = tuple(prefix for prefix, did in ran if did)
     notes = [line for line in (meta.read_text().splitlines() if meta.exists() else []) if not line.startswith(dropped)]
-    if args.vale or args.hakkiri:
-        notes.append(f"level {args.min_level or 'own'}")
+    if args.vale:
+        notes.append(f"vale-level {args.min_level or 'own'}")
+    if args.hakkiri:
+        notes.append(f"hakkiri-level {args.min_level or 'own'}")
     if args.vale:
         binary = Path(args.vale).resolve()
         alerts = [each for repo in repos for each in vale_alerts(binary, repo, repo.name, out, args.min_level)]
@@ -536,6 +549,12 @@ def main(argv: list[str]) -> int:
     renames = renames_from(text) if text else {}
     tables = [out / "alerts-vale.tsv", out / "alerts-hakkiri.tsv"]
     if all(table.exists() for table in tables):
+        levels = {line.split(" ", 1)[0]: line.split(" ", 1)[1] for line in notes if line.startswith(("vale-level ", "hakkiri-level "))}
+        if len({levels.get("vale-level"), levels.get("hakkiri-level")} - {None}) > 1:
+            raise SystemExit(
+                f"the tables were taken at different levels, Vale at {levels['vale-level']} and hakkiri at "
+                f"{levels['hakkiri-level']}: run one tool again with the same --min-level, so no difference is only a level"
+            )
         write_diff(out, read_table(tables[0]), read_table(tables[1]), renames)
     return 0
 

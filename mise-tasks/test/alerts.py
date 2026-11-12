@@ -3,12 +3,16 @@
 #MISE tools = { python = "3.15.2" }
 """Test mise-tasks/alerts/diff.py on made-up repositories and stand-in binaries."""
 
+import contextlib
 import importlib.util
+import io
 import json
+import os
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 SCRIPT = Path(__file__).resolve().parent.parent / "alerts" / "diff.py"
 spec = importlib.util.spec_from_file_location("alerts_diff", SCRIPT)
@@ -249,11 +253,56 @@ class Run(unittest.TestCase):
             self.assertEqual(json.loads((out / "checkout" / "hakkiri.yaml").read_text())["level"], "suggestion")
             kinds = [line.split("\t")[0] for line in (out / "diff.tsv").read_text().splitlines()[1:]]
             self.assertEqual(kinds, ["dropped"], "the package's own renames.tsv applies")
-            self.assertIn("level suggestion", (out / "meta.txt").read_text())
+            meta = (out / "meta.txt").read_text()
+            self.assertIn("vale-level suggestion", meta)
+            self.assertIn("hakkiri-level suggestion", meta)
             # With no tool named, the two tables in the folder are diffed again, now with no renames.
             self.assertEqual(diff.main(["--out", str(out)]), 0)
             kinds = [line.split("\t")[0] for line in (out / "diff.tsv").read_text().splitlines()[1:]]
             self.assertEqual(kinds, ["only-vale"])
+
+    def test_a_minimum_level_from_the_environment_is_checked_like_the_flag(self):
+        for value in ("Warning", "warn"):
+            with mock.patch.dict(os.environ, {"ALERTS_DIFF_MIN_LEVEL": value}), contextlib.redirect_stderr(io.StringIO()) as err:
+                with self.assertRaises(SystemExit):
+                    diff.parse(["--vale", "vale", "--repos", "checkout", "--out", "out"])
+            self.assertIn("ALERTS_DIFF_MIN_LEVEL", err.getvalue())
+            self.assertIn(repr(value), err.getvalue())
+        with mock.patch.dict(os.environ, {"ALERTS_DIFF_MIN_LEVEL": "warning"}):
+            self.assertEqual(diff.parse(["--vale", "vale", "--repos", "checkout", "--out", "out"]).min_level, "warning")
+
+    def test_two_tables_taken_at_different_levels_are_not_diffed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            repo = root / "checkout"
+            repo.mkdir()
+            subprocess.run(["git", "-C", str(repo), "init", "-q"], check=True)
+            (repo / ".vale.ini").write_text(INI)
+            (repo / "one.md").write_text("one\n")
+            subprocess.run(["git", "-C", str(repo), "add", "-A"], check=True)
+            vale = root / "vale"
+            vale.write_text(STAND_IN.format(script='[ "$1" = sync ] && exit 0\n[ "$1" = --version ] && echo vale 1 && exit 0\necho "{}"'))
+            hakkiri = root / "hakkiri"
+            hakkiri.write_text(STAND_IN.format(script='[ "$1" = --version ] && echo hakkiri 1 && exit 0\necho \'{"alerts": [], "failures": [], "files": 1}\''))
+            for binary in (vale, hakkiri):
+                binary.chmod(0o755)
+            package = root / "package"
+            (package / "styles").mkdir(parents=True)
+            out = root / "out"
+            common = ["--repos", str(repo), "--package", str(package), "--out", str(out)]
+            self.assertEqual(diff.main([*common, "--hakkiri", str(hakkiri), "--min-level", "suggestion"]), 0)
+            self.assertFalse((out / "diff.md").exists(), "one table gives no diff")
+            with self.assertRaises(SystemExit) as refused:
+                diff.main([*common, "--vale", str(vale)])
+            message = str(refused.exception)
+            self.assertIn("Vale at own", message)
+            self.assertIn("hakkiri at suggestion", message)
+            self.assertFalse((out / "diff.md").exists())
+            meta = (out / "meta.txt").read_text()
+            self.assertIn("vale-level own", meta)
+            self.assertIn("hakkiri-level suggestion", meta)
+            self.assertEqual(diff.main([*common, "--vale", str(vale), "--min-level", "suggestion"]), 0)
+            self.assertTrue((out / "diff.md").exists())
 
 
 if __name__ == "__main__":
