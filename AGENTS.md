@@ -6,6 +6,7 @@ The `README.md` lists the habits it flags and how a project uses it.
 ## Layout
 
 - `ProseStyle/.ctl/hakkiri.yaml`: the package settings hakkiri applies before a project's own: the style on for `*.{md,mdx,rs}`, the 14 opt-in rules off, and the Rust and OpenSpec switches.
+- `ProseStyle/renames.tsv`: each Vale rule of `v0.0.14` beside the rule that replaces it, or `-` when the package drops it, which the alert diff task reads.
 - `ProseStyle/NOTICE` and `ProseStyle/LICENSE`: the credits and the MIT text for the rules ported from other projects.
 - `ProseStyle/styles/ProseStyle/*.yml`: one rule per file, each with its `tests:`.
 - `ProseStyle/styles/config/vocabularies/ProseStyle/accept.txt`: words an upstream rule flags that have a plain technical use, such as the noun `harness`.  
