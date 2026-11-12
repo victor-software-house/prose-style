@@ -29,7 +29,11 @@ runs each repository's own `.vale.ini`, after `vale sync`. hakkiri runs the
 equivalent of that file, written to a temporary config in the checkout and
 removed afterwards, over the package. The conversion keeps the glob sections in
 order with their styles, rule settings and ignores, `MinAlertLevel`, `Vocab`
-and `[formats]`, and notes every key it leaves out in `conversion.txt`.
+and `[formats]`, and notes every key it leaves out in `conversion.txt`. The
+config then names what the package holds: the styles `Direct`, `Voices`,
+`Readability` and `Std` become `ProseStyle`, a rule setting follows the rename
+file, and `[formats] rs = md` is dropped, since hakkiri reads Rust comments as
+Markdown.
 
 A repository that keeps itself clean at its own level shows no alert, because
 `MinAlertLevel = warning` hides the suggestions. `--min-level suggestion` makes
@@ -201,6 +205,9 @@ def setting(value: str) -> str | None:
     return word.lower() if word.lower() in LEVELS else None
 
 
+UPSTREAM_STYLES = {"Direct", "Voices", "Readability", "Std"}
+
+
 def convert(ini: str, styles: Path, level: str | None = None) -> tuple[dict, list[str]]:
     """The hakkiri config that equals a `.vale.ini`, and a note for each key left out."""
     parser = configparser.ConfigParser(interpolation=None, strict=False, delimiters=("=",), comment_prefixes=("#", ";"))
@@ -254,8 +261,29 @@ def convert(ini: str, styles: Path, level: str | None = None) -> tuple[dict, lis
     return config, notes
 
 
+def port_config(config: dict, notes: list[str], renames: dict[str, str | None]) -> None:
+    """Edit a converted config, in place, so it names what the package holds.
+
+    A style of the upstream packages becomes ProseStyle, a rule setting takes its renamed or dropped
+    rule from `renames`, and `[formats] rs = md` goes because hakkiri reads Rust comments as Markdown.
+    """
+    if config.get("formats") == {"rs": "md"}:
+        del config["formats"]
+        notes.append("[formats] rs = md dropped: hakkiri reads Rust comments as Markdown natively")
+    for glob, settings in config["files"].items():
+        if "styles" in settings:
+            settings["styles"] = list(dict.fromkeys("ProseStyle" if each in UPSTREAM_STYLES else each for each in settings["styles"]))
+        for key in [key for key in settings if key in renames]:
+            value, new = settings.pop(key), renames[key]
+            if new is None:
+                notes.append(f"[{glob}] {key} dropped: the package holds no such rule")
+            else:
+                settings[new] = value
+                notes.append(f"[{glob}] {key} renamed to {new}")
+
+
 def hakkiri_alerts(
-    binary: Path, repo: Path, name: str, styles: Path, out: Path, level: str | None
+    binary: Path, repo: Path, name: str, styles: Path, out: Path, level: str | None, renames: dict[str, str | None]
 ) -> list[dict[str, str]]:
     """The alerts hakkiri gives for the tracked files of `repo`, under the converted config."""
     folder = out / name
@@ -264,6 +292,7 @@ def hakkiri_alerts(
     if not ini.is_file():
         raise SystemExit(f"{name}: no .vale.ini to convert")
     config, notes = convert(ini.read_text(), styles, level)
+    port_config(config, notes, renames)
     (folder / "conversion.txt").write_text("\n".join(notes) + ("\n" if notes else ""))
     (folder / "hakkiri.yaml").write_text(json.dumps(config, indent=2, ensure_ascii=False) + "\n")
     # Not in `.ctl`, so the project root is the checkout, and not the repository's own hakkiri config.
@@ -516,6 +545,8 @@ def main(argv: list[str]) -> int:
     names = [repo.name for repo in repos]
     if len(set(names)) != len(names):
         raise SystemExit("two checkouts share a folder name, and the tables name a repository by it")
+    text = Path(args.renames).read_text() if args.renames else (package_renames(Path(args.package).resolve()) if args.package else None)
+    renames = renames_from(text) if text else {}
     meta = out / "meta.txt"
     ran = (
         ("vale ", args.vale),
@@ -539,14 +570,12 @@ def main(argv: list[str]) -> int:
         binary = Path(args.hakkiri).resolve()
         package = Path(args.package).resolve()
         styles = package_folder(package, out)
-        alerts = [each for repo in repos for each in hakkiri_alerts(binary, repo, repo.name, styles, out, args.min_level)]
+        alerts = [each for repo in repos for each in hakkiri_alerts(binary, repo, repo.name, styles, out, args.min_level, renames)]
         write_table(out / "alerts-hakkiri.tsv", alerts)
         notes.append(f"hakkiri {version(binary)}")
         digest = hashlib.sha256(package.read_bytes()).hexdigest() if package.is_file() else "folder"
         notes.append(f"package {digest}")
     meta.write_text("\n".join(notes) + "\n")
-    text = Path(args.renames).read_text() if args.renames else (package_renames(Path(args.package).resolve()) if args.package else None)
-    renames = renames_from(text) if text else {}
     tables = [out / "alerts-vale.tsv", out / "alerts-hakkiri.tsv"]
     if all(table.exists() for table in tables):
         levels = {line.split(" ", 1)[0]: line.split(" ", 1)[1] for line in notes if line.startswith(("vale-level ", "hakkiri-level "))}
