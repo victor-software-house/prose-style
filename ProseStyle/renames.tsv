@@ -1,0 +1,24 @@
+# Vale rule, a tab, and the rule of the hakkiri package, or - when the package drops it.
+# From the package design of HKR-008, taken 2026-11-11.
+Voices.Banned	ProseStyle.SlopWords
+Voices.BinaryContrast	ProseStyle.BinaryContrast
+Voices.InflatedWords	ProseStyle.InflatedWords
+Voices.Puffery	ProseStyle.Puffery
+Voices.Recap	ProseStyle.RecapOpener
+Voices.SuperficialAnalysis	ProseStyle.SuperficialAnalysis
+Voices.ThroatClearing	ProseStyle.ThroatClearing
+Voices.WeakVerbs	ProseStyle.WeakVerbs
+Voices.Weasel	ProseStyle.VagueAttribution
+Direct.Hedging	ProseStyle.Hedging
+Direct.Length	ProseStyle.SentenceLength
+Std.Readability.SentenceLength	ProseStyle.SentenceLength
+Direct.Preamble	ProseStyle.Preamble
+Readability.FleschKincaid	ProseStyle.GradeLevel
+Std.Abbreviations.Latin	ProseStyle.LatinAbbreviation
+Std.Punctuation.Spacing	ProseStyle.SentenceSpacing
+Std.Usage.GenderedPronouns	ProseStyle.GenderedPronouns
+Std.Usage.GenderedTerms	ProseStyle.GenderedTerms
+Voices.ColonReveal	-
+Direct.Ease	-
+Std.Abbreviations.Acronyms	-
+Std.Punctuation.Ellipses	-
