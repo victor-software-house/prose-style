@@ -46,7 +46,7 @@
 - name: harness as a noun passes
   about: ProseStyle.SlopWords flags harness; the package vocabulary accepts the noun.
   input: |
-    The freshness harness reads stdout.  
+    The freshness harness writes to stdout.  
     Run the measurement harnesses.
   want: ''
 - name: harness as a verb fails
