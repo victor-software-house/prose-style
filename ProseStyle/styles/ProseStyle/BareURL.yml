@@ -14,11 +14,11 @@ scope:
   - link
   - alt
 nonword: true
-# A match never ends on a full stop, a comma, a colon, a semicolon, `!` or
-# `?`, so the stop that ends the link text in "[see https://a.example/x.](t)"
-# stays out of the alert.
+# A match never ends on a full stop, a comma, a colon, a semicolon, `!`, `?`
+# or a quote, so the stop that ends the link text in
+# "[see https://a.example/x.](t)" and a closing quote stay out of the alert.
 raw:
-  - 'https?://[^\s<>]*[^\s<>.,;:!?]'
+  - 'https?://[^\s<>]*[^\s<>.,;:!?"'']'
 tests:
   - name: flags a bare URL and an autolink
     input: See https://example.com/x here, and <https://auto.example>.
@@ -69,13 +69,19 @@ tests:
     absent:
       - "target.example"
       - "img.example"
-  - name: leaves the full stop that ends link text out of the match
+  - name: leaves the full stop or quote that ends a URL out of the match
     input: |
       Read [see https://stop.example/x.](https://target.example/y) first.
+
+      Read [see "https://quoted.example/x"](https://target.example/y) and ![photo of "https://alt.example/z"](img.png).
     contains:
       - "'https://stop.example/x'"
+      - "'https://quoted.example/x'"
+      - "'https://alt.example/z'"
     absent:
       - "x.'"
+      - "x\"'"
+      - "z\"'"
   - name: flags a reference definition that continues a paragraph
     about: CommonMark reads the line as paragraph text, and Vale's lookbehind passed it.
     input: |
