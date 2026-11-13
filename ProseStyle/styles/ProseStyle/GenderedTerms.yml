@@ -14,7 +14,7 @@ swap:
   authoress: author
   camera(?:m[ae]n|wom[ae]n): camera operator(s)
   chair(?:m[ae]n|wom[ae]n): chair
-  door(?:m[ae]|wom[ae]n): concierge(s)
+  door(?:m[ae]n|wom[ae]n): concierge(s)
   draft(?:m[ae]n|wom[ae]n): drafter(s)
   fire(?:m[ae]n|wom[ae]n): firefighter(s)
   fisher(?:m[ae]n|wom[ae]n): fisher(s)
@@ -53,6 +53,13 @@ tests:
       1:24:ProseStyle.GenderedTerms:Consider 'firefighter(s)' instead of 'firemen'.
       1:38:ProseStyle.GenderedTerms:Consider 'workforce' instead of 'manpower'.
       1:51:ProseStyle.GenderedTerms:Consider 'humankind' instead of 'mankind'.
+
+  - name: fires on doorman as on doorwoman
+    input: >
+      Ask the doorman or the doorwoman.
+    want: |
+      1:9:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doorman'.
+      1:24:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doorwoman'.
 
   - name: clean
     input: >
