@@ -17,7 +17,7 @@ tests:
     input: |
       The state says it is not done. The adapter knows its names.
 
-      A request asks for the rows, and the docs say so.
+      A request asks for the rows, and the docs say it works.
     contains:
       - "'state says'"
       - "'adapter knows'"
