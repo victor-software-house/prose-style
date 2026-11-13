@@ -1,0 +1,21 @@
+# Derived from the Direct voice of Vale Voices and the SentenceLength rule of
+# errata-ai/IBM (MIT). See NOTICE.
+#
+# A sentence over 25 words is a hint, so a sentence over 40 words draws this
+# suggestion and LongSentence. The message carries the count, not the limit.
+extends: occurrence
+message: "Sentence runs to %d words. Split it."
+level: suggestion
+scope: sentence
+max: 25
+token: \b(\w+)\b
+tests:
+  - name: fires
+    input: |
+      When you have finished the installation and confirmed that the service starts, open the settings page and choose the account you want to connect, and then paste the token.
+    want: |
+      1:1:ProseStyle.SentenceLength:Sentence runs to 29 words. Split it.
+  - name: clean
+    input: |
+      Open the settings page. Choose the account.
+    want: ""

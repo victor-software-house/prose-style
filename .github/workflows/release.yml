@@ -1,6 +1,6 @@
-# A tag v0.0.N on main publishes ProseStyle.zip, the asset projects pin in
-# their Packages list, and PullRequestStyle.zip, which the organization's pull
-# request check reads after it.
+# A tag v0.0.N on main publishes ProseStyle.zip, the hakkiri package a project
+# pins by url and sha256 in .ctl/hakkiri.yaml, and PullRequestStyle.zip, the
+# Vale package the organization's pull request check reads.
 name: Release
 
 on:
@@ -36,5 +36,16 @@ jobs:
           TAG: ${{ github.ref_name }}
         run: |
           base="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}"
-          gh release create "$TAG" ProseStyle.zip PullRequestStyle.zip --title "$TAG" \
-            --notes "Packages = ${base}/ProseStyle.zip"
+          hash="$(sha256sum ProseStyle.zip | cut -d' ' -f1)"
+          {
+            echo "Add the package to \`.ctl/hakkiri.yaml\`:"
+            echo
+            echo '```yaml'
+            echo "packages:"
+            echo "  - url: ${base}/ProseStyle.zip"
+            echo "    sha256: ${hash}"
+            echo '```'
+            echo
+            echo "PullRequestStyle.zip is the Vale package of the pull request check: \`Packages = ${base}/PullRequestStyle.zip\`."
+          } > notes.md
+          gh release create "$TAG" ProseStyle.zip PullRequestStyle.zip --title "$TAG" --notes-file notes.md

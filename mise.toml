@@ -1,6 +1,9 @@
 min_version = "2026.11.6"
 
 [tools]
+# The rules and the package cases run on hakkiri; Vale runs only the pull
+# request package, which reads the frozen v0.0.14 ProseStyle zip.
+"github:victor-software-house/hakkiri" = "0.0.6"
 "aqua:vale-cli/vale" = "3.26.0"
 
 [settings]
@@ -9,17 +12,18 @@ locked = true
 
 [tasks."test:rules"]
 description = "Every rule's own cases; every rule must fire in one"
+run = "hakkiri test --coverage ProseStyle/styles"
+
+[tasks."test:pull-request"]
+description = "The pull request package's rules and cases, on Vale and the frozen v0.0.14 ProseStyle zip"
+depends = ["build"]
+dir = "test/pull-request"
 run = [
-  "vale test --coverage ProseStyle/styles/ProseStyle",
-  "vale test --coverage PullRequestStyle/styles/PullRequestStyle",
+  "vale test --coverage ../../PullRequestStyle/styles/PullRequestStyle",
+  "vale sync --plain-progress",
+  "vale test package.test.yml",
 ]
 
-[tasks."test:package"]
-description = "Sync the built zip into test/ as a project does, then run its project cases"
-depends = ["build"]
-dir = "test"
-run = ["vale sync --plain-progress", "vale test package.test.yml"]
-
 [tasks.test]
-description = "Rule cases and package cases"
-depends = ["test:rules", "test:package", "test:messages", "test:alerts"]
+description = "Rule cases, package cases, pull request cases and the alert diff task"
+depends = ["test:rules", "test:package", "test:messages", "test:pull-request", "test:alerts"]

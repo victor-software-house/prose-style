@@ -1,21 +1,26 @@
 # A bare URL shows the reader an address in place of a name.
-# Raw scope, because Vale strips URLs from prose scopes. Link targets, inline
-# code and reference definitions pass; autolinks count as bare.
-# Raw scope also reads fenced code blocks, so the first lookbehind skips a URL
-# after an odd number of fence lines (``` or ~~~, indented or not): a command
-# in a code block keeps its literal URL. The lookahead after it skips a URL
-# inside a code span on its line, such as `curl https://example.com`. It
-# pairs backtick runs as CommonMark does: a run of 1 to 3 opens a span that
-# the next run of the same length closes, a run with no such closer later on
-# the line is literal, and an escaped backtick opens nothing. A span opened by
-# 4 or more backticks counts as text.
+# The rule reads the link scope, where a URL written bare, an autolink and a
+# link whose text holds a URL show as a link, and the alt scope, where the text
+# of an image holds one. A link with words as text, a URL in a code span or a
+# fenced block, a link target and a reference definition never reach those
+# scopes, so a command in a code block keeps its literal URL. The earlier
+# pattern looked behind each URL for fences and code spans and ran out of
+# backtracking steps on long files. A URL in a link's title attribute is in no
+# scope hakkiri reads.
 extends: existence
 message: "Bare URL '%s': put the link on the words that name it."
 level: error
-scope: raw
+scope:
+  - link
+  - alt
 nonword: true
-tokens:
-  - '(?<!\A(?:(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n))*(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*(?:[ \t]*(?:```|~~~)[^\n]*\n)(?:(?![ \t]*(?:```|~~~))[^\n]*\n)*[^\n]*)(?!(?<=(?:\A|\n)(?:(?:[^`\n]|\\`|(?<![`\\])`(?!`)(?![^\n]*?(?<!`)`(?!`))|(?<![`\\])``(?!`)(?![^\n]*?(?<!`)``(?!`))|(?<![`\\])```(?!`)(?![^\n]*?(?<!`)```(?!`))|(?<!`)`{4,}(?!`))|(?:(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*(?<!`)`(?!`)|(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*(?<!`)``(?!`)|(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*(?<!`)```(?!`)))*(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*)(?=[^\n]*?(?<!`)`(?!`))|(?<=(?:\A|\n)(?:(?:[^`\n]|\\`|(?<![`\\])`(?!`)(?![^\n]*?(?<!`)`(?!`))|(?<![`\\])``(?!`)(?![^\n]*?(?<!`)``(?!`))|(?<![`\\])```(?!`)(?![^\n]*?(?<!`)```(?!`))|(?<!`)`{4,}(?!`))|(?:(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*(?<!`)`(?!`)|(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*(?<!`)``(?!`)|(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*(?<!`)```(?!`)))*(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*)(?=[^\n]*?(?<!`)``(?!`))|(?<=(?:\A|\n)(?:(?:[^`\n]|\\`|(?<![`\\])`(?!`)(?![^\n]*?(?<!`)`(?!`))|(?<![`\\])``(?!`)(?![^\n]*?(?<!`)``(?!`))|(?<![`\\])```(?!`)(?![^\n]*?(?<!`)```(?!`))|(?<!`)`{4,}(?!`))|(?:(?<![`\\])`(?!`)(?:[^`\n]|(?<!`)`{2,}(?!`))*(?<!`)`(?!`)|(?<![`\\])``(?!`)(?:[^`\n]|(?<!`)`{1,1}(?!`)|(?<!`)`{3,}(?!`))*(?<!`)``(?!`)|(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*(?<!`)```(?!`)))*(?<![`\\])```(?!`)(?:[^`\n]|(?<!`)`{1,2}(?!`)|(?<!`)`{4,}(?!`))*)(?=[^\n]*?(?<!`)```(?!`)))(?<![\(`/"=:])(?<!\]: )(?<!= )https?://[\w./?=&%#~:+-]+'
+# A match never ends on a full stop, a comma, a colon, a semicolon, `!`, `?`
+# or a quote, so the stop that ends the link text in
+# "[see https://a.example/x.](t)" and a closing quote stay out of the alert.
+# A closing parenthesis stays in, so "Foo_(bar)" is reported whole, and
+# "[see (https://a.example/x)](t)" reports the URL with its parenthesis.
+raw:
+  - 'https?://[^\s<>]*[^\s<>.,;:!?"'']'
 tests:
   - name: flags a bare URL and an autolink
     input: See https://example.com/x here, and <https://auto.example>.
@@ -50,6 +55,42 @@ tests:
       https://tilde.example
       ~~~
     want: ''
+  - name: flags a URL in link text, in parentheses and in the alt text of an image
+    input: |
+      Link text [see https://text.example/a for details](https://target.example/b) here.
+
+      A note (https://paren.example/x) and a quote "https://quote.example/y" here.
+
+      An image ![logo https://alt.example/a](https://img.example/b) and ![https://alt2.example/c](https://img.example/d).
+    contains:
+      - "'https://text.example/a'"
+      - "'https://paren.example/x'"
+      - "'https://quote.example/y'"
+      - "'https://alt.example/a'"
+      - "'https://alt2.example/c'"
+    absent:
+      - "target.example"
+      - "img.example"
+  - name: leaves the full stop or quote that ends a URL out of the match
+    input: |
+      Read [see https://stop.example/x.](https://target.example/y) first.
+
+      Read [see "https://quoted.example/x"](https://target.example/y) and ![photo of "https://alt.example/z"](img.png).
+    contains:
+      - "'https://stop.example/x'"
+      - "'https://quoted.example/x'"
+      - "'https://alt.example/z'"
+    absent:
+      - "x.'"
+      - "x\"'"
+      - "z\"'"
+  - name: flags a reference definition that continues a paragraph
+    about: CommonMark reads the line as paragraph text, and Vale's lookbehind passed it.
+    input: |
+      A line of text
+      [ref]: https://continued.example/x
+    contains:
+      - "'https://continued.example/x'"
   - name: flags a bare URL after a closed fence
     input: |
       ```sh

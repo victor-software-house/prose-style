@@ -1,0 +1,26 @@
+# Derived from errata-ai/Readability (MIT). See NOTICE.
+#
+# The words behind a SMOG or Gunning fog score: each one of three or more
+# syllables. A word counts when it has four vowel groups, or three groups and
+# no ending that takes one off: a silent final e (not -le, -ee), -ed (not
+# [td]ed) or -es (not [sxz]es, [cs]hes). That is the count of the Tengo script
+# this rule replaces, which agreed with it on 238,342 words. Off until a
+# project turns it on.
+extends: existence
+message: "'%s' has three or more syllables. It counts toward the Simple Measure of Gobbledygook (SMOG) and Gunning fog scores."
+link: https://en.wikipedia.org/wiki/SMOG
+level: suggestion
+scope: paragraph
+ignorecase: true
+raw:
+  - '(?<![A-Za-z])(?<![A-Za-z]'')(?=[A-Za-z][A-Za-z'']{4})(?:(?:[b-df-hj-np-tv-xz]|''(?=[A-Za-z]))*(?:[aeiouy]+(?![aeiouy])(?:[b-df-hj-np-tv-xz]|''(?=[A-Za-z]))*){4,}(?![A-Za-z]|''[A-Za-z])|(?:[b-df-hj-np-tv-xz]|''(?=[A-Za-z]))*(?:[aeiouy]+(?![aeiouy])(?:[b-df-hj-np-tv-xz]|''(?=[A-Za-z]))*){3}(?![A-Za-z]|''[A-Za-z])(?:(?<!e)(?<!ed)(?<!es)|(?<=[le]e)|(?<=[td]ed)|(?<=[sxz]es)|(?<=[cs]hes)))'
+tests:
+  - name: flags words of three or more syllables
+    input: The organization reached a reasonable agreement.
+    contains:
+      - "'organization'"
+      - "'reasonable'"
+      - "'agreement'"
+  - name: leaves short words and a cut ending alone
+    input: The cat sat on the mat. They opened the boxes.
+    want: ""
