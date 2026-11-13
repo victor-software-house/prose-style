@@ -1,0 +1,18 @@
+# Derived from errata-ai/Readability (MIT). See NOTICE.
+# Off until a project turns it on.
+extends: metric
+message: "Try to keep the Automated Readability Index (%s) below 8."
+link: https://en.wikipedia.org/wiki/Automated_readability_index
+
+formula: |
+  (4.71 * (characters / words)) + (0.5 * (words / sentences)) - 21.43
+
+condition: "> 8"
+tests:
+  - name: fires on a hard text
+    input: >
+      Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
+    contains: Automated Readability Index
+  - name: leaves a plain text alone
+    input: The cat sat on the mat.
+    want: ""

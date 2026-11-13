@@ -10,13 +10,14 @@ exceptions:
 tokens:
   - tag: NN|NNS
     pattern: '[A-Za-z][\w-]*'
-  - pattern: says?|said|tells?|told|knows?|knew|thinks?|thought|wants?|agrees?|asks?|asked|believes?|hopes?|understands?|insists?
+  - tag: ^(?:VB|VBD|VBP|VBZ)$
+    pattern: says?|said|tells?|told|knows?|knew|thinks?|thought|wants?|agrees?|asks?|asked|believes?|hopes?|understands?|insists?
 tests:
   - name: flags a noun for a thing that speaks or thinks
     input: |
       The state says it is not done. The adapter knows its names.
 
-      A request asks for the rows, and the docs say so.
+      A request asks for the rows, and the docs say it works.
     contains:
       - "'state says'"
       - "'adapter knows'"

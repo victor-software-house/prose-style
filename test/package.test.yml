@@ -1,5 +1,5 @@
-# Project cases: linted through the built ProseStyle.zip, the way a project
-# that names the release runs.
+# Project cases: linted through the built ProseStyle.zip, unpacked and listed
+# the way a project that names the release runs.
 - name: every enabled style reaches a Markdown file
   input: |
     The blocker is load-bearing — so we wait, e.g. a day.
@@ -10,64 +10,53 @@
   contains:
     - ProseStyle.StockPhrases
     - ProseStyle.Dashes
-    - Std.Abbreviations.Latin
-    - Direct.Length
-- name: a label and a colon passes
-  about: Voices.ColonReveal fires on this line when it is on.
-  input: |
-    The cause: the socket closed mid-body.
-  absent: Voices.ColonReveal
+    - ProseStyle.LatinAbbreviation
+    - ProseStyle.SentenceLength
 - name: short everyday prose passes
   input: |
     The worker reads the cache.  
     It holds one file per session.
   want: ''
-- name: the Voices style runs
+- name: the ports of the Voices rules run
   input: |
     We make a decision each week.
   contains:
-    - Voices.WeakVerbs
+    - ProseStyle.WeakVerbs
 - name: a Rust doc comment is Markdown
-  format: .rs
+  format: rs
   input: |
     /// The blocker is load-bearing, e.g. a day.
     fn wait() {}
   contains:
     - ProseStyle.StockPhrases
-    - Std.Abbreviations.Latin
-- name: reading ease stays off in Rust
-  about: Direct.Ease fires on one-line paragraphs when it is on.
-  format: .rs
-  input: |
-    /// Closes the socket.
-    fn close() {}
-  want: ''
+    - ProseStyle.LatinAbbreviation
 - name: a text file is not prose
-  format: .txt
+  about: The globs of the package select Markdown, MDX and Rust, so a text file draws no alert.
+  format: txt
   input: |
     The blocker is load-bearing — so we wait.
   want: ''
 - name: inline code in a Rust doc comment passes
-  about: Without rs = md, Vale reads the comment as plain text and flags the code.
-  format: .rs
+  about: hakkiri reads a Rust comment as Markdown, so the code span passes.
+  format: rs
   input: |
     /// The `load-bearing` flag.
     fn flag() {}
   want: ''
 - name: harness as a noun passes
-  about: Voices.Banned flags harness; the package vocabulary accepts the noun.
+  about: ProseStyle.SlopWords flags harness; the package vocabulary accepts the noun.
   input: |
-    The freshness harness reads stdout.  
+    The freshness harness writes to stdout.  
     Run the measurement harnesses.
   want: ''
 - name: harness as a verb fails
   input: |
     They harnessed the cache. We are harnessing it.
   contains:
-    - Voices.Banned
+    - ProseStyle.SlopWords
 - name: a URL in a Rust string literal passes
   about: The shapes verctl reported, in a formatdoc! output, an indoc! error sample and an indoc! YAML fixture.
-  format: .rs
+  format: rs
   input: |
     fn expected() -> String {
         formatdoc! {"
@@ -87,7 +76,7 @@
     "#};
   want: ''
 - name: a bare URL in a Rust comment fails once
-  format: .rs
+  format: rs
   input: |
     /// Read https://doc.example first.
     fn read() {}
@@ -103,14 +92,14 @@
   absent:
     - ProseStyle.BareURLInComment
 - name: a code in a Rust string literal passes
-  format: .rs
+  format: rs
   input: |
     const SAMPLE: &str = indoc! {"
         error: ticket EVO-9673 is closed, see #123
     "};
   want: ''
 - name: a bare code in a Rust comment fails once
-  format: .rs
+  format: rs
   input: |
     /// Fixed in EVO-9673.
     fn fix() {}
@@ -125,29 +114,30 @@
     - "ProseStyle.BareWorkItem:"
   absent:
     - ProseStyle.BareWorkItemInComment
-- name: a pull request title runs the title rule and the prose rules
-  format: .pr-title
+- name: an opt-in rule is off until a project turns it on
+  about: The package settings set PassiveVoice off for Markdown. The project config turns it on for Rust files.
   input: |
-    Updated the parser!
+    The cache was bought by the team.
+  absent: ProseStyle.PassiveVoice
+- name: a project turns an opt-in rule on
+  format: rs
+  input: |
+    /// The cache was bought by the team.
+    fn cache() {}
   contains:
-    - PullRequestStyle.ConventionalTitle
-    - ProseStyle.Exclamation
-  absent: Direct.Ease
-- name: a Conventional Commit title passes, its type and scope unread
-  format: .pr-title
+    - ProseStyle.PassiveVoice
+- name: harness the power draws one alert
   input: |
-    feat(ver)!: add a breaking patch bump
-  want: ''
-- name: a pull request body flags a bare work item and keeps line breaks plain
-  format: .pr-body
-  input: |
-    The bump needs VER-117 first.
-    Its tests pass in CI.
+    Harness the power of the cache.
   contains:
-    - ProseStyle.BareWorkItem
-  absent: ProseStyle.HardBreak
-- name: a pull request body passes a reference GitHub linked
-  format: .pr-body
+    - ProseStyle.SlopWords
+  absent:
+    - ProseStyle.StockPhrases
+- name: stands as a testament draws one alert
   input: |
-    The bump needs [VER-117](https://example.com/queue/VER-117) first.
-  absent: ProseStyle.BareWorkItem
+    This stands as a testament to the team.
+  contains:
+    - ProseStyle.Puffery
+  absent:
+    - ProseStyle.FormalWords
+    - ProseStyle.StockPhrases

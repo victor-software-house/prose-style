@@ -1,0 +1,45 @@
+# Read by hakkiri before the project's own .ctl/hakkiri.yaml, which wins.
+# Words the style flags that have a plain technical use here.
+vocab: [ProseStyle]
+
+files:
+  '*.{md,mdx,rs}':
+    styles: [ProseStyle]
+    # Opt-in rules: a project turns one on with `ProseStyle.<Rule>: on` under
+    # its own glob.
+    ProseStyle.AutomatedReadability: off
+    ProseStyle.ColemanLiau: off
+    ProseStyle.FleschReadingEase: off
+    ProseStyle.GunningFog: off
+    ProseStyle.LIX: off
+    ProseStyle.SMOG: off
+    ProseStyle.Polysyllables: off
+    ProseStyle.PassiveVoice: off
+    ProseStyle.OxfordComma: off
+    ProseStyle.Contractions: off
+    ProseStyle.FirstPersonPlural: off
+    ProseStyle.FirstPersonSingular: off
+    ProseStyle.DateFormat: off
+    ProseStyle.TimeFormat: off
+
+  # Raw scope reads the whole of a Rust file, string literals included.
+  # BareURLInComment and BareWorkItemInComment read only its comments.
+  # The line-break rules are Markdown source habits, not comment habits.
+  '*.rs':
+    ProseStyle.BareURL: off
+    ProseStyle.BareWorkItem: off
+    ProseStyle.SentencePerLine: off
+    ProseStyle.HardBreak: off
+    ProseStyle.VagueLinkText: off
+    ProseStyle.UnpinnedCodeLink: off
+
+  # An OpenSpec change describes a change, so words about time belong there.
+  '**/openspec/changes/**/*.md':
+    ProseStyle.StaleWords: off
+
+  # OpenSpec requires the headings Why and What Changes in a proposal, and
+  # ChattyHeadings flags both. Only those two lines are skipped, and only in
+  # proposal.md files, the archive's included.
+  '**/openspec/changes/**/proposal.md':
+    block_ignores:
+      - '(?m)^## (?:Why|What Changes)$'

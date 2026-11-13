@@ -1,10 +1,16 @@
 # Three sentences in a row that open with one word read as a template.
-# Agent docs hit this 4.9 times as often as human design docs. The script reads paragraphs, so list items pass.
-extends: script
+# Agent docs hit this 4.9 times as often as human design docs. A paragraph is read, so list items pass.
+# A full stop inside a word, as in 62.33 or cache.db, does not end a sentence, and a sentence that
+# opens with a code span, which reads as the letter x, breaks a run. A hard break, two spaces and a line
+# break after a full stop, is as good as one space.
+extends: existence
 message: "Three sentences in a row open with '%s': change the opening of one."
 level: warning
 scope: paragraph
-script: SameSentenceStart.tengo
+ignorecase: true
+nonword: true
+tokens:
+  - '(?<![\w''-])(?<=\A|[.!?]\s|[.!?]\s\s|[.!?]\s\s\s|[.!?]["'')\]]\s|[.!?]["'')\]]\s\s|[.!?]["'')\]]\s\s\s)(?!x\b)([A-Za-z][A-Za-z''-]*)\b(?=(?:[^.!?]|[.!?]+(?!["'')\]]*\s))*[.!?]+["'')\]]*\s+\1\b(?:[^.!?]|[.!?]+(?!["'')\]]*\s))*[.!?]+["'')\]]*\s+\1\b)'
 tests:
   - name: flags three sentences that open with one word
     input: >
@@ -20,3 +26,15 @@ tests:
       - Use the flag.
       - Use more.
     want: ''
+  - name: reads a run across decimals, file names and line breaks
+    input: |
+      The build took 62.33 s on the box.
+      The cache is in cache.db now.
+      The log is clean.
+    contains: "open with 'The'"
+  - name: leaves a run broken by a sentence that opens with a code span
+    input: The build ran. `make` then ran. The log is clean. The cache is warm.
+    want: ''
+  - name: reads a run over hard breaks
+    input: "The build ran.  \nThe log is clean.  \nThe cache is warm."
+    contains: "open with 'The'"

@@ -1,14 +1,16 @@
-# A bare PR, MR, ticket or ledger code names nothing a reader knows.
-# Say what it is, and link it. A code in link text, in a code span or in a
-# fenced block passes, and so does a standard name such as SHA-256, DNS-01
-# or UTC-3.
+# A bare PR, MR, ticket or ledger code names nothing a reader knows, whatever
+# its number of digits. Say what it is, and link it. A code in link text, in a
+# code span or in a fenced block passes, and so does a standard name such as
+# SHA-256, DNS-01 or UTC-3, a licence identifier such as MPL-2.0 or BSD-2, and
+# a Unicode standard number such as UAX #9.
 # A script reads the file once. A regex with a fence lookbehind rescanned the
 # file from the top at each code: 64 s on a file of 8,000 codes.
-extends: script
+extends: existence
 message: "Bare reference '%s': write what it points to, such as pull request or ticket, and link it."
 level: error
-scope: raw
-script: BareWorkItem.tengo
+scope: text & ~code & ~link
+raw:
+  - '(?<![\[\w/`#&-])(?<!(?:UAX|UTS|UTR) )(?!(?:SHA|UTF|ISO|RFC|CVE|AES|TLS|HTTP|DNS|UTC|GMT|IPv|W|MPL|GPL|LGPL|AGPL|EUPL|BUSL|EPL|CDDL|BSD|OFL|ECMA|FNV|IEEE)-)(?:#\d+|![1-9]\d*|[A-Z][A-Z0-9]{1,6}-\d+)(?![\w\]`-])'
 tests:
   - name: flags PR, ticket and MR codes
     input: 'See PR #123, EVO-9673, and !294 for details.'
@@ -40,8 +42,19 @@ tests:
       ```
     want: |
       5:6:ProseStyle.BareWorkItem:Bare reference 'EVO-9673': write what it points to, such as pull request or ticket, and link it.
+  - name: flags a code with one digit or many
+    input: 'See QCTL-6, VER-117, PR #1, MR !2 and PR #123456 for details.'
+    contains:
+      - "'QCTL-6'"
+      - "'VER-117'"
+      - "'#1'"
+      - "'!2'"
+      - "'#123456'"
   - name: flags a code after a closed code span
     input: 'Run `make` and then read PR #123 and EVO-9673 today.'
     contains:
       - "'#123'"
       - "'EVO-9673'"
+  - name: leaves a licence identifier and a Unicode standard number alone
+    input: Licensed MPL-2.0, GPL-3.0, AGPL-3.0, EUPL-1.2, BUSL-1.1 and BSD-2, with the rules of UAX #9 and ECMA-48.
+    want: ''

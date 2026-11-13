@@ -1,11 +1,12 @@
 # Five sentences with almost the same length read as generated text.
 # Human text varies more: a deviation of 9 to 11 words against 5.8 for agent replies.
 # Paragraph-level evidence is thin: 7 of 34 agent paragraphs and 9 of 84 human ones have a deviation of 4 or less.
-extends: script
+extends: metric
 message: "Five or more sentences run to almost the same length: vary them, or join two."
 level: warning
 scope: paragraph
-script: FlatRhythm.tengo
+formula: sentence_length_sd
+condition: '<= 4 && sentences >= 5'
 tests:
   - name: flags five sentences of nearly equal length
     input: >

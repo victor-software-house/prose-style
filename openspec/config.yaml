@@ -1,7 +1,7 @@
 schema: spec-driven
 
 context: |
-  prose-style is a Vale package that flags the speech habits of AI-written text.
+  prose-style is a hakkiri package that flags the speech habits of AI-written text.
   Rules live in ProseStyle/styles/ProseStyle/, one habit per file, each with tests;
   AGENTS.md holds the rule-writing rules.
   Writing style: the package's own rules apply. Plain words, short sentences,

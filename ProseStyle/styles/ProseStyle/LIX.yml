@@ -1,0 +1,27 @@
+# Derived from errata-ai/Readability (MIT). See NOTICE.
+# Off until a project turns it on.
+extends: metric
+message: "Try to keep the readability index (LIX) score (%s) below 35."
+
+link: https://en.wikipedia.org/wiki/Lix_(readability_test)
+# Very Easy: 20 - 25
+#
+# Easy: 30 - 35
+#
+# Medium: 40 - 45
+#
+# Difficult: 50 - 55
+#
+# Very Difficult: 60+
+formula: |
+  (words / sentences) + ((long_words * 100) / words)
+
+condition: "> 35"
+tests:
+  - name: fires on a hard text
+    input: >
+      Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
+    contains: (LIX) score
+  - name: leaves a plain text alone
+    input: The cat sat on the mat.
+    want: ""
