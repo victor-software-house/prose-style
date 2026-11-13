@@ -56,10 +56,11 @@ tests:
 
   - name: fires on doorman as on doorwoman
     input: >
-      Ask the doorman or the doorwoman.
+      Ask the doorman or the doorwoman, then the doormen.
     want: |
       1:9:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doorman'.
       1:24:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doorwoman'.
+      1:44:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doormen'.
 
   - name: clean
     input: >

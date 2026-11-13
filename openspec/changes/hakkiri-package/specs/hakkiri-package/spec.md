@@ -62,7 +62,7 @@ It SHALL name the vocabulary `ProseStyle`.
 
 #### Scenario: The vocabulary
 
-- **WHEN** a Markdown file holds `The freshness harness reads stdout.`
+- **WHEN** a Markdown file holds `The freshness harness writes to stdout.`
 - **THEN** `ProseStyle.SlopWords` reports nothing, and `They harnessed the cache.` draws `Inflated word: 'harnessed'. Say the plain thing.`
 
 ### Requirement: One fault draws one alert
