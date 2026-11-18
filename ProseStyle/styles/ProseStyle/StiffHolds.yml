@@ -5,8 +5,8 @@ message: "'%s' reads stiffly: write contains, stores or has."
 level: error
 ignorecase: true
 tokens:
-  - '\bholds\b'
-  - '\bholding\b(?! (?:down|the \w+ key)\b)'
+  - '\bholds\b(?![.,;:]| (?:a |the |an? read |an? write )?(?:lock|locks|mutex|latch|true)\b)'
+  - '\bholding\b(?! (?:down|the \w+ key|(?:a |the )?(?:lock|locks|mutex|latch))\b)'
 tests:
   - name: flags holds for what a thing contains
     input: The vault holds only SSH keys. A table holding the rows.
@@ -15,4 +15,7 @@ tests:
       - "'holding'"
   - name: leaves plain verbs and holding a key down alone
     input: The vault contains only SSH keys. Press Shift while holding down Option.
+    want: ''
+  - name: leaves locks and claims that hold alone
+    input: The thread holds a lock while holding the mutex. The invariant holds. It holds true.
     want: ''
