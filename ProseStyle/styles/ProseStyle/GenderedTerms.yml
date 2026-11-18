@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Google and errata-ai/Microsoft (MIT). See NOTICE.
 #
 extends: substitution
-message: "Consider '%s' instead of '%s'."
+message: "Write '%s' instead of '%s'."
 level: suggestion
 ignorecase: true
 action:
@@ -49,18 +49,18 @@ tests:
     input: >
       The chairman asked the firemen about manpower for mankind.
     want: |
-      1:5:ProseStyle.GenderedTerms:Consider 'chair' instead of 'chairman'.
-      1:24:ProseStyle.GenderedTerms:Consider 'firefighter(s)' instead of 'firemen'.
-      1:38:ProseStyle.GenderedTerms:Consider 'workforce' instead of 'manpower'.
-      1:51:ProseStyle.GenderedTerms:Consider 'humankind' instead of 'mankind'.
+      1:5:ProseStyle.GenderedTerms:Write 'chair' instead of 'chairman'.
+      1:24:ProseStyle.GenderedTerms:Write 'firefighter(s)' instead of 'firemen'.
+      1:38:ProseStyle.GenderedTerms:Write 'workforce' instead of 'manpower'.
+      1:51:ProseStyle.GenderedTerms:Write 'humankind' instead of 'mankind'.
 
   - name: fires on doorman as on doorwoman
     input: >
       Ask the doorman or the doorwoman, then the doormen.
     want: |
-      1:9:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doorman'.
-      1:24:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doorwoman'.
-      1:44:ProseStyle.GenderedTerms:Consider 'concierge(s)' instead of 'doormen'.
+      1:9:ProseStyle.GenderedTerms:Write 'concierge(s)' instead of 'doorman'.
+      1:24:ProseStyle.GenderedTerms:Write 'concierge(s)' instead of 'doorwoman'.
+      1:44:ProseStyle.GenderedTerms:Write 'concierge(s)' instead of 'doormen'.
 
   - name: clean
     input: >

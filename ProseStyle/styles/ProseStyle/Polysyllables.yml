@@ -7,7 +7,7 @@
 # this rule replaces, which agreed with it on 238,342 words. Off until a
 # project turns it on.
 extends: existence
-message: "'%s' has three or more syllables. It counts toward the Simple Measure of Gobbledygook (SMOG) and Gunning fog scores."
+message: "'%s' has three or more syllables: use a shorter word if one fits."
 link: https://en.wikipedia.org/wiki/SMOG
 level: suggestion
 scope: paragraph

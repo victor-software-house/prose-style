@@ -1,7 +1,7 @@
 # A link into another repository's code follows a branch that moves. Pin it to a commit.
 # The owner and repository are names, so a placeholder such as <owner>/<repo> passes.
 extends: existence
-message: "Link '%s' follows a branch: pin it to a commit."
+message: "Pin the link '%s' to a commit instead of a branch."
 level: error
 nonword: true
 scope: raw

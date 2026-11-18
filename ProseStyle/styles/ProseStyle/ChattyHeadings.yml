@@ -5,7 +5,7 @@
 # OpenSpec's "Why" and "What Changes" fail anywhere but the proposal.md of a
 # change, which the package's settings skip: OpenSpec requires them there.
 extends: existence
-message: "'%s' in a heading reads like chat: use a noun, such as Setup, Styles or Development."
+message: "Rewrite this heading as a noun phrase without '%s', such as Setup or Styles."
 level: error
 scope: heading
 ignorecase: true

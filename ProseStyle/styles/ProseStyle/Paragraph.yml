@@ -1,6 +1,6 @@
 # A paragraph over 60 words is a wall: split it, or make it a list or a table.
 extends: metric
-message: "This paragraph runs %s words, over 60: split it, or make it a list or a table."
+message: "This paragraph has %s words, over 60: split it, or make it a list or a table."
 level: warning
 scope: paragraph
 formula: words

@@ -1,7 +1,7 @@
 # "The same holds for" is a stiff idiom for a rule that covers one more case;
 # people write "the same applies to".
 extends: existence
-message: "'%s' reads stiffly: write 'the same applies'."
+message: "Write 'the same applies' instead of '%s'."
 level: error
 ignorecase: true
 tokens:

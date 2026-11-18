@@ -16,7 +16,7 @@
 # so a blank line stays inside the block, and a URL on a line of code is never
 # inside a fence.
 extends: existence
-message: "Bare URL '%s': put the link on the words that name it."
+message: "'%s' is a bare URL: put the link on the words that name its page."
 level: error
 scope: raw.rs
 nonword: true

@@ -1,6 +1,6 @@
 # Words that add tone and no content.
 extends: existence
-message: "Filler '%s': cut it."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 exceptions:

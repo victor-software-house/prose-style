@@ -1,7 +1,7 @@
 # Derived from errata-ai/Readability (MIT). See NOTICE.
 # Off until a project turns it on.
 extends: metric
-message: "Try to keep the Simple Measure of Gobbledygook (SMOG) grade (%s) below 10."
+message: "The Simple Measure of Gobbledygook (SMOG) grade is %s, over 10: use shorter words."
 link: https://en.wikipedia.org/wiki/SMOG
 
 formula: |

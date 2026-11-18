@@ -3,7 +3,7 @@
 # counted when this rule was an occurrence rule. An occurrence counts no match
 # that overlaps a code span in hakkiri, so it would count none.
 extends: metric
-message: "Sentence runs to %s words, over 40: split it into one sentence per idea."
+message: "This sentence has %s words, over 40: split it into one sentence per idea."
 level: error
 scope: sentence
 formula: words

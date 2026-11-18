@@ -1,7 +1,7 @@
 # "Holds" for what a file, field or program contains is a stiff verb that
 # agents overuse; people write contains, stores or has.
 extends: existence
-message: "'%s' reads stiffly: write contains, stores or has."
+message: "Write contains, stores or has instead of '%s'."
 level: error
 ignorecase: true
 tokens:
