@@ -1,15 +1,15 @@
 ## Why
 
-The package's rules come from habits that readers noticed.  
+The package's rules come from habits that readers noticed.
 Nothing measures how much more often agents use them than people do.
 
-[research.md][research] counts both sides.  
-Agent docs use semicolons 7.3 times as often as design docs from before 2022.  
+[research.md][research] counts both sides.
+Agent docs use semicolons 7.3 times as often as design docs from before 2022.
 They use colons inside a sentence 4.0 times as often, and `, not the` contrasts 7.7 times.
 
-A linear model that sees no topic words can tell agent sentences from human ones.  
-On held-out sources it never trained on, it scores 0.958 to 0.987.  
-The score is the area under the curve (AUC) of the receiver operating characteristic (ROC).  
+A linear model that sees no topic words can tell agent sentences from human ones.
+On held-out sources it never trained on, it scores 0.958 to 0.987.
+The score is the area under the curve (AUC) of the receiver operating characteristic (ROC).
 So the habits are real and measurable.
 
 ## What Changes
