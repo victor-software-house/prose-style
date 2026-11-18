@@ -1,5 +1,5 @@
-# Cases for the pull request package, linted through the frozen v0.0.14
-# ProseStyle zip, as the organization's pull request check reads it.
+# Cases for the pull request package.
+# They are linted through the frozen `v0.0.14` ProseStyle zip, as the organization's check of pull requests reads it.
 - name: a pull request title runs the title rule and the prose rules
   format: .pr-title
   input: |

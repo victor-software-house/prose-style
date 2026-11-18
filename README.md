@@ -4,7 +4,7 @@ A [hakkiri] package that flags the speech habits of AI-written text.
 
 ## Setup
 
-Pin the release in a project's `.ctl/hakkiri.yaml` by `url` and `sha256`.
+Pin the release in a project's `.ctl/hakkiri.yaml` by `url` and `sha256`.  
 The release notes print the entry:
 
 ```yaml
@@ -13,19 +13,22 @@ packages:
     sha256: <the hash in the release notes>
 ```
 
-The package's own `.ctl/hakkiri.yaml` turns the style on for Markdown, MDX, and the comments of Rust, Swift, Go, TypeScript, JavaScript, YAML, TOML and Shell files.
-It names the vocabulary `ProseStyle`, and hakkiri reads each comment as Markdown and never reads a string literal.
-In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of `BareURL` and `BareWorkItem`.
-They read comments only, so a URL or a code such as `#123` in a string literal passes.
+The package's own `.ctl/hakkiri.yaml` turns the style on for Markdown and MDX (Markdown with components).  
+It also checks the comments in Rust, Swift, Go, TypeScript, JavaScript, YAML, TOML and Shell files.  
+It sets the vocabulary to `ProseStyle`.  
+hakkiri reads each comment as Markdown and never reads a string literal.
+
+In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of `BareURL` and `BareWorkItem`.  
+They read comments only, so a URL or a code such as `#123` in a string literal passes.  
 A project adds globs only for other file types or its own exceptions, and its settings win over the package's.
 
-The zip contains the whole style, so hakkiri makes one download and caches it.
+The zip contains the whole style, so hakkiri makes one download and caches it.  
 `v0.0.14` is the last release a Vale project can pin: from the next release the zip is a hakkiri package, and Vale reads it no more.
 
 ## Style
 
-The one style `ProseStyle` has every rule, in [`ProseStyle/styles/ProseStyle`][rules].
-Seventeen of its rules are ports of rules from [Vale Voices][voices], [Std][std] and [Readability][readability], renamed and kept native: `SlopWords`, `BinaryContrast`, `InflatedWords`, `Puffery`, `RecapOpener`, `SuperficialAnalysis`, `ThroatClearing`, `WeakVerbs`, `VagueAttribution`, `Hedging`, `SentenceLength`, `Preamble`, `GradeLevel`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms`.
+The one style `ProseStyle` has every rule, in [`ProseStyle/styles/ProseStyle`][rules].  
+Seventeen of its rules are ports of rules from [Vale Voices][voices], [Std][std] and [Readability][readability], renamed and kept native: `SlopWords`, `BinaryContrast`, `InflatedWords`, `Puffery`, `RecapOpener`, `SuperficialAnalysis`, `ThroatClearing`, `WeakVerbs`, `VagueAttribution`, `Hedging`, `SentenceLength`, `Preamble`, `GradeLevel`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms`.  
 [`NOTICE`][notice] credits each source rule by rule, and [`LICENSE`][license] contains the MIT text.
 
 Fourteen more ship off, for a project to turn on with `ProseStyle.<Rule>: on` under a glob of its own:
@@ -37,12 +40,13 @@ Fourteen more ship off, for a project to turn on with `ProseStyle.<Rule>: on` un
 | `FirstPersonPlural`, `FirstPersonSingular` | the person of the text |
 | `DateFormat`, `TimeFormat` | how dates and times are written |
 
-A rule that catches an AI speech habit fails as an error.
-Rules on length and sentence shape warn, because a long table row or three sentences that open alike can be right: `Paragraph`, `ListItem`, `TableRow`, `ClauseChain`, `NounStack`, `PrepositionChain`, `SameSentenceStart` and `FlatRhythm`.
+A rule that catches an AI speech habit fails as an error.  
+Rules on length and sentence shape warn, because a long table row or three sentences that open alike can be right: `Paragraph`, `ListItem`, `TableRow`, `ClauseChain`, `NounStack`, `PrepositionChain`, `SameSentenceStart` and `FlatRhythm`.  
 `StockWords` and `StaleWords` warn too, because their words have plain uses a person has to judge.
-`UndefinedAcronym`, `SentencePerLine`, `HardBreak`, `GradeLevel`, `SentenceLength`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms` are suggestions.
-A sentence fails at 40 words (`LongSentence`), and `SentenceLength` hints at 25 as a suggestion.
-A project sees the suggestions when its `level` is `suggestion`.
+
+`UndefinedAcronym`, `SentencePerLine`, `HardBreak`, `GradeLevel`, `SentenceLength`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms` are suggestions.  
+A sentence fails at 40 words (`LongSentence`), and `SentenceLength` hints at 25 as a suggestion.  
+A project sees the suggestions when its `level` is `suggestion`.  
 The repository pins hakkiri 0.1.0.
 
 ## Habits
@@ -86,15 +90,18 @@ The repository pins hakkiri 0.1.0.
 ## Pull requests
 
 The organization's required `PR prose` check lints each pull request's title and description.  
-It runs on Vale, and reads the `v0.0.14` `ProseStyle.zip`, then `PullRequestStyle.zip`, with the same levels in every repository.  
-It writes the title to a `.pr-title` file and the description to a `.pr-body` file, so every setting for pull request text sits in sections for those two extensions and never reaches a project's docs.
+It runs on Vale, and reads the `v0.0.14` `ProseStyle.zip`, then `PullRequestStyle.zip`, with the same levels in every repository.
+
+It writes the title to a `.pr-title` file and the description to a `.pr-body` file.  
+So the settings for the text of a pull request apply only to those two extensions, and never reach a project's docs.
 
 | File | Rules |
 |:--|:--|
 | `.pr-title` | `PullRequestStyle.ConventionalTitle`, then the prose rules on the subject after the type and scope |
 | `.pr-body` | the prose rules, with `HardBreak` off: GitHub shows a line break in a description as a break |
 
-The check writes each reference GitHub links as a link before it lints: an issue or pull request number, and an id an [autolink reference][autolinks] covers.  
+Before it lints, the check turns each reference that GitHub links into a link.  
+These are issue and pull request numbers, and ids that an [autolink reference][autolinks] covers.  
 `BareWorkItem` then flags only what GitHub leaves as plain text.  
 A repository makes its own ids pass by adding an autolink reference for their prefix.
 
@@ -116,11 +123,12 @@ hakkiri 0.1.0 reads these comments, and Vale's own `<!-- vale ... -->` form.
 
 ## Development
 
-[mise] pins hakkiri, Vale and Python and defines the tasks.
+[mise] pins hakkiri, Vale and Python and defines the tasks.  
 Vale runs only the pull request package.
 
 | Task | Runs |
 |:--|:--|
+| `mise run lint:prose` | `hakkiri check` on this repository, then on `ProseStyle/styles`, at every level |
 | `mise run test` | The four test tasks below |
 | `mise run test:rules` | `hakkiri test --coverage`: every rule's cases, and every rule must fire in one |
 | `mise run test:package` | The package cases on the built zip, unpacked and listed as a project does |

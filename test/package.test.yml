@@ -1,5 +1,5 @@
-# Project cases: linted through the built ProseStyle.zip, unpacked and listed
-# the way a project that names the release runs.
+# Project cases, linted through the built `ProseStyle.zip`.
+# The zip is unpacked and listed the way a project runs when it pins the release.
 - name: every enabled style reaches a Markdown file
   input: |
     The blocker is load-bearing — so we wait, e.g. a day.
