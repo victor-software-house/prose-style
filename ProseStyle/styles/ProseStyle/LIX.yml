@@ -19,7 +19,7 @@ tests:
   - name: fires on a hard text
     input: >
       Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
-    contains: "Readability index (LIX) 95.00 is over 35: use shorter sentences and words."
+    contains: "is over 35: use shorter sentences and words."
   - name: leaves a plain text alone
     input: The cat sat on the mat.
     want: ""

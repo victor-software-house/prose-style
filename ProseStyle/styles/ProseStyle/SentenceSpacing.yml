@@ -4,7 +4,7 @@
 # The full stop case needs a word that starts in lowercase, so dotted identifiers such as `System.Text.Json` pass.
 # A `?` or a `!` never occurs in an identifier, so those cases match any word.
 extends: existence
-message: "Use one space between sentences."
+message: "Use one space between the sentences in '%s'."
 level: suggestion
 nonword: true
 tokens:
@@ -16,9 +16,9 @@ tests:
     input: >
       Restart the host.Then check the logs.  Every time!Always.
     want: |
-      1:13:ProseStyle.SentenceSpacing:Use one space between sentences.
-      1:36:ProseStyle.SentenceSpacing:Use one space between sentences.
-      1:49:ProseStyle.SentenceSpacing:Use one space between sentences.
+      1:13:ProseStyle.SentenceSpacing:Use one space between the sentences in 'host.T'.
+      1:36:ProseStyle.SentenceSpacing:Use one space between the sentences in 's.  E'.
+      1:49:ProseStyle.SentenceSpacing:Use one space between the sentences in 'e!A'.
 
   - name: clean
     input: >

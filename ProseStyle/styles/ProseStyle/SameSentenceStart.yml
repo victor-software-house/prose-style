@@ -19,7 +19,7 @@ tests:
     input: >
       The worker reads the cache. The cache holds one file. The file keeps
       one record.
-    contains: "Begin one another way."
+    contains: "Three sentences in a row start with"
   - name: leaves varied openings and list items alone
     input: |
       The worker reads the cache. A file holds one record. The daemon writes
@@ -34,10 +34,10 @@ tests:
       The build took 62.33 s on the box.
       The cache is in cache.db now.
       The log is clean.
-    contains: "Begin one another way."
+    contains: "Three sentences in a row start with"
   - name: leaves a run broken by a sentence that opens with a code span
     input: The build ran. `make` then ran. The log is clean. The cache is warm.
     want: ''
   - name: reads a run over hard breaks
     input: "The build ran.  \nThe log is clean.  \nThe cache is warm."
-    contains: "Begin one another way."
+    contains: "Three sentences in a row start with"
