@@ -2,7 +2,7 @@
 
 ## Purpose
 
-BareURL and BareURLInComment flag a URL written bare, and they finish on files of any size.
+BareURL and BareURLInComment flag a URL written bare, and they finish on files of any size.  
 The size limits come from the files that stopped Vale at release v0.0.6.
 
 ## Requirements
@@ -13,19 +13,22 @@ BareURL and BareURLInComment SHALL finish on a file of any line count and any li
 
 #### Scenario: A large generated file
 
-- **WHEN** a Rust file of 50,000 lines, or with a comment line of 50,000 characters, holds a URL in a comment
+- **WHEN** a Rust file of 50,000 lines, or with a comment line of 50,000 characters, contains a URL in a comment
 - **THEN** hakkiri reports the bare URL, prints no failure, and exits
 
 #### Scenario: A long Markdown file
 
-- **WHEN** a Markdown file of 12,000 lines, or with a line of 14,000 characters, holds a bare URL
+- **WHEN** a Markdown file of 12,000 lines, or with a line of 14,000 characters, contains a bare URL
 - **THEN** hakkiri reports it with no failure
 
 ### Requirement: The rewrite flags what v0.0.6 flags
 
 A rewrite of the bare URL check SHALL flag the same URLs as release v0.0.6 on every file where v0.0.6 finishes.  
-It SHALL also flag a URL in plain parentheses or in double quotes, and a reference definition that continues a paragraph, which v0.0.6 passes.  
-It SHALL NOT flag a URL in the title attribute of a link, which v0.0.6 flags, because no scope hakkiri reads holds a title.
+It SHALL also flag two cases that v0.0.6 passes.  
+These are a URL in plain parentheses or in double quotes, and a reference definition that continues a paragraph.
+
+It SHALL NOT flag a URL in the title attribute of a link, which v0.0.6 flags.  
+No scope that hakkiri reads contains a title.
 
 #### Scenario: The planted comparison
 
@@ -34,7 +37,7 @@ It SHALL NOT flag a URL in the title attribute of a link, which v0.0.6 flags, be
 
 #### Scenario: A URL in parentheses or double quotes
 
-- **WHEN** a Markdown paragraph holds `(https://l.example/x)` or `"https://m.example/y"`
+- **WHEN** a Markdown paragraph contains `(https://l.example/x)` or `"https://m.example/y"`
 - **THEN** the rewrite flags the URL, and v0.0.6 passes it because its lookbehind reads the character before it
 
 #### Scenario: A definition line that continues a paragraph
@@ -44,5 +47,5 @@ It SHALL NOT flag a URL in the title attribute of a link, which v0.0.6 flags, be
 
 #### Scenario: A URL in a link title
 
-- **WHEN** a Markdown paragraph holds `[t](https://a.example/a "see https://b.example/b")`
+- **WHEN** a Markdown paragraph contains `[t](https://a.example/a "see https://b.example/b")`
 - **THEN** the rewrite flags nothing in the title, and v0.0.6 flags `https://b.example/b`, a gap of the scopes hakkiri reads
