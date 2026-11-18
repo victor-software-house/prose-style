@@ -1,7 +1,7 @@
 # A heading that ends ", not Y" frames its subject against a straw man.
 # ContrastNot misses short forms such as "Cache, not disk".
 extends: existence
-message: "Contrast '%s' in a heading: name what the section holds."
+message: "Contrast '%s' in a heading: name what the section covers."
 level: error
 ignorecase: true
 nonword: true

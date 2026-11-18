@@ -1,0 +1,18 @@
+# "Holds" for what a file, field or program contains is a stiff verb that
+# agents overuse; people write contains, stores or has.
+extends: existence
+message: "'%s' reads stiffly: write contains, stores or has."
+level: error
+ignorecase: true
+tokens:
+  - '\bholds\b'
+  - '\bholding\b(?! (?:down|the \w+ key)\b)'
+tests:
+  - name: flags holds for what a thing contains
+    input: The vault holds only SSH keys. A table holding the rows.
+    contains:
+      - "'holds'"
+      - "'holding'"
+  - name: leaves plain verbs and holding a key down alone
+    input: The vault contains only SSH keys. Press Shift while holding down Option.
+    want: ''
