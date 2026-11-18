@@ -29,5 +29,18 @@ queue:
       - A pull request alert shows the current message of its rule.
     notes:
       - 2026-11-18, prose-style pull request 38 drew alerts in the old v0.0.14 wording, such as reads like chat.
+
+  - id: PST-003
+    title: Flag a program name that refuses, knows or says
+    scope: ProseStyle.ThingsAct, ProseStyle.ThingsSpeak
+    outcome: >-
+      A sentence that gives a program name a person's action, such as hakkiri
+      refuses, draws an alert.
+    blocked_by: []
+    acceptance:
+      - hakkiri refuses the key and Vale says the file is fine each draw an alert, with the verb to write instead.
+      - A person or a team as the subject, such as the operator refuses, passes.
+    notes:
+      - '2026-11-18, the hakkiri prose pass found hakkiri refuses across its specs with no alert: ThingsAct reads only a fixed list of nouns, such as file and server.'
 archive: []
 horizon: []
