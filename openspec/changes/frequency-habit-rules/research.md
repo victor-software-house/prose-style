@@ -1,9 +1,9 @@
 # Research: habits by frequency
 
-This change looks for the words, phrases and punctuation habits that agents use far more often than people.  
+This change looks for the words, phrases and punctuation habits that agents use far more often than people.
 It compares technical prose written by agents with human technical prose from before 2022.
 
-The answer comes from counts on two cleaned corpora, a ratio per n-gram, and a linear model that separates the two.  
+The answer comes from counts on two cleaned corpora, a ratio per n-gram, and a linear model that separates the two.
 Data was collected and measured on 2026-11-08 (UTC).
 
 ## Corpora
@@ -16,7 +16,7 @@ The agent side contains text written by coding agents in 2025 and 2026, from thr
 | Replies | Agent replies in 176 coding sessions from the last 30 days | 170,457 | — |
 | Thinking | Agent reasoning blocks in the same sessions | 288,476 | — |
 
-Docs leave out changelogs, licenses, vendored or generated folders, test fixtures and archives.  
+Docs leave out changelogs, licenses, vendored or generated folders, test fixtures and archives.
 Session text leaves out tool calls, tool results, sub-agent turns, compaction summaries and harness messages, and each block counts once across resumed sessions.
 
 The human side contains text written before ChatGPT's release on 2022-11-30.
@@ -29,7 +29,7 @@ The human side contains text written before ChatGPT's release on 2022-11-30.
 | [Kubernetes enhancements][k8s] | [5c1ad04][k8s-pin] | |
 | [Stack Exchange data dump][se-dump], April 2024, posts before 2022-11-30 | 8 sites below | 2,940,693 |
 
-Each design-doc pin is the last commit before 2021-12-31.  
+Each design-doc pin is the last commit before 2021-12-31.
 The Stack Exchange (SE) sites, with sentences kept:
 
 | Site | Sentences |
@@ -43,15 +43,15 @@ The Stack Exchange (SE) sites, with sentences kept:
 | math | 253,796 |
 | cstheory | 153,522 |
 
-Each site gave up to 60,000 questions and answers with a score of 2 or more, sampled evenly by post id.  
+Each site gave up to 60,000 questions and answers with a score of 2 or more, sampled evenly by post id.
 cstheory had 22,794 such posts and cs 50,420.
 
 ## Cleaning
 
 Every corpus goes through the same steps, so a difference cannot come from parsing.
 
-1. Parse each format with its own parser.  
-   Markdown uses [markdown-it-py][markdown-it] 4.0.0, reStructuredText uses [docutils][docutils] 0.21.2, and Stack Exchange HTML uses Python's `html.parser`.  
+1. Parse each format with its own parser.
+   Markdown uses [markdown-it-py][markdown-it] 4.0.0, reStructuredText uses [docutils][docutils] 0.21.2, and Stack Exchange HTML uses Python's `html.parser`.
    Only paragraphs and list items remain; code, tables, block quotes, headings and HTML blocks are dropped.
 2. Replace inline code, math and URLs with one placeholder, so no n-gram spans removed text.
 3. Split sentences, then keep a sentence only when it passes these checks:
@@ -72,21 +72,21 @@ Each n-gram of one to three words gets the log ratio from the [lexa-index][lexa]
 lpr = log2(((cM + 0.5) / (NM + 1)) / ((cH + 0.5) / (NH + 1)))
 ```
 
-Here `cM` and `cH` count the n-gram on each side.  
+Here `cM` and `cH` count the n-gram on each side.
 `NM` and `NH` count all n-grams on each side.
 
 Two filters keep habits apart from topics.
 
 - An n-gram needs at least 20 agent uses.
-- It must occur in many agent sources: half of the large repositories for a single word, 35% for two words, 25% for three.  
+- It must occur in many agent sources: half of the large repositories for a single word, 35% for two words, 25% for three.
   A source counts as large at 500 sentences or more.
 
-[spaCy][spacy] 3.8.7 with `en_core_web_sm` 3.8.0 tags each word's most common part of speech.  
+[spaCy][spacy] 3.8.7 with `en_core_web_sm` 3.8.0 tags each word's most common part of speech.
 So verbs, adjectives and adverbs can be read apart from nouns.
 
-A logistic regression then tests whether the habits separate the two sides at all.  
-Nouns, proper nouns and numbers become their tags, so topic words carry no signal.  
-Each source gets an even share of 60,012 sentences per side.  
+A logistic regression then tests whether the habits separate the two sides at all.
+Nouns, proper nouns and numbers become their tags, so topic words carry no signal.
+Each source gets an even share of 60,012 sentences per side.
 The five folds split by source, so a test fold never shares a repository or site with training.
 
 ## Results
@@ -108,18 +108,18 @@ Rates per 1,000 words:
 | Question mark | 0.48 | 0.23 | 0.03 | 0.72 | 4.56 | 5.39 | 4.60 | 5.51 | 4.07 |
 | Arrow | 0.40 | 0.06 | 0.03 | 0 | 0 | 0.01 | 0.01 | 0 | 0.02 |
 
-Agent docs use semicolons seven times as often as design docs, and colons inside a sentence four times as often.  
-Agents write `, not the` contrasts seven times as often, and almost never the human `not X but Y`.  
+Agent docs use semicolons seven times as often as design docs, and colons inside a sentence four times as often.
+Agents write `, not the` contrasts seven times as often, and almost never the human `not X but Y`.
 Humans write `we` and ask questions far more.
 
 Agent replies average 13.4 words per sentence with a standard deviation of 5.8; in human text the deviation runs from 9 to 11.
 
 ### Words and phrases in agent docs
 
-The spread filter kept 1,724 single words, 2,041 pairs and 453 triples, across 58 large agent sources and 12 human ones.  
+The spread filter kept 1,724 single words, 2,041 pairs and 453 triples, across 58 large agent sources and 12 human ones.
 The verbs, adjectives and adverbs with the highest ratios fall into two groups.
 
-- Verbs that make a thing act: `owns` (6.07), `refuses` (6.06), `survives` (5.53), `stays` (5.33), `carries` (5.18), `waits` (5.16) and `keeps` (4.87).  
+- Verbs that make a thing act: `owns` (6.07), `refuses` (6.06), `survives` (5.53), `stays` (5.33), `carries` (5.18), `waits` (5.16) and `keeps` (4.87).
   Others are `emits`, `restores`, `resolves`, `skips`, `supplies`, `declares`, `exposes`, `resumes` and `replaces`.
 - Stock adjectives and adverbs: `durable` (8.52), `pinned`, `stale`, `gated`, `scoped`, `authoritative`, `deliberate`, `silently`, `verbatim`, `untouched`, `observable`.
 
@@ -131,16 +131,16 @@ The verbs, adjectives and adverbs with the highest ratios fall into two groups.
 | `keeps its own` | 57 | 3 |
 | `not silently` | 98 | 7 |
 
-Some leaders belong to our own repositories, such as `the operator's`, `shall` and tool names; a rule must leave them out.  
+Some leaders belong to our own repositories, such as `the operator's`, `shall` and tool names; a rule must leave them out.
 Agent replies rank status-report words first (`rebased`, `queued`, `landed`, `once CI is green`), which fit a review of chat more than a docs lint.
 
-Eleven of these words also appear in the [claudeisms][claudeisms] list (surfaces, carries, stays, survives, renders, lands, wiring, handoff, drift, ships, touches).  
-Lists built for fiction or papers fit worse.  
+Eleven of these words also appear in the [claudeisms][claudeisms] list (surfaces, carries, stays, survives, renders, lands, wiring, handoff, drift, ships, touches).
+Lists built for fiction or papers fit worse.
 Only 12 of 1,648 [slop-score][slop-score] words and 52 of 407 academic style words from [Kobak et al.][excess-vocab] pass the spread filter.
 
 ### The linear model
 
-The table gives the score per fold on held-out data, with topic words masked.  
+The table gives the score per fold on held-out data, with topic words masked.
 The score is the area under the curve (AUC) of the receiver operating characteristic (ROC).
 
 | Fold | AUC | Sentences |
@@ -153,7 +153,7 @@ The score is the area under the curve (AUC) of the receiver operating characteri
 
 So the habits alone separate the two sides on repositories and sites the model never saw.
 
-Agent-side features include the em dash (2,803 agent sentences against 84 human), the semicolon (6,842 against 1,005), `→`, `, not`, `stays`, `owns`, `keeps`, `stale`, `durable` and `verbatim`.  
+Agent-side features include the em dash (2,803 agent sentences against 84 human), the semicolon (6,842 against 1,005), `→`, `, not`, `stays`, `owns`, `keeps`, `stale`, `durable` and `verbatim`.
 Human-side features include `I`, `however`, `thus`, `hence`, `i.e.`, `suppose`, `note that`, `perhaps` and `seems`.
 
 Agent-side features also contain genre markers from our guides, such as `good, because` (398 against 0) and `shall`, so the model learns genre as well as voice.

@@ -1,0 +1,17 @@
+# A paragraph of more than 5 sentences has more than one idea.
+# Split it, or make it a list.
+# The British government sets 5 as the limit.
+# Google's guide gives 3 to 5 as the length readers like.
+extends: metric
+message: "Split this %s-sentence paragraph."
+level: warning
+scope: paragraph
+formula: sentences
+condition: "> 5.0"
+tests:
+  - name: flags a paragraph of six sentences
+    input: "One. Two. Three. Four. Five. Six.\n"
+    contains: ProseStyle.ParagraphSentences
+  - name: leaves a paragraph of five sentences alone
+    input: "One.\nTwo.\nThree.\nFour.\nFive.\n"
+    want: ''
