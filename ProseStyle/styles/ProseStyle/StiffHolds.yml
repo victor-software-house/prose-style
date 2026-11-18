@@ -5,21 +5,23 @@ message: "'%s' reads stiffly: write contains, stores or has."
 level: error
 ignorecase: true
 tokens:
-  - '(?<!\bsame )\bholds\b(?![.;]| for\b| (?:a |an |the )?(?:\w+ )?(?:lock|locks|mutex|latch)\b| true\b)'
-  - '\bsame holds\b'
-  - '\bholding\b(?! (?:down|the \w+ key|(?:a |the )?(?:lock|locks|mutex|latch))\b)'
+  - '(?<!\bsame )\bholds\b(?![.;]|,? (?:for|if|when|because|so|unless|as long as)\b| (?:a |an |the )?(?:\w+[- ])?(?:lock|locks|mutex|latch)\b| true\b)'
+  - '\bwhat (?:the |a |an |this |its )?\w+ holds\b'
+  - '\bholding\b(?! (?:down|the \w+ key|(?:a |an |the )?(?:\w+[- ])?(?:lock|locks|mutex|latch))\b)'
 tests:
   - name: flags holds for what a thing contains
     input: |
       The vault holds only SSH keys. A table holding the rows.
-      The vault holds: keys. The same holds for notes.
+      The vault holds: keys. Check what the vault holds.
     contains:
       - "'holds'"
       - "'holding'"
-      - "'same holds'"
+      - "'what the vault holds'"
   - name: leaves plain verbs and holding a key down alone
     input: The vault contains only SSH keys. Press Shift while holding down Option.
     want: ''
   - name: leaves locks and claims that hold alone
-    input: The thread holds an exclusive lock while holding the mutex. The invariant holds for every input. It holds true.
+    input: |
+      The thread holds an exclusive lock while holding a write lock. The invariant holds for every input.
+      It holds true. The invariant holds, so the loop ends. The claim holds if the cache is warm.
     want: ''

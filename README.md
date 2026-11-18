@@ -74,6 +74,7 @@ The repository pins hakkiri 0.0.6.
 | Stock words | `durable`, `verbatim`, `byte for byte` | `StockWords` |
 | Things that act | `the store owns`, `the daemon waits`, `the error names` | `ThingsAct` |
 | Stiff verbs | `the vault holds`, `a table holding` | `StiffHolds` |
+| Stiff idiom | `the same holds for` | `SameHolds` |
 | Hyphen chains | `claude-code-source-recovery` in running prose | `HyphenChain` |
 | Slang | `gonna`, `awesome`, `janky` | `Slang` |
 | Monotone rhythm | three sentences that open alike, five of near-equal length | `SameSentenceStart`, `FlatRhythm` |
