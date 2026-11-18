@@ -5,7 +5,7 @@
 # hyphenated or possessive phrase still matches and a match never runs from
 # one line into the next.
 extends: existence
-message: "State the second half of '%s' directly."
+message: "Drop the contrast in '%s' and state the point."
 level: error
 ignorecase: true
 nonword: true
@@ -19,12 +19,12 @@ tests:
     input: |
       This is not just a bug, it's a design flaw.
     want: |
-      1:6:ProseStyle.BinaryContrast:State the second half of 'is not just a bug, it's' directly.
+      1:6:ProseStyle.BinaryContrast:Drop the contrast in 'is not just a bug, it's' and state the point.
   - name: fires on a hyphenated phrase
     input: |
       This is not just a user-facing bug, it's a design flaw.
     want: |
-      1:6:ProseStyle.BinaryContrast:State the second half of 'is not just a user-facing bug, it's' directly.
+      1:6:ProseStyle.BinaryContrast:Drop the contrast in 'is not just a user-facing bug, it's' and state the point.
   - name: clean
     input: |
       This is a design flaw.

@@ -28,9 +28,9 @@ The `README.md` lists the habits it flags and how a project uses it.
 3. Match the habit.  
    Let natural uses of the same word pass with `exceptions:`.  
    Check each hit on a real document before raising a level.
-4. A rule's message states the change to make, in plain words, and passes the package's own rules.  
-   It is a command, such as `Write '%s' instead of '%s'.` or `Cut '%s'.`, or the fault and then the fix, such as `'%s' is a bare URL: write a short description of the page and link it.`  
-   It never opens with a category label, such as a rule name and a colon, and it uses no figure of speech.  
+4. A rule's message is the shortest command that tells the writer exactly what to change, and it passes the package's own rules.  
+   Good: `Write '%s' instead of '%s'.`, `Cut '%s'.`, `Reword one of these three sentences so it does not start with '%s'.`  
+   A message never opens with a category label, never uses a figure of speech, and never uses a verb too vague to act on, such as vary, address or improve.  
    `mise run test:messages` lints every message through the built zip.
    A rule is a native hakkiri rule: no script rule, because hakkiri runs none.
 5. A rule's name uses words people say, such as `StockPhrases` or `LeakedChat`.  

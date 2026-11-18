@@ -8,7 +8,7 @@
 # backtracking steps on long files. A URL in a link's title attribute is in no
 # scope hakkiri reads.
 extends: existence
-message: "Put '%s' behind descriptive link text."
+message: "Replace the bare URL '%s' with a descriptive link."
 level: error
 scope:
   - link

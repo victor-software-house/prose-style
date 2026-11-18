@@ -16,7 +16,7 @@
 # so a blank line stays inside the block, and a URL on a line of code is never
 # inside a fence.
 extends: existence
-message: "Put '%s' behind descriptive link text."
+message: "Replace the bare URL '%s' with a descriptive link."
 level: error
 scope: raw.rs
 nonword: true
