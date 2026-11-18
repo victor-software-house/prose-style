@@ -1,6 +1,6 @@
 # A table header such as "Kind" or "Details" names no content. "Piece" names no content either. "Type" passes: a schema table's column type is exact.
 extends: existence
-message: "Rename the column '%s' after what its cells contain."
+message: "Rename the column '%s' to describe what its cells contain."
 level: error
 scope: table.header
 nonword: true
