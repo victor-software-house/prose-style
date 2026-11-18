@@ -1,5 +1,5 @@
-# A pull request title becomes the squash commit's subject, and release tools
-# read its type, so it follows Conventional Commits 1.0.0.
+# A pull request title becomes the subject of the squash commit.
+# Release tools read its type, so it follows Conventional Commits 1.0.0.
 extends: script
 message: "Not a Conventional Commit title. Write it as type(scope): subject, as in fix(parser): keep a trailing comma."
 level: error

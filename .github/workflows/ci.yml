@@ -1,4 +1,5 @@
-# Builds the zip, then runs every rule's cases and the package cases on it.
+# Lints this repository's prose with its own rules.
+# Then builds the zip and runs every rule's cases and the package cases on it.
 name: CI
 
 on:
@@ -29,6 +30,8 @@ jobs:
           mirror-url: ${{ secrets.RELEASE_MIRROR_URL }}
           mirror-key: ${{ secrets.RELEASE_MIRROR_CI_KEY }}
           version: 2026.11.6
+      - name: Lint prose
+        run: mise run lint:prose
       - name: Test
         env:
           GITHUB_TOKEN: ${{ github.token }}

@@ -1,6 +1,8 @@
-# A word of four or more hyphen-joined parts is a coinage, or a file name in running prose.
-# Agent docs use these 9 times as often as human design docs. Put a file name in a code span.
-# A part of a path or a dated file name, such as decisions/2026-11-01-a-b-c-d.md, passes.
+# A word of four or more parts joined by hyphens is a coinage, or a file name in running prose.
+# Agent docs use these 9 times as often as human design docs.
+#
+# Put a file name in a code span.
+# A part of a path or a dated file name, such as `decisions/2026-11-01-a-b-c-d.md`, passes.
 extends: existence
 message: "Rewrite '%s' without the hyphens."
 level: error

@@ -2,16 +2,18 @@
 
 ### Requirement: A habit rule rests on measured evidence
 
-Each rule the package adds for a speech habit SHALL record, in its test fixtures' notes, the habit's agent-to-human log ratio and the counts on each side that produced it.
+Each rule the package adds for a speech habit SHALL record numbers in the notes of its test fixtures.  
+They SHALL give the habit's log ratio of agent to human use, and the counts on each side behind it.
 
 #### Scenario: A new rule shows its numbers
 
 - **WHEN** a change adds a rule for a habit from the frequency research
-- **THEN** the rule's test fixtures name the ratio, the agent count and the human count from that research
+- **THEN** the rule's test fixtures list the ratio, the agent count and the human count from that research
 
 ### Requirement: A habit spreads across sources
 
-A word or phrase SHALL become a rule only when it occurs in at least half of the large agent sources for a single word, 35% for two words, or 25% for three.
+A word or phrase SHALL become a rule only when enough of the large agent sources use it.  
+The share SHALL be at least half for a single word, 35% for two words, and 25% for three.
 
 #### Scenario: A topic word stays out
 

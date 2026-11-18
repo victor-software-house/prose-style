@@ -1,0 +1,10 @@
+# Prose style of this repository, checked by `mise run lint:prose`. The rules
+# come from the package in this repository, so the text here passes the rules
+# it ships, at every level.
+level: suggestion
+fail_level: suggestion
+packages:
+  - path: ProseStyle/styles
+files:
+  'test/pull-request/styles/**': {styles: []}
+  'test/styles/**': {styles: []}

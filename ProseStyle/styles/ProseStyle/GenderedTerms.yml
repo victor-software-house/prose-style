@@ -1,4 +1,4 @@
-# Extracted from errata-ai/Google and errata-ai/Microsoft (MIT). See NOTICE.
+# Taken from `errata-ai/Google` and `errata-ai/Microsoft` (MIT). See `NOTICE`.
 #
 extends: substitution
 message: "Write '%s' instead of '%s'."

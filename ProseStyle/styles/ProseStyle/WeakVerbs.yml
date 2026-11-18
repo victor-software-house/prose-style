@@ -1,10 +1,10 @@
-# Derived from no-ai-slop (https://github.com/petergyang/no-ai-slop),
-# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
+# Derived from [no-ai-slop](https://github.com/petergyang/no-ai-slop),
+# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See `NOTICE`.
 #
-# Each inflection carries its own replacement, so the fix agrees in tense and
-# number: "make a decision" becomes "decide", not "decided". "was able to" is
-# left alone; it often marks a single achieved outcome, where "could" would
-# change the meaning.
+# Each inflection has its own replacement, so the fix matches the tense and number.
+# For example, `make a decision` becomes `decide`, and `made a decision` becomes `decided`.
+# The phrase `was able to` is left alone.
+# It often marks one outcome that was reached, where `could` would change the meaning.
 extends: substitution
 message: "Write '%s' instead of '%s'."
 level: error

@@ -1,10 +1,11 @@
-# A noun coined with -ness or -ity, such as "greppability" or "skimmability",
-# names a quality no reader has a word for. Say what can be done with it.
-# The rule checks each word that ends in -ness or -ity against Vale's en_US
-# dictionary and skips every other word. A project accepts a real term, such
-# as a database's "linearizability", in its vocabulary.
-# The filter is RE2: it matches the words to skip, those whose ending is not
-# -ness or -ity, and words of four letters or fewer.
+# A noun made up with `-ness` or `-ity`, such as `greppability` or `skimmability`, has no meaning a reader knows.
+# Say what someone can do with it.
+#
+# The rule checks each word that ends in `-ness` or `-ity` against Vale's `en_US` dictionary and skips every other word.
+# A project adds a real term, such as a database's `linearizability`, to its vocabulary.
+#
+# The filter is RE2.
+# It matches the words to skip: those with another ending, and words of four letters or fewer.
 extends: spelling
 message: "Replace '%s' with a common word."
 level: error

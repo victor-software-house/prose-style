@@ -1,4 +1,4 @@
-# Derived from errata-ai/Readability (MIT). See NOTICE.
+# Derived from `errata-ai/Readability` (MIT). See `NOTICE`.
 # Off until a project turns it on.
 extends: metric
 message: "Simple Measure of Gobbledygook (SMOG) grade %s is over 10: use shorter words."
