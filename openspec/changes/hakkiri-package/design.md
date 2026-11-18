@@ -2,7 +2,7 @@
 
 ## Decisions
 
-### 1. One style holds every rule
+### 1. One style contains every rule
 
 All rules sit in `ProseStyle/styles/ProseStyle/`, and none copies an upstream folder.  
 The 17 ports and the 14 opt-in rules take the renames the operator chose (operator, 2026-11-11).
@@ -35,13 +35,19 @@ None of the 31 new names equals one of the 44 existing names, which a comparison
 The fields `action: replace` of four substitution rules stay: hakkiri loads them and applies none until `HKR-011`.
 
 Alternative: keep the four upstream styles beside `ProseStyle`.  
-It lost because the operator ruled that ProseStyle owns its rules, and a copy of a style the package does not own drifts from its source with no way to fix it here.
+It lost because the operator ruled that ProseStyle owns its rules.  
+A copy of a style that the package does not own drifts from its source, with no way to fix it here.
 
-The rules the package leaves out are `Voices.ColonReveal` and `Direct.Ease`, which its own `.vale.ini` turned off, `Std.Abbreviations.Acronyms`, which `UndefinedAcronym` covers with a wider test and a longer list, and `Std.Punctuation.Ellipses`, which flags the `…` that `Emoji` allows.
+The package leaves out these rules:
+
+- `Voices.ColonReveal` and `Direct.Ease`, which its own `.vale.ini` turned off.
+- `Std.Abbreviations.Acronyms`, which `UndefinedAcronym` covers with a wider test and a longer list.
+- `Std.Punctuation.Ellipses`, which flags the `…` that `Emoji` allows.
 
 ### 2. The six script rules become native rules
 
-A probe in hakkiri `main` rewrote the six rules from their Tengo source and ran the 18 cases of `v0.0.14`: all 18 pass, after one fixture input changed.
+A probe in hakkiri `main` rewrote the six rules from their Tengo source and ran the 18 cases of `v0.0.14`.  
+All 18 pass, after one fixture input changed.
 
 | Rule | Check type | Scope |
 |:--|:--|:--|
@@ -60,10 +66,11 @@ The rules differ from the scripts in these ways, and each gets a case:
   It skips a setext heading and an indented code block, which the script flagged.
 - `PrepositionChain` drops a chain that overlaps a code span, where the script restarted after the span.
 - `FlatRhythm` counts words and sentences as hakkiri does, not with the script's own pattern.
-- `BareWorkItem` is `text`, so it also reads comments in a Rust file, where `BareWorkItemInComment` reads them already; the Rust switch below keeps one alert.
+- `BareWorkItem` is `text`, so it also reads comments in a Rust file.  
+  `BareWorkItemInComment` reads them already, and the Rust switch below keeps one alert.
 
 The sizes were measured on one file of 8,000 lines with 16,000 codes: all six rules ran over it in 0.96 s.  
-An alert diff against Vale over the public repositories is the proof that remains, and `HKR-008` names it.
+An alert diff against Vale over the public repositories is the proof that remains, and `HKR-008` lists it.
 
 Alternative: wait for hakkiri to run Tengo (`HKR-036`).  
 It lost because the operator ruled the rules native, and the interpreter has to run faster than Vale before it ships.
@@ -95,7 +102,7 @@ It lost because the 14 opt-in rules would then run for every project, and `HKR-0
 
 `mise-tasks/build.py` zips `ProseStyle/`, including `NOTICE`, `LICENSE` and `.ctl/hakkiri.yaml`, with dated entries as it does now, so the same inputs give the same bytes.  
 `upstream.toml`, `download`, `upstream_files` and the sha256 check go.  
-`check_rule_names` goes with `ProseStyle/.vale.ini`: hakkiri refuses a rule key that names no rule, so the tests catch a rename.  
+`check_rule_names` goes with `ProseStyle/.vale.ini`: hakkiri rejects a rule key that matches no rule, so the tests catch a rename.  
 The six `.tengo` files go, and `config/vocabularies/ProseStyle/accept.txt` stays inside `styles/`.
 
 ### 5. `NOTICE` and `LICENSE`
@@ -109,14 +116,16 @@ The package credits the MIT sources of the ports (operator, 2026-11-11), rule by
 | [`awesome-claude-output-styles`][aco-styles] | 2026 Serge Shima | `Hedging`, `SentenceLength` and `Preamble`, shaped after its entry |
 | [errata-ai/Google][std] | Joseph Kato | `GenderedPronouns`, and the base of `LatinAbbreviation` and `GenderedTerms`; the opt-in `PassiveVoice`, `OxfordComma`, `FirstPersonPlural`, `DateFormat` and `TimeFormat` |
 | [errata-ai/Microsoft][std] | 2018 to 2019 Joseph Kato | `SentenceSpacing`, entries of `GenderedTerms`; the opt-in `FirstPersonSingular` and `Contractions` |
-| [errata-ai/IBM][std] | Joseph Kato | `SentenceLength`, entries of `LatinAbbreviation` |
+| [errata-ai/IBM][std] (International Business Machines) | Joseph Kato | `SentenceLength`, entries of `LatinAbbreviation` |
 | [Vale Readability][readability] | 2026 Joseph Kato | `GradeLevel`; the six opt-in scores, and `Polysyllables` as a native port of its script |
 
-The three upstream licence files are the MIT text with a different copyright line, so one `LICENSE` holds the text and the lines above.
+The three upstream licence files are the MIT text with a different copyright line, so one `LICENSE` contains the text and the lines above.
 
 ### 6. The tests run on a pinned hakkiri
 
-`mise.toml` pins hakkiri 0.0.6 from its GitHub release, the first that holds the settings, the block ignores and the plain-text default this package needs, with an exact version and a lock file for `linux-x64` and `macos-arm64`, the two assets a release holds.
+`mise.toml` pins hakkiri 0.0.6 from its GitHub release.  
+It is the first release with the settings, the block ignores and the plain-text default this package needs.  
+The pin has an exact version and a lock file for `linux-x64` and `macos-arm64`, the two assets of a release.
 
 | Task | Now | After |
 |:--|:--|:--|
@@ -128,17 +137,17 @@ The three upstream licence files are the MIT text with a different copyright lin
   The consumer then reads the unpacked zip and its settings file as a project does.
 - The cases in `test/package.test.yml` take the new names and use `format: rs` and `format: txt` in place of `.rs` and `.txt`.  
   The cases that name `Voices.ColonReveal` and `Direct.Ease` go.
-- `test:messages` reads `level`, `rule` and `line` of the JSON in place of `Severity`, `Check` and `Line`.  
-  Its list of page-level checks names `GradeLevel`.
+- `test:messages` reads the JSON fields `level`, `rule` and `line`, which replace `Severity`, `Check` and `Line`.  
+  Its list of page-level checks includes `GradeLevel`.
 
 Alternative: run the tests on a hakkiri built from source.  
 It lost because a pin by exact release is what a project does.
 
 ### 7. The release prints a `packages:` entry
 
-A tag builds both zips and publishes them.
+A tag builds both zips and publishes them.  
 `ProseStyle.zip` is the one asset of the hakkiri package, and `PullRequestStyle.zip` is the Vale package of the pull request check.  
-The release notes hold a block a project pastes into `.ctl/hakkiri.yaml`:
+The release notes contain a block that a project pastes into `.ctl/hakkiri.yaml`:
 
 ```yaml
 packages:
@@ -148,7 +157,7 @@ packages:
 
 The job computes the hash from the zip it uploads.  
 The old line, `Packages = <url>`, goes.  
-The README names `v0.0.14` as the last release a Vale project can pin.
+In the README, `v0.0.14` is the last release a Vale project can pin.
 
 ### 8. Two overlaps close
 
@@ -157,35 +166,47 @@ The README names `v0.0.14` as the last release a Vale project can pin.
 - `FormalWords` flags `stands as`, which draws a second alert on `stands as a testament`.  
   The swap becomes `stands as(?! a testament)`, so only `Puffery` fires there.
 
-The comments that name `Voices.InflatedWords`, `Voices.BinaryContrast` and `Direct.Length` in `FormalWords`, `StrawMan` and `LongSentence` take the new names.  
+The comments that mention `Voices.InflatedWords`, `Voices.BinaryContrast` and `Direct.Length` in `FormalWords`, `StrawMan` and `LongSentence` take the new names.  
 `SentenceLength` at 25 words beside `LongSentence` at 40 stays, so a sentence over 40 words draws a suggestion and an error, by design.
 
 ### 9. `BareURL` is rewritten on the `link` scope
 
-`BareURL` finds a URL outside fences and code spans with a raw-scope pattern that holds lookbehinds.  
-In hakkiri 0.0.4 that pattern reached the backtrack limit of 1,000,000 steps on 131 of the 165 Markdown files of hakkiri's own documents.  
-Each of those files draws an error in place of an alert.  
+`BareURL` finds a URL outside fences and code spans with a raw-scope pattern that contains lookbehinds.  
+In hakkiri 0.0.4 that pattern reached the backtrack limit of 1,000,000 steps.  
+It did so on 131 of the 165 Markdown files in hakkiri's own documents.  
+Each of those files draws an error in place of an alert.
+
 `bareurl-single-scan` describes the same limit in Vale's engine.
 
 A probe rule on the `link` scope, with `raw: '^https?://\S+$'`, flagged a bare URL, an autolink in angle brackets and a link whose text is its URL.  
-It passed a link with words as text, a URL in a code span and a URL in a fenced block.  
-The rule reads the `link` and `alt` scopes with the pattern `https?://[^\s<>]+`, so a URL in link text or in the alt text of an image draws an alert too.
-A planted comparison with Vale at `v0.0.14` gave alerts on the same lines, except that hakkiri flags a URL in plain parentheses or double quotes and cannot read a link's title attribute.
+It passed a link with words as text, a URL in a code span and a URL in a fenced block.
+
+The rule reads the `link` and `alt` scopes with the pattern `https?://[^\s<>]+`.  
+So a URL in link text or in the alt text of an image draws an alert too.
+
+A planted comparison with Vale at `v0.0.14` gave alerts on the same lines, with two exceptions.  
+hakkiri flags a URL in plain parentheses or double quotes, and it cannot read a link's title attribute.
+
 So the rewrite is the first change of that open change, and it stands on its own.  
 `BareURLInComment` ran on the Rust files with no limit alert and stays as it is.
 
 Alternative: raise the limit in hakkiri.  
-It lost because the time of the pattern grows with the file's length times the number of URLs, and a limit only moves the failure to longer files.
+It lost because the time of the pattern grows with the file's length times the number of URLs.  
+A higher limit only moves the failure to longer files.
 
 ## Risks
 
-- A project that names a dropped or renamed rule fails to load.  
+- A project that uses a dropped or renamed rule fails to load.  
   The change cannot see those configs, and the tag notes list every rename.
 
 ## Open decisions
 
-1. **The tag.** The tag is `v0.0.16`, because `v0.0.15` went to `PullRequestStyle` (operator, 2026-11-11), and it stays a patch while the alert diff shows the same or better alerts than Vale with `v0.0.14`.
-2. **The mirror.** The CI downloads tools through a mirror, and nothing here shows that the mirror serves a release of another repository.
+1. **The tag.**  
+   The tag is `v0.0.16`, because `v0.0.15` went to `PullRequestStyle` (operator, 2026-11-11).  
+   It stays a patch while the alert diff shows the same or better alerts than Vale with `v0.0.14`.
+2. **The mirror.**  
+   The CI downloads tools through a mirror.  
+   Nothing here shows that the mirror serves a release of another repository.
 
 The open change `bareurl-single-scan` closed with decision 9, and its spec is `bare-urls`.
 

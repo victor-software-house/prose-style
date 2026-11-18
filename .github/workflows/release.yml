@@ -1,6 +1,6 @@
-# A tag v0.0.N on main publishes ProseStyle.zip, the hakkiri package a project
-# pins by url and sha256 in .ctl/hakkiri.yaml, and PullRequestStyle.zip, the
-# Vale package the organization's pull request check reads.
+# A tag `v0.0.N` on main publishes two packages.
+# `ProseStyle.zip` is the hakkiri package that a project pins by `url` and `sha256` in `.ctl/hakkiri.yaml`.
+# `PullRequestStyle.zip` is the Vale package for the organization's check of pull requests.
 name: Release
 
 on:

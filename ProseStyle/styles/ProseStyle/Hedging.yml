@@ -1,5 +1,5 @@
 extends: existence
-message: "Hedge: '%s'. State it, or say why you're unsure."
+message: "Cut the hedge '%s'."
 level: error
 ignorecase: true
 tokens:
@@ -14,7 +14,7 @@ tests:
     input: |
       It's worth noting that this works.
     want: |
-      1:1:ProseStyle.Hedging:Hedge: 'It's worth noting'. State it, or say why you're unsure.
+      1:1:ProseStyle.Hedging:Cut the hedge 'It's worth noting'.
   - name: clean
     input: |
       This works.

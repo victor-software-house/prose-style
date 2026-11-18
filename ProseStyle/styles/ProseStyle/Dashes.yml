@@ -1,10 +1,11 @@
 # A dash joins clauses that read better as two sentences or with a colon.
-# Ranges such as 1–3 keep their en dash: only a spaced en dash or a spaced
-# double hyphen counts. An em dash alone in a table cell marks no value and passes.
-# Parentheses inside a class are escaped: Vale joins the tokens, and a bare ")"
-# in a class breaks the tokens after it.
+# Ranges such as 1–3 keep their en dash: only a spaced en dash or a spaced double hyphen counts.
+# An em dash alone in a table cell marks no value and passes.
+#
+# Parentheses inside a class are escaped.
+# Vale joins the tokens, and a bare `)` in a class breaks the tokens after it.
 extends: existence
-message: "Dash '%s': use a period, comma, colon or parentheses."
+message: "Replace '%s' with a period, comma, colon or parentheses."
 level: error
 nonword: true
 tokens:

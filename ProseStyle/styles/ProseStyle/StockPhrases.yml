@@ -1,6 +1,6 @@
 # Stock phrases that stand in for a real explanation. Write the concrete action or result instead.
 extends: existence
-message: "Stock phrase '%s': write the concrete action or result it stands for."
+message: "Replace '%s' with plain words."
 level: error
 ignorecase: true
 tokens:

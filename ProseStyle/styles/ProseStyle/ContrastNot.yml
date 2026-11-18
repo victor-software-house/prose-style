@@ -1,7 +1,7 @@
-# ", not the ..." sets a claim against one nobody made.
+# The phrase `, not the ...` sets a claim against one nobody made.
 # Agent docs use it 4.2 times as often as human design docs.
 extends: existence
-message: "Contrast '%s': state the claim directly, or write 'X instead of Y'."
+message: "Drop the contrast in '%s' and state the point."
 level: error
 ignorecase: true
 nonword: true

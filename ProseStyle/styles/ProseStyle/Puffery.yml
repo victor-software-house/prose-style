@@ -1,8 +1,8 @@
-# Derived from no-ai-slop (https://github.com/petergyang/no-ai-slop),
-# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
+# Derived from [no-ai-slop](https://github.com/petergyang/no-ai-slop),
+# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See `NOTICE`.
 #
 extends: existence
-message: "Importance puffery: '%s'. State the fact and let the reader judge."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 tokens:
@@ -18,7 +18,7 @@ tests:
     input: |
       This stands as a testament to the team.
     want: |
-      1:6:ProseStyle.Puffery:Importance puffery: 'stands as a testament'. State the fact and let the reader judge.
+      1:6:ProseStyle.Puffery:Cut 'stands as a testament'.
   - name: clean
     input: |
       The team shipped it.

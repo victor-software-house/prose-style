@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/victor-software-house/qctl/main/schema/tasks.schema.json
+schema_version: 6
+prefix: PST
+active: null
+queue:
+  - id: PST-001
+    title: Enforce one standard English spelling per project
+    scope: ProseStyle.OneTermTwoWays
+    outcome: >-
+      A project picks American or British English once, and the package flags every
+      word spelled the other way.
+    blocked_by: []
+    acceptance:
+      - A project setting picks American or British English, and American is the default.
+      - The package flags a word spelled in the other standard, such as colour in an American project, with the spelling to write.
+      - OneTermTwoWays keeps flagging one term written two ways in one file, such as email and e-mail.
+    notes:
+      - 2026-11-18, operator request, OneTermTwoWays today checks only nine hand-listed pairs, so a file can mix colour and color.
+
+  - id: PST-002
+    title: Check pull request text with hakkiri and the current package
+    scope: PullRequestStyle, the organization pull request check
+    outcome: >-
+      The pull request check reports the same rules and messages as the current
+      ProseStyle release.
+    blocked_by: []
+    acceptance:
+      - The organization pull request check runs hakkiri with the latest ProseStyle release, not Vale with the frozen v0.0.14 zip.
+      - A pull request alert shows the current message of its rule.
+    notes:
+      - 2026-11-18, prose-style pull request 38 drew alerts in the old v0.0.14 wording, such as reads like chat.
+
+  - id: PST-003
+    title: Flag a program name that refuses, knows or says
+    scope: ProseStyle.ThingsAct, ProseStyle.ThingsSpeak
+    outcome: >-
+      A sentence that gives a program name a person's action, such as hakkiri
+      refuses, draws an alert.
+    blocked_by: []
+    acceptance:
+      - hakkiri refuses the key and Vale says the file is fine each draw an alert, with the verb to write instead.
+      - A person or a team as the subject, such as the operator refuses, passes.
+    notes:
+      - '2026-11-18, the hakkiri prose pass found hakkiri refuses across its specs with no alert: ThingsAct reads only a fixed list of nouns, such as file and server.'
+archive: []
+horizon: []

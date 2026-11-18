@@ -1,10 +1,11 @@
-# Extracted from errata-ai/Microsoft (MIT). See NOTICE.
+# Taken from `errata-ai/Microsoft` (MIT). See `NOTICE`.
 #
-# Microsoft's token set (the superset: I'd, I'll, I've) with the lookaround
-# refinement both packages converged on -- consuming the space around 'I' made
-# the alert span too wide in editors, and `nonword` would block project Vocabs.
+# It uses Microsoft's token set, the larger one with `I'd`, `I'll` and `I've`.
+# It adds the lookaround that both packages came to use.
+# Matching the space around `I` made the alert span too wide in editors.
+# And `nonword` would block a project's own vocabulary.
 extends: existence
-message: "First-person singular: '%s'."
+message: "Replace '%s' with the subject."
 level: suggestion
 ignorecase: true
 tokens:
@@ -21,9 +22,9 @@ tests:
     input: >
       I think you should restart. My preference is TLS, and I'll explain why.
     want: |
-      1:1:ProseStyle.FirstPersonSingular:First-person singular: 'I'.
-      1:29:ProseStyle.FirstPersonSingular:First-person singular: 'My'.
-      1:55:ProseStyle.FirstPersonSingular:First-person singular: 'I'll'.
+      1:1:ProseStyle.FirstPersonSingular:Replace 'I' with the subject.
+      1:29:ProseStyle.FirstPersonSingular:Replace 'My' with the subject.
+      1:55:ProseStyle.FirstPersonSingular:Replace 'I'll' with the subject.
 
   - name: clean
     input: >

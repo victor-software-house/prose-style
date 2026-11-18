@@ -1,8 +1,8 @@
-# Derived from no-ai-slop (https://github.com/petergyang/no-ai-slop),
-# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
+# Derived from [no-ai-slop](https://github.com/petergyang/no-ai-slop),
+# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See `NOTICE`.
 #
 extends: existence
-message: "Weasel attribution: '%s'. Name the source or cut the claim."
+message: "Cite a source for '%s', or drop the claim."
 level: error
 ignorecase: true
 tokens:
@@ -17,7 +17,7 @@ tests:
     input: |
       Experts agree it works.
     want: |
-      1:1:ProseStyle.VagueAttribution:Weasel attribution: 'Experts agree'. Name the source or cut the claim.
+      1:1:ProseStyle.VagueAttribution:Cite a source for 'Experts agree', or drop the claim.
   - name: clean
     input: |
       The benchmark shows it works.

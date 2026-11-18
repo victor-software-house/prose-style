@@ -1,12 +1,12 @@
-# Derived from no-ai-slop (https://github.com/petergyang/no-ai-slop),
-# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
+# Derived from [no-ai-slop](https://github.com/petergyang/no-ai-slop),
+# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See `NOTICE`.
 #
-# Each inflection carries its own replacement, so the fix agrees in tense and
-# number: "make a decision" becomes "decide", not "decided". "was able to" is
-# left alone; it often marks a single achieved outcome, where "could" would
-# change the meaning.
+# Each inflection has its own replacement, so the fix matches the tense and number.
+# For example, `make a decision` becomes `decide`, and `made a decision` becomes `decided`.
+# The phrase `was able to` is left alone.
+# It often marks one outcome that was reached, where `could` would change the meaning.
 extends: substitution
-message: "Weak verb phrase: use '%s' instead of '%s'."
+message: "Write '%s' instead of '%s'."
 level: error
 ignorecase: true
 capitalize: true
@@ -29,17 +29,17 @@ tests:
     input: |
       We made a decision to ship.
     want: |
-      1:4:ProseStyle.WeakVerbs:Weak verb phrase: use 'decided' instead of 'made a decision'.
+      1:4:ProseStyle.WeakVerbs:Write 'decided' instead of 'made a decision'.
   - name: agrees in tense
     input: |
       We make a decision each week.
     want: |
-      1:4:ProseStyle.WeakVerbs:Weak verb phrase: use 'decide' instead of 'make a decision'.
+      1:4:ProseStyle.WeakVerbs:Write 'decide' instead of 'make a decision'.
   - name: keeps the case
     input: |
       Making a decision takes time.
     want: |
-      1:1:ProseStyle.WeakVerbs:Weak verb phrase: use 'Deciding' instead of 'Making a decision'.
+      1:1:ProseStyle.WeakVerbs:Write 'Deciding' instead of 'Making a decision'.
   - name: clean
     input: |
       We decided to ship.

@@ -1,10 +1,10 @@
-# Extracted from errata-ai/Microsoft (MIT). See NOTICE.
+# Taken from `errata-ai/Microsoft` (MIT). See `NOTICE`.
 #
-# Microsoft's token set: the period case requires a lowercase-initial word so
-# dotted identifiers ('System.Text.Json') aren't flagged; '?' and '!' don't
-# occur in identifiers, so they stay permissive.
+# It uses Microsoft's token set.
+# The full stop case needs a word that starts in lowercase, so dotted identifiers such as `System.Text.Json` pass.
+# A `?` or a `!` never occurs in an identifier, so those cases match any word.
 extends: existence
-message: "'%s' should have one space."
+message: "Use one space between the sentences in '%s'."
 level: suggestion
 nonword: true
 tokens:
@@ -16,9 +16,9 @@ tests:
     input: >
       Restart the host.Then check the logs.  Every time!Always.
     want: |
-      1:13:ProseStyle.SentenceSpacing:'host.T' should have one space.
-      1:36:ProseStyle.SentenceSpacing:'s.  E' should have one space.
-      1:49:ProseStyle.SentenceSpacing:'e!A' should have one space.
+      1:13:ProseStyle.SentenceSpacing:Use one space between the sentences in 'host.T'.
+      1:36:ProseStyle.SentenceSpacing:Use one space between the sentences in 's.  E'.
+      1:49:ProseStyle.SentenceSpacing:Use one space between the sentences in 'e!A'.
 
   - name: clean
     input: >

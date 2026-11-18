@@ -2,7 +2,7 @@
 # Nouns for people and agents pass, and so does a symbol or word the tagger reads as a noun, such as 'okay' or 'cannot'.
 # ThingsSpeak matches the pronouns it, both and which.
 extends: sequence
-message: "'%[1]s %[2]s' gives a thing speech or thought: say what it does, such as shows, returns or contains."
+message: "Replace '%[2]s' in '%[1]s %[2]s' with a verb such as shows, returns or contains."
 level: error
 ignorecase: true
 exceptions:

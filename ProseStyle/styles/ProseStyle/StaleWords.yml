@@ -1,9 +1,11 @@
-# A document states what is true now. Words that narrate history go stale.
-# "No longer", "recently" and "newly" date the text the same way. "No longer than" passes.
-# An OpenSpec THEN or AND step states a result after the action, so "no longer"
-# passes there. "Was dropped" passes too: a firewall drops packets.
+# A document states what is true now, and words that tell its history go stale.
+# The words `no longer`, `recently` and `newly` date the text the same way.
+# The phrase `no longer than` passes.
+#
+# An OpenSpec THEN or AND step states a result after the action, so `no longer` passes there.
+# The phrase `was dropped` passes too, since a firewall drops packets.
 extends: existence
-message: "'%s' ties the text to a moment: state the fact without it."
+message: "Cut '%s'."
 level: warning
 ignorecase: true
 exceptions:

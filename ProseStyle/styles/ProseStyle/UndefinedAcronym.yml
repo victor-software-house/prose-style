@@ -1,10 +1,13 @@
-# A reader meets an acronym with no definition. Write "pull request (PR)" before the bare "PR".
-# The exception list holds acronyms a reader of technical prose knows, network, cloud and security terms included;
-# a project adds its own, such as a product name, to its vocabulary.
-# The prefix of a work-item code such as VER-117 is a name, not an acronym to spell out.
-# Source: Google developer documentation style guide, "Abbreviations".
+# A reader meets an acronym with no definition.
+# Write `pull request (PR)` before the bare `PR`.
+#
+# The exception list contains acronyms common in technical prose, including network, cloud and security terms.
+# A project adds its own, such as a product name, to its vocabulary.
+# The prefix of a work-item code such as `VER-117` is a name, so the rule skips it.
+#
+# Source: the Google style guide for developer documentation, "Abbreviations".
 extends: conditional
-message: "Spell out '%s' on first use, as in 'pull request (PR)'."
+message: "Spell out '%s' on first use."
 level: suggestion
 ignorecase: false
 first: '\b([A-Z]{2,6})\b(?!-\d)'
@@ -15,6 +18,7 @@ exceptions:
   - ACME
   - ADDED
   - AGENTS
+  - AGPL
   - AI
   - AND
   - ANSI
@@ -46,8 +50,11 @@ exceptions:
   - GB
   - GCP
   - GET
+  - GFM
   - GIF
+  - GNU
   - GPG
+  - GPL
   - GPU
   - GUI
   - HEAD
@@ -66,6 +73,7 @@ exceptions:
   - JPEG
   - JPG
   - JSON
+  - JSX
   - JWT
   - KB
   - KVM
@@ -78,6 +86,7 @@ exceptions:
   - MAY
   - MB
   - MCP
+  - MDX
   - MIT
   - MODIFIED
   - MR
@@ -136,6 +145,7 @@ exceptions:
   - TLS
   - TODO
   - TOML
+  - TSX
   - TTL
   - TTY
   - TUI
