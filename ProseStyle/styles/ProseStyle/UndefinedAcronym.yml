@@ -18,6 +18,7 @@ exceptions:
   - ACME
   - ADDED
   - AGENTS
+  - AGPL
   - AI
   - AND
   - ANSI
@@ -49,8 +50,11 @@ exceptions:
   - GB
   - GCP
   - GET
+  - GFM
   - GIF
+  - GNU
   - GPG
+  - GPL
   - GPU
   - GUI
   - HEAD
@@ -69,6 +73,7 @@ exceptions:
   - JPEG
   - JPG
   - JSON
+  - JSX
   - JWT
   - KB
   - KVM
@@ -81,6 +86,7 @@ exceptions:
   - MAY
   - MB
   - MCP
+  - MDX
   - MIT
   - MODIFIED
   - MR
@@ -139,6 +145,7 @@ exceptions:
   - TLS
   - TODO
   - TOML
+  - TSX
   - TTL
   - TTY
   - TUI
