@@ -8,7 +8,7 @@
 # backtracking steps on long files. A URL in a link's title attribute is in no
 # scope hakkiri reads.
 extends: existence
-message: "'%s' is a bare URL: put the link on the words that name its page."
+message: "'%s' is a bare URL: write a short description of the page and link it."
 level: error
 scope:
   - link

@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
 #
 extends: existence
-message: "Name and link the source of '%s', or cut the claim."
+message: "Cite the source of '%s' with a link, or cut the claim."
 level: error
 ignorecase: true
 tokens:
@@ -17,7 +17,7 @@ tests:
     input: |
       Experts agree it works.
     want: |
-      1:1:ProseStyle.VagueAttribution:Name and link the source of 'Experts agree', or cut the claim.
+      1:1:ProseStyle.VagueAttribution:Cite the source of 'Experts agree' with a link, or cut the claim.
   - name: clean
     input: |
       The benchmark shows it works.

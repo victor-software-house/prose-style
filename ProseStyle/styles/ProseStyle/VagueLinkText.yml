@@ -2,7 +2,7 @@
 # An example in a code span, such as `[here](…)` or `A [link](x) here`, passes:
 # the token matches only after an even number of backticks on its line.
 extends: existence
-message: "Replace the link text '%s' with words that name its page."
+message: "Replace the link text '%s' with a short description of the page."
 level: error
 ignorecase: true
 nonword: true
