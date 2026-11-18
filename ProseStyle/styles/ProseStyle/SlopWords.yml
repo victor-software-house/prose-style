@@ -1,9 +1,9 @@
-# Derived from no-ai-slop (https://github.com/petergyang/no-ai-slop),
-# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
+# Derived from [no-ai-slop](https://github.com/petergyang/no-ai-slop),
+# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See `NOTICE`.
 #
-# The words with no single right replacement. Each one needs the sentence
-# rewritten around it, so this rule reports and stops there; `InflatedWords`
-# holds the ones an agent can swap without thinking.
+# These words have no single right replacement.
+# Each one needs the sentence rewritten around it, so this rule only reports.
+# `InflatedWords` contains the ones an agent can swap without thinking.
 extends: existence
 message: "Replace '%s' with a common word."
 level: error

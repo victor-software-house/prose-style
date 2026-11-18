@@ -1,5 +1,5 @@
-# Everyday words over formal ones. InflatedWords covers utilize,
-# leverage and facilitate.
+# Use everyday words in place of formal ones.
+# InflatedWords covers `utilize`, `leverage` and `facilitate`.
 extends: substitution
 message: "Write '%s' instead of '%s'."
 level: error

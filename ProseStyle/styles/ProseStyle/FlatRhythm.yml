@@ -1,6 +1,7 @@
-# Five sentences with almost the same length read as generated text.
-# Human text varies more: a deviation of 9 to 11 words against 5.8 for agent replies.
-# Paragraph-level evidence is thin: 7 of 34 agent paragraphs and 9 of 84 human ones have a deviation of 4 or less.
+# Five sentences of almost the same length read as generated text.
+# Human text has a wider spread: a deviation of 9 to 11 words, against 5.8 for agent replies.
+# The evidence for paragraphs is thin.
+# Only 7 of 34 agent paragraphs and 9 of 84 human ones have a deviation of 4 or less.
 extends: metric
 message: "These five sentences have the same length: combine two or shorten one."
 level: warning

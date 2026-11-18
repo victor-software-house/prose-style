@@ -1,4 +1,4 @@
-# Extracted from errata-ai/Google (MIT). See NOTICE.
+# Taken from `errata-ai/Google` (MIT). See `NOTICE`.
 #
 extends: existence
 message: "Write 'they' instead of '%s'."
