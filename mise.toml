@@ -7,6 +7,8 @@ min_version = "2026.11.6"
 "aqua:vale-cli/vale" = "3.26.0"
 
 [settings]
+# mise loads git:: task includes only in experimental mode.
+experimental = true
 lockfile = true
 locked = true
 
@@ -27,3 +29,10 @@ run = [
 [tasks.test]
 description = "Rule cases, package cases, pull request cases and the alert diff task"
 depends = ["test:rules", "test:package", "test:messages", "test:pull-request", "test:alerts"]
+
+[task_config]
+includes = [
+  "mise-tasks",
+  # The q task (qctl v0.7.0), pinned by commit because a tag can move.
+  "git::https://github.com/victor-software-house/qctl.git//tasks/q?ref=ea9e838d7af20683930156dee9fdf16cebee5fcb",
+]
