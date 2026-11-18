@@ -1,10 +1,12 @@
-# A bare PR, MR, ticket or ledger code names nothing a reader knows, whatever
-# its number of digits. Say what it is, and link it. A code in link text, in a
-# code span or in a fenced block passes, and so does a standard name such as
-# SHA-256, DNS-01 or UTC-3, a licence identifier such as MPL-2.0 or BSD-2, and
-# a Unicode standard number such as UAX #9.
-# A script reads the file once. A regex with a fence lookbehind rescanned the
-# file from the top at each code: 64 s on a file of 8,000 codes.
+# A bare PR, MR, ticket or ledger code means nothing to a reader, whatever its number of digits.
+# Say what it is, and link it.
+#
+# These pass: a code in link text, in a code span or in a fenced block.
+# So does a standard name such as `SHA-256`, `DNS-01` or `UTC-3`.
+# Licence identifiers such as `MPL-2.0` or `BSD-2` pass too, and so do Unicode standard numbers such as `UAX #9`.
+#
+# A script reads the file once.
+# A regex with a fence lookbehind rescanned the file from the top at each code: 64 s on a file of 8,000 codes.
 extends: existence
 message: "Write the title of '%s' and link it."
 level: error

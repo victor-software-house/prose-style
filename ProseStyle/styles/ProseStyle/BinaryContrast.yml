@@ -1,9 +1,8 @@
-# Derived from no-ai-slop (https://github.com/petergyang/no-ai-slop),
-# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
+# Derived from [no-ai-slop](https://github.com/petergyang/no-ai-slop),
+# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See `NOTICE`.
 #
-# The first clause is anything up to the comma except a line break, so a
-# hyphenated or possessive phrase still matches and a match never runs from
-# one line into the next.
+# The first clause is anything up to the comma except a line break.
+# So a hyphenated or possessive phrase still matches, and a match never runs from one line into the next.
 extends: existence
 message: "Drop the contrast in '%s' and state the point."
 level: error

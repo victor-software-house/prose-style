@@ -1,8 +1,8 @@
-# Extracted from errata-ai/Google and errata-ai/IBM (MIT). See NOTICE.
+# Taken from `errata-ai/Google` and `errata-ai/IBM` (MIT). See `NOTICE`.
 #
-# Google's boundary style (the lookahead doesn't swallow the following comma
-# or space, and `$` catches abbreviations ending a heading or table cell),
-# extended over IBM's larger list.
+# It uses Google's boundary style over the longer list from `errata-ai/IBM`.
+# The lookahead leaves the next comma or space out of the match.
+# And `$` catches an abbreviation at the end of a heading or a table cell.
 extends: substitution
 message: "Write '%s' instead of '%s'."
 level: suggestion

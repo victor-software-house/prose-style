@@ -1,5 +1,5 @@
-# Derived from no-ai-slop (https://github.com/petergyang/no-ai-slop),
-# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
+# Derived from [no-ai-slop](https://github.com/petergyang/no-ai-slop),
+# Copyright (c) 2026 Peter Yang, licensed under the MIT License. See `NOTICE`.
 #
 extends: existence
 message: "Cite a source for '%s', or drop the claim."

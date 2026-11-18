@@ -1,8 +1,8 @@
 min_version = "2026.11.6"
 
 [tools]
-# The rules and the package cases run on hakkiri; Vale runs only the pull
-# request package, which reads the frozen v0.0.14 ProseStyle zip.
+# The rules and the package cases run on hakkiri.
+# Vale runs only the pull request package, on the frozen `v0.0.14` ProseStyle zip.
 "github:victor-software-house/hakkiri" = "0.1.0"
 "aqua:vale-cli/vale" = "3.26.0"
 
@@ -24,6 +24,13 @@ run = [
   "vale test --coverage ../../PullRequestStyle/styles/PullRequestStyle",
   "vale sync --plain-progress",
   "vale test package.test.yml",
+]
+
+[tasks."lint:prose"]
+description = "This repository's prose and rule comments, checked by its own rules"
+run = [
+  "hakkiri check",
+  "hakkiri check ProseStyle/styles",
 ]
 
 [tasks.test]

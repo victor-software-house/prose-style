@@ -1,3 +1,3 @@
 # frequency-habit-rules
 
-Find habit words and patterns by frequency against pre-LLM human text, and turn them into rules
+Count the words and patterns that AI text uses more than human text from before LLMs, and make rules of them.

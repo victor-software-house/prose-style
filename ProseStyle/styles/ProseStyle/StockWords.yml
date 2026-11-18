@@ -1,8 +1,9 @@
-# Words agent docs use 67 times as often as human design docs, such as "durable" and "verbatim".
-# Say what happens: "written to disk", "unchanged".
-# A warning: "silently" and "source of truth" have plain uses a person judges.
-# "Byte-identical" and "keeps its own" pass: one is an exact term, the other plain English.
-# "Authoritative" passes in a DNS sense, such as an authoritative name server.
+# This rule lists words that agent docs use 67 times as often as human design docs, such as `durable` and `verbatim`.
+# Say what happens: written to disk, unchanged.
+#
+# It is a warning, since `silently` and `source of truth` have plain uses a person can judge.
+# The words `byte-identical` and `keeps its own` pass: one is an exact term, the other plain English.
+# The word `authoritative` passes in its DNS sense, as in an authoritative name server.
 extends: existence
 message: "Replace '%s' with a plain word."
 level: warning

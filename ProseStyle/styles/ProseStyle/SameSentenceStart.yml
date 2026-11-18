@@ -1,8 +1,11 @@
 # Three sentences in a row that open with one word read as a template.
-# Agent docs hit this 4.9 times as often as human design docs. A paragraph is read, so list items pass.
-# A full stop inside a word, as in 62.33 or cache.db, does not end a sentence, and a sentence that
-# opens with a code span, which reads as the letter x, breaks a run. A hard break, two spaces and a line
-# break after a full stop, is as good as one space.
+# Agent docs hit this 4.9 times as often as human design docs.
+# The rule reads paragraphs, so list items pass.
+#
+# A full stop inside a word, as in `62.33` or `cache.db`, does not end a sentence.
+# When a sentence opens with a code span, it reads as the letter `x`, so it breaks a run.
+# After a full stop, a hard break counts as one space.
+# That break is two spaces and a line break.
 extends: existence
 message: "Reword one of these three sentences so it does not start with '%s'."
 level: warning

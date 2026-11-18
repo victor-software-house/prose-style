@@ -1,5 +1,5 @@
-# "X, not Y" and "not because X, but Y" frame a claim against a straw man.
-# BinaryContrast covers "is not X, it's Y".
+# The forms `X, not Y` and `not because X, but Y` set a claim against a straw man.
+# BinaryContrast covers `is not X, it's Y`.
 extends: existence
 message: "Drop the contrast in '%s' and state the point."
 level: error
