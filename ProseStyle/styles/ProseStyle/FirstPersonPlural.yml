@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Google (MIT). See NOTICE.
 #
 extends: existence
-message: "Replace '%s' with the person or program that acts."
+message: "Replace '%s' with the subject."
 level: suggestion
 ignorecase: true
 tokens:
@@ -15,9 +15,9 @@ tests:
     input: >
       We recommend restarting. Let's begin, and the choice is ours.
     want: |
-      1:1:ProseStyle.FirstPersonPlural:Replace 'We' with the person or program that acts.
-      1:26:ProseStyle.FirstPersonPlural:Replace 'Let's' with the person or program that acts.
-      1:57:ProseStyle.FirstPersonPlural:Replace 'ours' with the person or program that acts.
+      1:1:ProseStyle.FirstPersonPlural:Replace 'We' with the subject.
+      1:26:ProseStyle.FirstPersonPlural:Replace 'Let's' with the subject.
+      1:57:ProseStyle.FirstPersonPlural:Replace 'ours' with the subject.
 
   - name: clean
     input: >

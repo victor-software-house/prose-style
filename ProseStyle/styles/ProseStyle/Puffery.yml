@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
 #
 extends: existence
-message: "Cut '%s' and state the fact."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 tokens:
@@ -18,7 +18,7 @@ tests:
     input: |
       This stands as a testament to the team.
     want: |
-      1:6:ProseStyle.Puffery:Cut 'stands as a testament' and state the fact.
+      1:6:ProseStyle.Puffery:Cut 'stands as a testament'.
   - name: clean
     input: |
       The team shipped it.

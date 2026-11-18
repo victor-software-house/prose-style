@@ -3,7 +3,7 @@
 # The grade of a file, as a suggestion: the fit depends on the file.
 extends: metric
 level: suggestion
-message: "The Flesch–Kincaid grade is %s, over 8: use shorter sentences and words."
+message: "Flesch–Kincaid grade %s is over 8: use shorter sentences and words."
 link: https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests
 
 formula: |
@@ -14,7 +14,7 @@ tests:
   - name: fires on a hard text
     input: >
       Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
-    contains: "The Flesch–Kincaid grade is 38.25, over 8: use shorter sentences and words"
+    contains: "Flesch–Kincaid grade 38.25 is over 8: use shorter sentences and words."
   - name: leaves a plain text alone
     input: The cat sat on the mat.
     want: ""

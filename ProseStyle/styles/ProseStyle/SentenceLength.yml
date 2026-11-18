@@ -4,7 +4,7 @@
 # A sentence over 25 words is a hint, so a sentence over 40 words draws this
 # suggestion and LongSentence. The message carries the count, not the limit.
 extends: occurrence
-message: "This sentence has %d words: split it."
+message: "Split this %d-word sentence."
 level: suggestion
 scope: sentence
 max: 25
@@ -14,7 +14,7 @@ tests:
     input: |
       When you have finished the installation and confirmed that the service starts, open the settings page and choose the account you want to connect, and then paste the token.
     want: |
-      1:1:ProseStyle.SentenceLength:This sentence has 29 words: split it.
+      1:1:ProseStyle.SentenceLength:Split this 29-word sentence.
   - name: clean
     input: |
       Open the settings page. Choose the account.

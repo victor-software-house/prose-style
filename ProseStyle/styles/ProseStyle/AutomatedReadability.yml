@@ -1,7 +1,7 @@
 # Derived from errata-ai/Readability (MIT). See NOTICE.
 # Off until a project turns it on.
 extends: metric
-message: "The Automated Readability Index is %s, over 8: use shorter sentences and words."
+message: "Automated Readability Index %s is over 8: use shorter sentences and words."
 link: https://en.wikipedia.org/wiki/Automated_readability_index
 
 formula: |

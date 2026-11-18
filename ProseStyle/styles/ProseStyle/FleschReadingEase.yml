@@ -1,7 +1,7 @@
 # Derived from errata-ai/Readability (MIT). See NOTICE.
 # Off until a project turns it on.
 extends: metric
-message: "The Flesch reading ease is %s, under 70: use shorter sentences and words."
+message: "Flesch reading ease %s is under 70: use shorter sentences and words."
 link: https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests
 
 formula: |

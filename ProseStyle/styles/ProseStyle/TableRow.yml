@@ -1,6 +1,6 @@
 # A table row over 250 characters: make it a list or a section.
 extends: existence
-message: "This table row has over 250 characters: make it a list or a section."
+message: "Shorten this table row, or turn it into a list."
 level: warning
 scope: raw
 nonword: true

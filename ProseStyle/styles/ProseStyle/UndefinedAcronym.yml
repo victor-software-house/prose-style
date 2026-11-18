@@ -4,7 +4,7 @@
 # The prefix of a work-item code such as VER-117 is a name, not an acronym to spell out.
 # Source: Google developer documentation style guide, "Abbreviations".
 extends: conditional
-message: "Spell out '%s' on first use, as in 'pull request (PR)'."
+message: "Spell out '%s' on first use."
 level: suggestion
 ignorecase: false
 first: '\b([A-Z]{2,6})\b(?!-\d)'

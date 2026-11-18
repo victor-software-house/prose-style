@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Google (MIT). See NOTICE.
 #
 extends: existence
-message: "Write the time '%s' in the same format as the other times in this file."
+message: "Use one time format throughout the file."
 level: suggestion
 nonword: true
 tokens:
@@ -13,9 +13,9 @@ tests:
     input: >
       The job runs at 5PM and again at 6 am, then at 7 a.m.
     want: |
-      1:17:ProseStyle.TimeFormat:Write the time '5PM' in the same format as the other times in this file.
-      1:34:ProseStyle.TimeFormat:Write the time '6 am' in the same format as the other times in this file.
-      1:48:ProseStyle.TimeFormat:Write the time '7 a.m.' in the same format as the other times in this file.
+      1:17:ProseStyle.TimeFormat:Use one time format throughout the file.
+      1:34:ProseStyle.TimeFormat:Use one time format throughout the file.
+      1:48:ProseStyle.TimeFormat:Use one time format throughout the file.
 
   - name: clean
     input: >

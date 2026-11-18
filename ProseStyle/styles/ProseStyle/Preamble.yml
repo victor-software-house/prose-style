@@ -1,5 +1,5 @@
 extends: existence
-message: "Cut '%s' and start with the answer."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 tokens:
@@ -12,7 +12,7 @@ tests:
     input: |
       What this means is that it works.
     want: |
-      1:1:ProseStyle.Preamble:Cut 'What this means is' and start with the answer.
+      1:1:ProseStyle.Preamble:Cut 'What this means is'.
   - name: clean
     input: |
       It works.

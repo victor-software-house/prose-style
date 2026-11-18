@@ -6,7 +6,7 @@
 # A script reads the file once. A regex with a fence lookbehind rescanned the
 # file from the top at each code: 64 s on a file of 8,000 codes.
 extends: existence
-message: "'%s' is a bare code: replace it with the title of the ticket or pull request, as a link."
+message: "Replace '%s' with its linked title."
 level: error
 scope: text & ~code & ~link & ~frontmatter
 raw:
@@ -41,7 +41,7 @@ tests:
       a { color: #333; }
       ```
     want: |
-      5:6:ProseStyle.BareWorkItem:'EVO-9673' is a bare code: replace it with the title of the ticket or pull request, as a link.
+      5:6:ProseStyle.BareWorkItem:Replace 'EVO-9673' with its linked title.
   - name: flags a code with one digit or many
     input: 'See QCTL-6, VER-117, PR #1, MR !2 and PR #123456 for details.'
     contains:

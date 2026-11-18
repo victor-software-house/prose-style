@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
 #
 extends: existence
-message: "Cut '%s', or state what changes for the reader."
+message: "Cut '%s', or state the effect."
 level: error
 ignorecase: true
 nonword: true
@@ -14,7 +14,7 @@ tests:
     input: |
       Sales rose, highlighting demand.
     want: |
-      1:11:ProseStyle.SuperficialAnalysis:Cut ', highlighting', or state what changes for the reader.
+      1:11:ProseStyle.SuperficialAnalysis:Cut ', highlighting', or state the effect.
   - name: clean
     input: |
       Sales rose because demand did.

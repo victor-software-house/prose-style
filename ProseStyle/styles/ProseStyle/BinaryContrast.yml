@@ -5,7 +5,7 @@
 # hyphenated or possessive phrase still matches and a match never runs from
 # one line into the next.
 extends: existence
-message: "Cut the first half of '%s' and state the second half."
+message: "State the second half of '%s' directly."
 level: error
 ignorecase: true
 nonword: true
@@ -19,12 +19,12 @@ tests:
     input: |
       This is not just a bug, it's a design flaw.
     want: |
-      1:6:ProseStyle.BinaryContrast:Cut the first half of 'is not just a bug, it's' and state the second half.
+      1:6:ProseStyle.BinaryContrast:State the second half of 'is not just a bug, it's' directly.
   - name: fires on a hyphenated phrase
     input: |
       This is not just a user-facing bug, it's a design flaw.
     want: |
-      1:6:ProseStyle.BinaryContrast:Cut the first half of 'is not just a user-facing bug, it's' and state the second half.
+      1:6:ProseStyle.BinaryContrast:State the second half of 'is not just a user-facing bug, it's' directly.
   - name: clean
     input: |
       This is a design flaw.

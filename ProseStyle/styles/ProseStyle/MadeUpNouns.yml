@@ -6,7 +6,7 @@
 # The filter is RE2: it matches the words to skip, those whose ending is not
 # -ness or -ity, and words of four letters or fewer.
 extends: spelling
-message: "'%s' is not an English word: say what the thing does, in common words."
+message: "Replace '%s' with a common word."
 level: error
 filters:
   - '(?i)^(?:.*[^sy]|.*[^s]s|.*[^e]ss|.*[^n]ess|.*[^t]y|.*[^i]ty|.{1,4})$'
