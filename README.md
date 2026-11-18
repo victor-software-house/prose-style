@@ -13,8 +13,8 @@ packages:
     sha256: <the hash in the release notes>
 ```
 
-The package's own `.ctl/hakkiri.yaml` turns the style on for `*.{md,mdx,rs}`.
-It names the vocabulary `ProseStyle`, and hakkiri reads a Rust comment as Markdown.
+The package's own `.ctl/hakkiri.yaml` turns the style on for Markdown, MDX, and the comments of Rust, Swift, Go, TypeScript and JavaScript files.
+It names the vocabulary `ProseStyle`, and hakkiri reads each comment as Markdown and never reads a string literal.
 In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of `BareURL` and `BareWorkItem`.
 They read comments only, so a URL or a code such as `#123` in a string literal passes.
 A project adds globs only for other file types or its own exceptions, and its settings win over the package's.
@@ -43,7 +43,7 @@ Rules on length and sentence shape warn, because a long table row or three sente
 `UndefinedAcronym`, `SentencePerLine`, `HardBreak`, `GradeLevel`, `SentenceLength`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms` are suggestions.
 A sentence fails at 40 words (`LongSentence`), and `SentenceLength` hints at 25 as a suggestion.
 A project sees the suggestions when its `level` is `suggestion`.
-The repository pins hakkiri 0.0.6.
+The repository pins hakkiri 0.1.0.
 
 ## Habits
 
@@ -112,7 +112,7 @@ A file that wraps at a column turns them off for itself, at its top:
 <!-- hakkiri ProseStyle.HardBreak: off -->
 ```
 
-hakkiri 0.0.6 reads these comments, and Vale's own `<!-- vale ... -->` form.
+hakkiri 0.1.0 reads these comments, and Vale's own `<!-- vale ... -->` form.
 
 ## Development
 
