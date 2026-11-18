@@ -16,11 +16,11 @@ BareURL and BareURLInComment SHALL finish on a file of any line count and any li
 
 ### Requirement: The rewrite flags what v0.0.6 flags
 
-A rewrite of the bare URL check SHALL flag the same URLs as release v0.0.6 on every file where v0.0.6 finishes.  
-It SHALL also flag two cases that v0.0.6 passes.  
+A rewrite of the bare URL check SHALL flag the same URLs as release v0.0.6 on every file where v0.0.6 finishes.
+It SHALL also flag two cases that v0.0.6 passes.
 These are a URL in plain parentheses or in double quotes, and a reference definition that continues a paragraph.
 
-It SHALL NOT flag a URL in the title attribute of a link, which v0.0.6 flags.  
+It SHALL NOT flag a URL in the title attribute of a link, which v0.0.6 flags.
 No scope that hakkiri reads contains a title.
 
 #### Scenario: The planted comparison

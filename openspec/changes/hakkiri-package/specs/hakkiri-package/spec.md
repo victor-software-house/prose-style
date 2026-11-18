@@ -2,7 +2,7 @@
 
 ### Requirement: The zip contains one style of native rules
 
-`ProseStyle.zip` SHALL contain one top folder, `ProseStyle`, whose `styles` folder contains the style `ProseStyle` and the folder `config`, and no other style.  
+`ProseStyle.zip` SHALL contain one top folder, `ProseStyle`, whose `styles` folder contains the style `ProseStyle` and the folder `config`, and no other style.
 No rule of the style SHALL extend `script`, and no file of the zip SHALL come from a download made at build time.
 
 #### Scenario: A run with no failed rule
@@ -17,8 +17,8 @@ No rule of the style SHALL extend `script`, and no file of the zip SHALL come fr
 
 ### Requirement: The style contains 75 rules
 
-The style SHALL contain the 44 rules of `v0.0.14`, the 17 ports and the 14 opt-in rules that the design lists.  
-Each rule SHALL have its own file with `tests`.  
+The style SHALL contain the 44 rules of `v0.0.14`, the 17 ports and the 14 opt-in rules that the design lists.
+Each rule SHALL have its own file with `tests`.
 A rule SHALL flag nothing outside its own cases' reach: `hakkiri test --coverage` SHALL pass.
 
 #### Scenario: The names
@@ -40,15 +40,15 @@ A rule SHALL flag nothing outside its own cases' reach: `hakkiri test --coverage
 - **WHEN** a Markdown file contains `The worker reads the cache. The cache holds one file. The file keeps one record.`
 - **THEN** `ProseStyle.SameSentenceStart` reports `Three sentences in a row open with 'The': change the opening of one.`
 
-#### Scenario: A continued line in a block quote
+#### Scenario: A forced break in a block quote
 
-- **WHEN** a Markdown file contains `> First line` and `> Second line`
+- **WHEN** a Markdown file contains `> First line` with two trailing spaces, and `> Second line`
 - **THEN** `ProseStyle.HardBreak` reports the first line
 
 ### Requirement: The settings file ships the package's switches
 
-`ProseStyle/.ctl/hakkiri.yaml` SHALL turn the style on for `*.md`, `*.mdx` and `*.rs`, and SHALL set the 14 opt-in rules `off`.  
-It SHALL switch `BareURL`, `BareWorkItem`, `SentencePerLine`, `HardBreak`, `VagueLinkText` and `UnpinnedCodeLink` off for `*.rs`, and `StaleWords` off for `**/openspec/changes/**/*.md`.  
+`ProseStyle/.ctl/hakkiri.yaml` SHALL turn the style on for `*.md`, `*.mdx` and `*.rs`, and SHALL set the 14 opt-in rules `off`.
+It SHALL switch `BareURL`, `BareWorkItem`, `SentencePerLine`, `HardBreak`, `VagueLinkText` and `UnpinnedCodeLink` off for `*.rs`, and `StaleWords` off for `**/openspec/changes/**/*.md`.
 It SHALL set the vocabulary to `ProseStyle`.
 
 #### Scenario: An opt-in rule off
@@ -82,7 +82,7 @@ A text SHALL draw one alert from `SlopWords` and none from `StockPhrases` for `h
 
 ### Requirement: The package credits its sources
 
-The zip SHALL contain `ProseStyle/NOTICE` and `ProseStyle/LICENSE`.  
+The zip SHALL contain `ProseStyle/NOTICE` and `ProseStyle/LICENSE`.
 `NOTICE` SHALL list each MIT source, its copyright line and the rules ported from it.
 
 #### Scenario: A listed source
@@ -103,9 +103,9 @@ The release notes SHALL contain a `packages:` block with the `url` of the zip an
 
 ### Requirement: BareURL runs on every Markdown file
 
-`BareURL` SHALL read the `link` scope.  
-It SHALL flag a bare URL, an autolink and a link whose text is its URL.  
-It SHALL pass a link with words as text, a URL in a code span and a URL in a fenced block.  
+`BareURL` SHALL read the `link` scope.
+It SHALL flag a bare URL, an autolink and a link whose text is its URL.
+It SHALL pass a link with words as text, a URL in a code span and a URL in a fenced block.
 No file SHALL draw a backtrack-limit alert from it.
 
 #### Scenario: A bare URL beside a fence
