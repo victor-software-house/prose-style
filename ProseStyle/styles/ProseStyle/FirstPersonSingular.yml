@@ -4,7 +4,7 @@
 # refinement both packages converged on -- consuming the space around 'I' made
 # the alert span too wide in editors, and `nonword` would block project Vocabs.
 extends: existence
-message: "First-person singular: '%s'."
+message: "Replace '%s' with the name of who acts."
 level: suggestion
 ignorecase: true
 tokens:
@@ -21,9 +21,9 @@ tests:
     input: >
       I think you should restart. My preference is TLS, and I'll explain why.
     want: |
-      1:1:ProseStyle.FirstPersonSingular:First-person singular: 'I'.
-      1:29:ProseStyle.FirstPersonSingular:First-person singular: 'My'.
-      1:55:ProseStyle.FirstPersonSingular:First-person singular: 'I'll'.
+      1:1:ProseStyle.FirstPersonSingular:Replace 'I' with the name of who acts.
+      1:29:ProseStyle.FirstPersonSingular:Replace 'My' with the name of who acts.
+      1:55:ProseStyle.FirstPersonSingular:Replace 'I'll' with the name of who acts.
 
   - name: clean
     input: >

@@ -2,7 +2,7 @@
 # Human text varies more: a deviation of 9 to 11 words against 5.8 for agent replies.
 # Paragraph-level evidence is thin: 7 of 34 agent paragraphs and 9 of 84 human ones have a deviation of 4 or less.
 extends: metric
-message: "Five or more sentences run to almost the same length: vary them, or join two."
+message: "Five sentences in a row have almost the same length: shorten one, or join two."
 level: warning
 scope: paragraph
 formula: sentence_length_sd
@@ -13,7 +13,7 @@ tests:
       The worker reads the cache every minute. The daemon writes the log each
       second. A client reads the log on demand. The store keeps every record
       forever. The host runs the tool on request.
-    contains: Five or more sentences
+    contains: "Five sentences in a row have almost the same length: shorten one, or join two"
   - name: leaves varied lengths and short paragraphs alone
     input: |
       The worker reads the cache every minute. The daemon writes. A client reads the log on demand because the store keeps every record forever and needs no index. Short. The host runs the tool on request, and nothing waits.

@@ -1,7 +1,7 @@
 # "X, not Y" and "not because X, but Y" frame a claim against a straw man.
 # BinaryContrast covers "is not X, it's Y".
 extends: existence
-message: "Straw-man contrast '%s': make the claim directly."
+message: "Cut the contrast in '%s' and state the claim."
 level: error
 ignorecase: true
 nonword: true

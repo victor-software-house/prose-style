@@ -4,7 +4,7 @@
 # Parentheses inside a class are escaped: Vale joins the tokens, and a bare ")"
 # in a class breaks the tokens after it.
 extends: existence
-message: "Dash '%s': use a period, comma, colon or parentheses."
+message: "Replace the dash in '%s' with a period, comma, colon or parentheses."
 level: error
 nonword: true
 tokens:

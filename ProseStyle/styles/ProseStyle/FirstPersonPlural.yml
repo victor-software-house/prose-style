@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Google (MIT). See NOTICE.
 #
 extends: existence
-message: "First-person plural: '%s'."
+message: "Replace '%s' with the name of who acts."
 level: suggestion
 ignorecase: true
 tokens:
@@ -15,9 +15,9 @@ tests:
     input: >
       We recommend restarting. Let's begin, and the choice is ours.
     want: |
-      1:1:ProseStyle.FirstPersonPlural:First-person plural: 'We'.
-      1:26:ProseStyle.FirstPersonPlural:First-person plural: 'Let's'.
-      1:57:ProseStyle.FirstPersonPlural:First-person plural: 'ours'.
+      1:1:ProseStyle.FirstPersonPlural:Replace 'We' with the name of who acts.
+      1:26:ProseStyle.FirstPersonPlural:Replace 'Let's' with the name of who acts.
+      1:57:ProseStyle.FirstPersonPlural:Replace 'ours' with the name of who acts.
 
   - name: clean
     input: >

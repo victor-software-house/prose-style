@@ -4,7 +4,7 @@
 # "Byte-identical" and "keeps its own" pass: one is an exact term, the other plain English.
 # "Authoritative" passes in a DNS sense, such as an authoritative name server.
 extends: existence
-message: "Stock word '%s': write the concrete action or result it stands for."
+message: "Replace '%s' with the action or result it means."
 level: warning
 ignorecase: true
 exceptions:

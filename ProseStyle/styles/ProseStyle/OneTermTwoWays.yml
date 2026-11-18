@@ -1,7 +1,7 @@
 # One term in two spellings in one file makes a reader wonder if they differ.
 # Add a pair here when a file shows a new split.
 extends: consistency
-message: "Write '%s' one way in a file: this file already uses the other form."
+message: "This file spells '%s' two ways: pick one and use it everywhere."
 level: error
 ignorecase: true
 either:
@@ -17,7 +17,7 @@ either:
 tests:
   - name: flags the second spelling in a file
     input: Send an email. Read the e-mail.
-    contains: "Write 'e-mail' one way"
+    contains: "This file spells 'e-mail' two ways: pick one and use it everywhere"
   - name: leaves one spelling alone
     input: >
       The worktree holds the filesystem. Check the codebase and the email.

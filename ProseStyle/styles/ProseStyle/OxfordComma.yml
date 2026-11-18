@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Google (MIT). See NOTICE.
 #
 extends: existence
-message: "Missing serial comma before '%s'."
+message: "Add a comma before '%s'."
 scope: sentence
 level: suggestion
 nonword: true
@@ -42,7 +42,7 @@ tests:
     input: >
       The installer copies binaries, styles and vocabularies.
     want: |
-      1:30:ProseStyle.OxfordComma:Missing serial comma before ', styles and vocabularies.'.
+      1:30:ProseStyle.OxfordComma:Add a comma before ', styles and vocabularies.'.
 
   - name: clean
     input: >

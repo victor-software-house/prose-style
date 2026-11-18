@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Microsoft (MIT). See NOTICE.
 #
 extends: substitution
-message: "Use '%s' instead of '%s'."
+message: "Write '%s' instead of '%s'."
 level: suggestion
 ignorecase: true
 action:
@@ -54,9 +54,9 @@ tests:
     input: >
       Do not restart the host. It is not safe, and you cannot undo it.
     want: |
-      1:1:ProseStyle.Contractions:Use 'don't' instead of 'Do not'.
-      1:26:ProseStyle.Contractions:Use 'it's' instead of 'It is'.
-      1:50:ProseStyle.Contractions:Use 'can't' instead of 'cannot'.
+      1:1:ProseStyle.Contractions:Write 'don't' instead of 'Do not'.
+      1:26:ProseStyle.Contractions:Write 'it's' instead of 'It is'.
+      1:50:ProseStyle.Contractions:Write 'can't' instead of 'cannot'.
 
   - name: clean
     input: >

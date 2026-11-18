@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Google (MIT). See NOTICE.
 #
 extends: existence
-message: "'%s' is not a gender-neutral pronoun."
+message: "Write 'they' instead of '%s'."
 level: suggestion
 ignorecase: true
 tokens:
@@ -13,7 +13,7 @@ tests:
     input: >
       Each user should check his/her settings, or s/he can ask an admin.
     want: |
-      1:45:ProseStyle.GenderedPronouns:'s/he' is not a gender-neutral pronoun.
+      1:45:ProseStyle.GenderedPronouns:Write 'they' instead of 's/he'.
 
   - name: clean
     input: >

@@ -1,7 +1,7 @@
 # Documentation reads serious and formal, in the terms experts use. Slang reads like chat.
 # A word inside a name, such as the package pi-btw or the library lol-html, passes.
 extends: existence
-message: "Slang '%s': use a plain, formal word."
+message: "Replace the slang '%s' with a common word."
 level: error
 ignorecase: true
 nonword: true

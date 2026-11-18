@@ -10,7 +10,7 @@
 # rewrite rather than a swap, and a fix applied without thought has to be right
 # every time or it is worse than no fix at all.
 extends: substitution
-message: "Inflated word: use '%s' instead of '%s'."
+message: "Write '%s' instead of '%s'."
 level: error
 ignorecase: true
 # The fix keeps the matched word's case, so a sentence-initial "Utilize"
@@ -55,12 +55,12 @@ tests:
     input: |
       We utilize caching.
     want: |
-      1:4:ProseStyle.InflatedWords:Inflated word: use 'use' instead of 'utilize'.
+      1:4:ProseStyle.InflatedWords:Write 'use' instead of 'utilize'.
   - name: keeps the case
     input: |
       Utilize caching.
     want: |
-      1:1:ProseStyle.InflatedWords:Inflated word: use 'Use' instead of 'Utilize'.
+      1:1:ProseStyle.InflatedWords:Write 'Use' instead of 'Utilize'.
   - name: clean
     input: |
       We use caching.
