@@ -7,7 +7,7 @@
 # After a full stop, a hard break counts as one space.
 # That break is two spaces and a line break.
 extends: existence
-message: "Reword one of these three sentences so it does not start with '%s'."
+message: "Three sentences in a row start with '%s'. Begin one another way."
 level: warning
 scope: paragraph
 ignorecase: true
@@ -19,7 +19,7 @@ tests:
     input: >
       The worker reads the cache. The cache holds one file. The file keeps
       one record.
-    contains: "Reword one of these three sentences so it does not start with"
+    contains: "Begin one another way."
   - name: leaves varied openings and list items alone
     input: |
       The worker reads the cache. A file holds one record. The daemon writes
@@ -34,10 +34,10 @@ tests:
       The build took 62.33 s on the box.
       The cache is in cache.db now.
       The log is clean.
-    contains: "Reword one of these three sentences so it does not start with"
+    contains: "Begin one another way."
   - name: leaves a run broken by a sentence that opens with a code span
     input: The build ran. `make` then ran. The log is clean. The cache is warm.
     want: ''
   - name: reads a run over hard breaks
     input: "The build ran.  \nThe log is clean.  \nThe cache is warm."
-    contains: "Reword one of these three sentences so it does not start with"
+    contains: "Begin one another way."
