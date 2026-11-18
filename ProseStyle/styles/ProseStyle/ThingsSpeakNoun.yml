@@ -2,7 +2,7 @@
 # Nouns for people and agents pass, and so does a symbol or word the tagger reads as a noun, such as 'okay' or 'cannot'.
 # ThingsSpeak matches the pronouns it, both and which.
 extends: sequence
-message: "'%[1]s %[2]s' gives a thing speech or thought: name what it holds, shows, marks or matches."
+message: "'%[1]s %[2]s' gives a thing speech or thought: say what it does, such as shows, returns or contains."
 level: error
 ignorecase: true
 exceptions:
@@ -26,7 +26,7 @@ tests:
   - name: leaves people, agents and literal verbs alone
     input: >
       The operator said to keep it. Our team wants a fix, and the reviewer
-      asked why. The agent thinks the build fails. The file holds the rows,
+      asked why. The agent thinks the build fails. The file contains the rows,
       and the log shows the wait in `run.log` for PR #12.
     want: ''
   - name: leaves a person noun and a symbol alone

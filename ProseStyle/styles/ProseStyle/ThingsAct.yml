@@ -1,18 +1,20 @@
 # A thing that owns, refuses, waits, sits or lives acts like a person.
 # Agent docs use these verbs far more than human design docs. "Keeps" and "stays" are plain verbs and pass.
 extends: existence
-message: "'%s' gives a thing a person's action: say what it holds, rejects or blocks."
+message: "'%s' gives a thing a person's action: say what it does, such as rejects, blocks or stores."
 level: error
 ignorecase: true
 tokens:
   - '(?:file|doc|log|row|table|spec|record|value|code|error|message|commit|adapter|store|server|client|command|program|tool|daemon|session|worker|crate|module|function|type|field|cache|journal|supervisor|process|test|loop|host|link|socket)s? (?:owns|refuses|survives|waits|sits|lives|carries)\b'
+  - '\b(?:the|a|an|this|that|its|each|every) (?:file|doc|log|row|table|spec|record|value|code|error|message|commit|adapter|store|server|client|command|program|tool|daemon|session|worker|crate|module|function|type|field|cache|journal|supervisor|process|test|loop|host|link|socket) names (?:the|a|an|its|each|every)\b'
 tests:
   - name: flags a thing that owns, refuses or waits
-    input: The store owns the rows. The daemon waits for the host. A file refuses writes.
+    input: The store owns the rows. The daemon waits for the host. A file refuses writes. The error names the type.
     contains:
       - "'store owns'"
       - "'daemon waits'"
       - "'file refuses'"
+      - "error names the"
   - name: leaves people and plain verbs alone
-    input: The operator owns the repository. The team waits for review. The cache holds the rows.
+    input: The operator owns the repository. The team waits for review. The cache stores the rows. List the file names and field names.
     want: ''

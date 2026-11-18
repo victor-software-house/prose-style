@@ -12,10 +12,10 @@ The `README.md` lists the habits it flags and how a project uses it.
 - `ProseStyle/styles/config/vocabularies/ProseStyle/accept.txt`: words an upstream rule flags that have a plain technical use, such as the noun `harness`.  
   hakkiri reads each entry as an exception, so `SlopWords` lets the noun pass and still flags `harnessed` and `harnessing`.
 - `PullRequestStyle/`: the Vale package the organization's pull request check reads after the frozen `v0.0.14` ProseStyle zip.  
-  Its `.vale.ini` sets the rules for the `.pr-title` and `.pr-body` files that check writes, and its style holds the rules only pull request text needs.
+  Its `.vale.ini` sets the rules for the `.pr-title` and `.pr-body` files that check writes, and its style has the rules only pull request text needs.
 - `mise-tasks/build.py`: zips the tracked `ProseStyle/` folder and the tracked `PullRequestStyle/` folder, with fixed times, so the same inputs give the same bytes.
 - `mise-tasks/alerts/diff.py`: `mise run alerts:diff` runs Vale and hakkiri over the files of some checkouts and diffs their alerts by rule.  
-  Its arguments name the checkouts, the binaries and the package, and the tables go to an output folder, so this repository holds nothing of the projects it runs on.
+  Its arguments name the checkouts, the binaries and the package, and the tables go to an output folder, so this repository stores nothing from the projects it runs on.
 - `test/`: a hakkiri consumer project that unpacks the built `ProseStyle.zip` and runs `package.test.yml`, and `test/pull-request/`, a Vale project for the pull request package.
 - `.github/workflows/`: `ci.yml` runs the tests; `release.yml` builds and attaches both zips on a tag, and prints the `packages:` entry in the release notes.
 
@@ -49,7 +49,7 @@ The `README.md` lists the habits it flags and how a project uses it.
 ## Writing in this repository
 
 The package's own rules apply here: plain words, short sentences, no dashes as punctuation.  
-A file, rule or value holds, shows, marks or matches; it never says, knows or wants.
+A file, rule or value contains, shows, returns or matches; it never says, knows or wants.
 
 Use word pairs that occur in ordinary English.  
 Check a doubtful pair, such as "plain fix", against its alternatives in [Google Books Ngram][ngram].  
