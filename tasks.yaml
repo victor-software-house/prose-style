@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/victor-software-house/qctl/main/schema/tasks.schema.json
+schema_version: 6
+prefix: PST
+active: null
+queue:
+  - id: PST-001
+    title: Enforce one standard English spelling per project
+    scope: ProseStyle.OneTermTwoWays
+    outcome: >-
+      A project picks American or British English once, and the package flags every
+      word spelled the other way.
+    blocked_by: []
+    acceptance:
+      - A project setting picks American or British English, and American is the default.
+      - The package flags a word spelled in the other standard, such as colour in an American project, with the spelling to write.
+      - OneTermTwoWays keeps flagging one term written two ways in one file, such as email and e-mail.
+    notes:
+      - 2026-11-18, operator request, OneTermTwoWays today checks only nine hand-listed pairs, so a file can mix colour and color.
+archive: []
+horizon: []
