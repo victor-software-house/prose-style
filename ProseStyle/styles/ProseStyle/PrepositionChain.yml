@@ -9,7 +9,7 @@
 # is no word of a chain, so a chain after it is still found.
 # Source: Google developer documentation style guide, "Prepositions".
 extends: existence
-message: "This sentence has three prepositional phrases in a row: cut one, or turn one into a verb."
+message: "Cut one of these three prepositional phrases."
 level: warning
 scope: sentence
 ignorecase: true
@@ -18,10 +18,10 @@ raw:
 tests:
   - name: flags three prepositional phrases in a row
     input: The handling of errors in the parser of the daemon fails.
-    contains: "This sentence has three prepositional phrases in a row: cut one, or turn one into a verb"
+    contains: "Cut one of these three prepositional phrases."
   - name: flags a chain over short noun groups
     input: The scopes of each token of each line of the text, innermost last.
-    contains: "This sentence has three prepositional phrases in a row: cut one, or turn one into a verb"
+    contains: "Cut one of these three prepositional phrases."
   - name: leaves one or two phrases alone
     input: >
       The parser handles errors in large files. Run the tests in
@@ -38,14 +38,14 @@ tests:
       /// A lease is renewed with a check of the clock
       /// during the sweep of each shard.
       fn renew() {}
-    contains: "This sentence has three prepositional phrases in a row: cut one, or turn one into a verb"
+    contains: "Cut one of these three prepositional phrases."
     format: rs
   - name: reads a chain over a percentage and a unit
     input: A queue that grows by well over 5% on busy hosts is flagged.
-    contains: "This sentence has three prepositional phrases in a row: cut one, or turn one into a verb"
+    contains: "Cut one of these three prepositional phrases."
   - name: leaves a hyphenated word alone
     input: The in-memory copy of the stand-in for the opt-in flag is by-feel.
     want: ''
   - name: reads a chain after a code span
     input: Rows from `seq` on are dropped from the index in memory.
-    contains: "This sentence has three prepositional phrases in a row: cut one, or turn one into a verb"
+    contains: "Cut one of these three prepositional phrases."

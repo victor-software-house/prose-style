@@ -4,7 +4,7 @@
 # past participle plus the regular `-ed` form. Rebuilding this list is the work
 # this rule exists to save.
 extends: existence
-message: "'%s' is passive: name who does it."
+message: "Rewrite '%s' in the active voice."
 level: suggestion
 ignorecase: true
 raw:
@@ -191,8 +191,8 @@ tests:
     input: >
       The file was deleted by the installer. Mistakes were made.
     want: |
-      1:10:ProseStyle.PassiveVoice:'was deleted' is passive: name who does it.
-      1:49:ProseStyle.PassiveVoice:'were made' is passive: name who does it.
+      1:10:ProseStyle.PassiveVoice:Rewrite 'was deleted' in the active voice.
+      1:49:ProseStyle.PassiveVoice:Rewrite 'were made' in the active voice.
 
   - name: clean
     input: >

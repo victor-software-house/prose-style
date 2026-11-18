@@ -1,7 +1,7 @@
 # Derived from errata-ai/Readability (MIT). See NOTICE.
 # Off until a project turns it on.
 extends: metric
-message: "The Gunning fog index is %s, over 10: use shorter sentences and words."
+message: "Gunning fog index %s is over 10: use shorter sentences and words."
 link: https://en.wikipedia.org/wiki/Gunning_fog_index
 
 formula: |
@@ -12,7 +12,7 @@ tests:
   - name: fires on a hard text
     input: >
       Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
-    contains: "The Gunning fog index is 38.00, over 10: use shorter sentences and words"
+    contains: "Gunning fog index 38.00 is over 10: use shorter sentences and words."
   - name: leaves a plain text alone
     input: The cat sat on the mat.
     want: ""

@@ -1,7 +1,7 @@
 # A thing that owns, refuses, waits, sits or lives acts like a person.
 # Agent docs use these verbs far more than human design docs. "Keeps" and "stays" are plain verbs and pass.
 extends: existence
-message: "Replace '%s' with what the program does, such as rejects, blocks or stores."
+message: "Replace '%s' with a verb such as rejects, blocks or stores."
 level: error
 ignorecase: true
 tokens:

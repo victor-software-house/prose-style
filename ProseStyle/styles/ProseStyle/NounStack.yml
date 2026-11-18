@@ -6,7 +6,7 @@
 # and so a name such as GitHub or AMD does not count on its inner lowercase letters.
 # Source: Microsoft Writing Style Guide, "Writing tips for a global audience", "Avoid modifier stacks."
 extends: sequence
-message: "'%[1]s %[2]s %[3]s %[4]s' is four nouns in a row: put a verb or a preposition between them."
+message: "Add a verb or preposition to '%[1]s %[2]s %[3]s %[4]s'."
 level: warning
 tokens:
   - tag: NN|NNS

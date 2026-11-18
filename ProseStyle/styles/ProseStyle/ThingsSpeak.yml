@@ -3,7 +3,7 @@
 # ThingsSpeakNoun matches nouns. "They" passes: in docs it names people, as in
 # "ask the user if they want". "Tells them apart" is a plain verb and passes.
 extends: existence
-message: "Replace '%s' with what the thing does, such as shows, returns or contains."
+message: "Replace '%s' with a verb such as shows, returns or contains."
 level: error
 ignorecase: true
 tokens:

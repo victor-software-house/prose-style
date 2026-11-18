@@ -1,7 +1,7 @@
 # Extracted from errata-ai/Google (MIT). See NOTICE.
 #
 extends: existence
-message: "Write the date '%s' in the form 2026-11-18."
+message: "Write '%s' in the form 2026-11-18."
 level: suggestion
 ignorecase: true
 nonword: true
@@ -13,8 +13,8 @@ tests:
     input: >
       Support ends on 12/31/2026, which was announced on 5 January 2026.
     want: |
-      1:17:ProseStyle.DateFormat:Write the date '12/31/2026' in the form 2026-11-18.
-      1:52:ProseStyle.DateFormat:Write the date '5 January 2026' in the form 2026-11-18.
+      1:17:ProseStyle.DateFormat:Write '12/31/2026' in the form 2026-11-18.
+      1:52:ProseStyle.DateFormat:Write '5 January 2026' in the form 2026-11-18.
 
   - name: clean
     input: >

@@ -6,7 +6,7 @@
 # Matched by case, a capital only first, so an all-caps code such as
 # M-INITIAL-CAPACITY is not a word.
 extends: existence
-message: "'%s' is not an English word: use a common word for the same thing."
+message: "Replace '%s' with a common word."
 level: error
 nonword: true
 exceptions:

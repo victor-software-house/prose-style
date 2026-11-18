@@ -1,7 +1,7 @@
 # A tracked document says what it means in plain words. Profanity marks a pasted
 # chat message.
 extends: existence
-message: "Cut the profanity '%s'."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 tokens:

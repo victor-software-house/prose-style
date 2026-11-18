@@ -10,7 +10,7 @@
 # The rest matches BareWorkItem: a code in link text or backticks, and a
 # standard name such as SHA-256 or DNS-01, passes.
 extends: existence
-message: "'%s' is a bare code: replace it with the title of the ticket or pull request, as a link."
+message: "Replace '%s' with its linked title."
 level: error
 scope: raw.rs
 nonword: true

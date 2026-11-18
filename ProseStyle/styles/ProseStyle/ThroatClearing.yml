@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
 #
 extends: existence
-message: "Cut '%s' and state the point."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 tokens:
@@ -21,7 +21,7 @@ tests:
     input: |
       Here's the thing: it works.
     want: |
-      1:1:ProseStyle.ThroatClearing:Cut 'Here's the thing' and state the point.
+      1:1:ProseStyle.ThroatClearing:Cut 'Here's the thing'.
   - name: clean
     input: |
       It works.

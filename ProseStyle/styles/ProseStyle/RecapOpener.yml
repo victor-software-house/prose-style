@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Peter Yang, licensed under the MIT License. See NOTICE.
 #
 extends: existence
-message: "Cut the recap '%s' and end on the last fact."
+message: "Cut the recap '%s'."
 level: error
 ignorecase: true
 nonword: true
@@ -14,7 +14,7 @@ tests:
     input: |
       In conclusion, it works.
     want: |
-      1:1:ProseStyle.RecapOpener:Cut the recap 'In conclusion' and end on the last fact.
+      1:1:ProseStyle.RecapOpener:Cut the recap 'In conclusion'.
   - name: clean
     input: |
       It works.

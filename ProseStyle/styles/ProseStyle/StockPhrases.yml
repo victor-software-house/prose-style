@@ -1,6 +1,6 @@
 # Stock phrases that stand in for a real explanation. Write the concrete action or result instead.
 extends: existence
-message: "Replace '%s' with the action or result it means."
+message: "Replace '%s' with specific words."
 level: error
 ignorecase: true
 tokens:

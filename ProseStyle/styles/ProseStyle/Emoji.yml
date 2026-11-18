@@ -1,6 +1,6 @@
 # Symbols such as ✔ ✘ ▲ ▴ → — · … pass. Emoji fail, and so do ‼ and ⁉.
 extends: existence
-message: "Replace the emoji '%s' with a word, or a symbol such as ✔, ✘ or ▲."
+message: "Replace the emoji '%s' with a word or a symbol such as ✔."
 level: error
 nonword: true
 tokens:

@@ -3,7 +3,7 @@
 # An OpenSpec THEN or AND step states a result after the action, so "no longer"
 # passes there. "Was dropped" passes too: a firewall drops packets.
 extends: existence
-message: "Cut '%s' and state the fact as it is now."
+message: "Cut '%s'."
 level: warning
 ignorecase: true
 exceptions:
