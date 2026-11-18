@@ -16,5 +16,18 @@ queue:
       - OneTermTwoWays keeps flagging one term written two ways in one file, such as email and e-mail.
     notes:
       - 2026-11-18, operator request, OneTermTwoWays today checks only nine hand-listed pairs, so a file can mix colour and color.
+
+  - id: PST-002
+    title: Check pull request text with hakkiri and the current package
+    scope: PullRequestStyle, the organization pull request check
+    outcome: >-
+      The pull request check reports the same rules and messages as the current
+      ProseStyle release.
+    blocked_by: []
+    acceptance:
+      - The organization pull request check runs hakkiri with the latest ProseStyle release, not Vale with the frozen v0.0.14 zip.
+      - A pull request alert shows the current message of its rule.
+    notes:
+      - 2026-11-18, prose-style pull request 38 drew alerts in the old v0.0.14 wording, such as reads like chat.
 archive: []
 horizon: []
