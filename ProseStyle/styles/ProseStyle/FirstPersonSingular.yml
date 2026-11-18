@@ -1,8 +1,9 @@
-# Extracted from errata-ai/Microsoft (MIT). See NOTICE.
+# Taken from `errata-ai/Microsoft` (MIT). See `NOTICE`.
 #
-# Microsoft's token set (the superset: I'd, I'll, I've) with the lookaround
-# refinement both packages converged on -- consuming the space around 'I' made
-# the alert span too wide in editors, and `nonword` would block project Vocabs.
+# It uses Microsoft's token set, the larger one with `I'd`, `I'll` and `I've`.
+# It adds the lookaround that both packages came to use.
+# Matching the space around `I` made the alert span too wide in editors.
+# And `nonword` would block a project's own vocabulary.
 extends: existence
 message: "Replace '%s' with the subject."
 level: suggestion

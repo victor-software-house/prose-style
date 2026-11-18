@@ -1,5 +1,5 @@
-# "Holds" for what a file, field or program contains is a stiff verb that
-# agents overuse; people write contains, stores or has.
+# The verb `holds` for what a file, field or program contains is stiff, and agents use it too much.
+# People write contains, stores or has.
 extends: existence
 message: "Write contains, stores or has instead of '%s'."
 level: error

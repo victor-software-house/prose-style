@@ -1,10 +1,16 @@
-# Four nouns in a row hide how they relate. Add a verb or a preposition.
+# Four nouns in a row hide how they relate.
+# Add a verb or a preposition.
 # Agent docs hit this 1.4 times as often as human design docs, so the evidence is thin.
-# Each noun is a lowercase word with no hyphen: a title-case heading, a table pipe or an arrow the tagger reads as a noun passes,
-# and a hyphenated word such as 'integration-test' is a modifier that ends the run.
-# The pattern looks around the word instead of anchoring it, since an anchor never matches a word inside its sentence,
-# and so a name such as GitHub or AMD does not count on its inner lowercase letters.
-# Source: Microsoft Writing Style Guide, "Writing tips for a global audience", "Avoid modifier stacks."
+#
+# Each noun is a lowercase word with no hyphen.
+# So the tagger can read a title-case heading, a table pipe or an arrow as a noun, and the match still passes.
+# A word with a hyphen, such as `integration-test`, is a modifier that ends the run.
+#
+# The pattern looks around the word and does not anchor it.
+# An anchor never matches a word inside its sentence.
+# So a name such as `GitHub` or `AMD` does not count on its inner lowercase letters.
+#
+# Source: the Microsoft Writing Style Guide, "Writing tips for a global audience", "Avoid modifier stacks."
 extends: sequence
 message: "Add a verb or preposition to '%[1]s %[2]s %[3]s %[4]s'."
 level: warning

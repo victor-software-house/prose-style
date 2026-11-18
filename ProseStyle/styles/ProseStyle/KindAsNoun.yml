@@ -1,6 +1,7 @@
-# "Kind" as a noun for a category hides what varies. Natural uses such as
-# "the same kind of", "three kinds of" and "a work of this kind" pass: a kind
-# right before "of", or after "of this" or "of a", is plain English. Code spans are skipped.
+# Using `kind` as a noun for a category hides what varies.
+# Natural uses pass, such as `the same kind of`, `three kinds of` and `a work of this kind`.
+# The word is plain English right before `of`, or after `of this` or `of a`.
+# Code spans are skipped.
 extends: existence
 message: "Replace '%s' with a specific term, such as record type."
 level: error

@@ -1,4 +1,4 @@
-# Extracted from errata-ai/Google (MIT). See NOTICE.
+# Taken from `errata-ai/Google` (MIT). See `NOTICE`.
 #
 extends: existence
 message: "Write '%s' in the form 2026-11-18."

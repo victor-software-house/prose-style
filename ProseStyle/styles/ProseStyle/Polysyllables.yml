@@ -1,11 +1,14 @@
-# Derived from errata-ai/Readability (MIT). See NOTICE.
+# Derived from `errata-ai/Readability` (MIT). See `NOTICE`.
 #
-# The words behind a SMOG or Gunning fog score: each one of three or more
-# syllables. A word counts when it has four vowel groups, or three groups and
-# no ending that takes one off: a silent final e (not -le, -ee), -ed (not
-# [td]ed) or -es (not [sxz]es, [cs]hes). That is the count of the Tengo script
-# this rule replaces, which agreed with it on 238,342 words. Off until a
-# project turns it on.
+# These are the words behind a SMOG (Simple Measure of Gobbledygook) or Gunning fog score.
+# Each one has three or more syllables.
+#
+# A word counts when it has four vowel groups.
+# It also counts with three groups and no ending that takes one off.
+# Those endings are a silent final `e` (but not `-le` or `-ee`), `-ed` (but not `[td]ed`), and `-es` (but not `[sxz]es` or `[cs]hes`).
+#
+# That is the count of the Tengo script this rule replaces, which agreed with it on 238,342 words.
+# Off until a project turns it on.
 extends: existence
 message: "Use a shorter word than '%s'."
 link: https://en.wikipedia.org/wiki/SMOG

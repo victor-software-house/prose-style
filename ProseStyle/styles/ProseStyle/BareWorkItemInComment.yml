@@ -1,14 +1,16 @@
-# BareWorkItem for Rust: a bare code in a comment names nothing a reader
-# knows, and a code in a string literal or macro body is data.
-# Raw scope sees the whole file, so the lookbehind keeps a code that follows
-# // on its line, follows /* on its line, or sits up to 50 lines below a line
-# that opens with /*, as BareURLInComment does.
-# That lookbehind scans back up to 50 lines, so the lookahead in front runs
-# it only where a code starts, not at every capital letter. It reads a
-# comment as runs of characters other than *, so a line of thousands of
-# characters stays within regexp2's backtracking stack.
-# The rest matches BareWorkItem: a code in link text or backticks, and a
-# standard name such as SHA-256 or DNS-01, passes.
+# BareWorkItem for Rust: a bare code in a comment means nothing to a reader.
+# A code in a string literal or a macro body is data.
+#
+# Raw scope sees the whole file, so the lookbehind keeps a code that follows `//` or `/*` on its line.
+# It also keeps one up to 50 lines below a line that opens with `/*`, as BareURLInComment does.
+#
+# That lookbehind scans back up to 50 lines.
+# So the lookahead in front runs it only where a code starts, and skips other capital letters.
+# It reads a comment as runs of characters other than `*`.
+# So a very long line stays within the backtracking stack of `regexp2`.
+#
+# The rest matches BareWorkItem.
+# A code in link text or backticks passes, and so does a standard name such as `SHA-256` or `DNS-01`.
 extends: existence
 message: "Write the title of '%s' and link it."
 level: error
