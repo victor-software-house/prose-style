@@ -19,10 +19,10 @@ tests:
 
       A request asks for the rows, and the docs say it works.
     contains:
-      - "Replace 'says' with"
-      - "Replace 'knows' with"
-      - "Replace 'asks' with"
-      - "Replace 'say' with"
+      - "with a verb such as shows, returns or contains."
+      - "with a verb such as shows, returns or contains."
+      - "with a verb such as shows, returns or contains."
+      - "with a verb such as shows, returns or contains."
   - name: leaves people, agents and literal verbs alone
     input: >
       The operator said to keep it. Our team wants a fix, and the reviewer

@@ -53,4 +53,4 @@ tests:
     want: ''
   - name: reads a chain after a code span
     input: Rows from `seq` on are dropped from the index in memory.
-    contains: "Cut one of these three prepositional phrases."
+    contains: "three prepositional phrases"

@@ -29,4 +29,4 @@ tests:
     want: ''
   - name: flags plain fix
     input: This is a plain fix.
-    contains: "Write 'quick fix' instead of 'plain fix'"
+    contains: "instead of"

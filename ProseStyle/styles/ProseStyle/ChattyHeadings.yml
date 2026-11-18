@@ -8,7 +8,7 @@
 # OpenSpec's `Why` and `What Changes` fail anywhere but the `proposal.md` of a change.
 # The package's settings skip that file, since OpenSpec requires those headings there.
 extends: existence
-message: "Rewrite the heading as a noun phrase, such as Setup."
+message: "Rewrite the heading without '%s', as a noun phrase such as Setup."
 level: error
 scope: heading
 ignorecase: true
@@ -32,9 +32,9 @@ tests:
 
       Text.
     contains:
-      - "Rewrite the heading as a noun phrase, such as Setup."
-      - "Rewrite the heading as a noun phrase, such as Setup."
-      - "Rewrite the heading as a noun phrase, such as Setup."
+      - "'it'"
+      - "'What'"
+      - "'How'"
   - name: leaves noun headings alone
     input: |
       # Setup
@@ -50,7 +50,7 @@ tests:
       # Piece
 
       Text.
-    contains: "Rewrite the heading as a noun phrase, such as Setup."
+    contains: "'Piece'"
   - name: leaves it in an OpenSpec scenario title alone
     input: |
       #### Scenario: Incus keeps its own dnsmasq
@@ -66,4 +66,4 @@ tests:
       #### Scenario: You restart the host
 
       Text.
-    contains: "Rewrite the heading as a noun phrase, such as Setup."
+    contains: "'You'"

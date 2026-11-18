@@ -10,8 +10,8 @@ level: error
 nonword: true
 tokens:
   - '(?<=[\w\)`"*_])\s*—\s*(?=[\w\(`"*_])'
-  - "Replace the dash with a period, comma, colon or parentheses."
-  - "Replace the dash with a period, comma, colon or parentheses."
+  - ' – '
+  - ' -- '
 tests:
   - name: flags em, spaced en and double-hyphen dashes
     input: |
@@ -21,7 +21,9 @@ tests:
 
       It runs -- then stops.
     contains:
-      - "with a period, comma, colon or parentheses."
+      - "' — '"
+      - "' – '"
+      - "' -- '"
   - name: leaves ranges and empty cells alone
     input: |
       Ranges like 1–3 stay.

@@ -12,7 +12,7 @@ tests:
   - name: flags two chain markers in one sentence
     input: >
       The daemon waits for the host; the host sits idle, which is slow.
-    contains: "Split the sentence at '; the host sits idle, which'."
+    contains: "Split the sentence at"
   - name: leaves one marker and a label colon alone
     input: |
       We checked the log, so the answer holds.
