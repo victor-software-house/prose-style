@@ -1,12 +1,13 @@
-# A compound coined from a hyphen chain: one carrying "versus", or a chain of
-# three or more parts turned into a noun with -ness or -ity. Two parts pass:
-# "source-integrity" and "high-quality" join real words. MadeUpNouns checks a
-# single -ness or -ity word against the dictionary. A chain that ends in a
-# common word, such as pi-test-harness or color-blindness, is a name and passes.
-# Matched by case, a capital only first, so an all-caps code such as
-# M-INITIAL-CAPACITY is not a word.
+# This rule finds a compound made up from a chain of hyphens.
+# It matches a chain that contains `versus`, or a chain of three or more parts turned into a noun with `-ness` or `-ity`.
+# Two parts pass, since `source-integrity` and `high-quality` join real words.
+# MadeUpNouns checks a single `-ness` or `-ity` word against the dictionary.
+#
+# A chain that ends in a common word, such as `pi-test-harness` or `color-blindness`, is a name and passes.
+# Matches are case-sensitive, with a capital only at the start.
+# So a code in capitals such as `M-INITIAL-CAPACITY` is not a word.
 extends: existence
-message: "'%s' is a made-up word: say it in plain words."
+message: "Replace '%s' with a common word."
 level: error
 nonword: true
 exceptions:

@@ -1,10 +1,10 @@
-# Extracted from errata-ai/Google (MIT). See NOTICE.
+# Taken from `errata-ai/Google` (MIT). See `NOTICE`.
 #
-# The `raw` prefix anchors on an auxiliary; the token list is every irregular
-# past participle plus the regular `-ed` form. Rebuilding this list is the work
-# this rule exists to save.
+# The `raw` prefix anchors on an auxiliary.
+# The token list contains every irregular past participle, plus the regular `-ed` form.
+# This rule exists to save the work of building that list again.
 extends: existence
-message: "'%s' looks like passive voice."
+message: "Rewrite '%s' in the active voice."
 level: suggestion
 ignorecase: true
 raw:
@@ -191,8 +191,8 @@ tests:
     input: >
       The file was deleted by the installer. Mistakes were made.
     want: |
-      1:10:ProseStyle.PassiveVoice:'was deleted' looks like passive voice.
-      1:49:ProseStyle.PassiveVoice:'were made' looks like passive voice.
+      1:10:ProseStyle.PassiveVoice:Rewrite 'was deleted' in the active voice.
+      1:49:ProseStyle.PassiveVoice:Rewrite 'were made' in the active voice.
 
   - name: clean
     input: >

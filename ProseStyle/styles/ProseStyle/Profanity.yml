@@ -1,7 +1,7 @@
-# A tracked document says what it means in plain words. Profanity marks a pasted
-# chat message.
+# A tracked document states what it means in plain words.
+# Profanity marks a pasted chat message.
 extends: existence
-message: "Profanity '%s' marks a pasted chat message: say what you mean in plain words."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 tokens:

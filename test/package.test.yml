@@ -1,5 +1,5 @@
-# Project cases: linted through the built ProseStyle.zip, unpacked and listed
-# the way a project that names the release runs.
+# Project cases, linted through the built `ProseStyle.zip`.
+# The zip is unpacked and listed the way a project runs when it pins the release.
 - name: every enabled style reaches a Markdown file
   input: |
     The blocker is load-bearing — so we wait, e.g. a day.
@@ -30,6 +30,72 @@
   contains:
     - ProseStyle.StockPhrases
     - ProseStyle.LatinAbbreviation
+- name: a Swift doc comment is Markdown
+  format: swift
+  input: |
+    /// The blocker is load-bearing, e.g. a day.
+    func wait() {}
+  contains:
+    - ProseStyle.StockPhrases
+    - ProseStyle.LatinAbbreviation
+- name: a Go comment is Markdown
+  format: go
+  input: |
+    // Wait is load-bearing, e.g. a day.
+    func Wait() {}
+  contains:
+    - ProseStyle.StockPhrases
+    - ProseStyle.LatinAbbreviation
+- name: a TypeScript comment is Markdown
+  format: ts
+  input: |
+    /** The blocker is load-bearing, e.g. a day. */
+    export function wait(): void {}
+  contains:
+    - ProseStyle.StockPhrases
+    - ProseStyle.LatinAbbreviation
+- name: a string literal in a Swift file is not prose
+  format: swift
+  input: |
+    // Closes the socket.
+    let message = "The blocker is load-bearing, e.g. a day. See [here](https://example.test/a)."
+  want: ''
+- name: a comment of several lines passes the line-break rules
+  format: go
+  input: |
+    // Close ends the connection. It waits for the last write,
+    // then frees the buffer.
+    func Close() {}
+  want: ''
+- name: a YAML comment is Markdown
+  format: yml
+  input: |
+    # The blocker is load-bearing, e.g. a day.
+    key: value
+  contains:
+    - ProseStyle.StockPhrases
+    - ProseStyle.LatinAbbreviation
+- name: a YAML value is not prose
+  format: yml
+  input: |
+    # The cache key.
+    message: The blocker is load-bearing, e.g. a day.
+  want: ''
+- name: a TOML comment is Markdown
+  format: toml
+  input: |
+    # The blocker is load-bearing, e.g. a day.
+    key = "value"
+  contains:
+    - ProseStyle.StockPhrases
+- name: a Shell comment is Markdown
+  format: sh
+  input: |
+    #!/usr/bin/env bash
+    # The blocker is load-bearing, e.g. a day.
+    echo "The blocker is load-bearing."
+  contains:
+    - ProseStyle.StockPhrases
 - name: a text file is not prose
   about: The globs of the package select Markdown, MDX and Rust, so a text file draws no alert.
   format: txt

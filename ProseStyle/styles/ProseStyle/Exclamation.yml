@@ -1,8 +1,8 @@
 # Technical prose states facts without emphasis.
-# A changeset's front matter maps a package to its bump, and `patch!` marks a
-# breaking patch there, so a value that is only a bump word keeps its mark.
+# A changeset's front matter maps a package to its bump, and `patch!` marks a breaking patch there.
+# So a value that is only a bump word keeps its mark.
 extends: existence
-message: "Exclamation mark: end the sentence with a period."
+message: "Replace the exclamation mark with a period."
 level: error
 nonword: true
 tokens:

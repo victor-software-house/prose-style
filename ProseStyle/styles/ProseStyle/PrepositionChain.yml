@@ -1,15 +1,20 @@
-# Three prepositional phrases in a row bury the verb. Cut one, or turn a phrase into a verb.
+# Three prepositional phrases in a row put the verb far from its subject.
+# Cut one, or turn one into a verb.
 # Agent docs hit this 1.7 times as often as human design docs.
-# A chain is three prepositions, each at most two words after the last, and a
-# number counts as a word. A comma, colon, semicolon, dash, parenthesis or code
-# span ends a chain, so a list of short phrases such as "`x` at `p`, with `y`
-# after it" passes. Any other character between words, a line break and a
-# comment marker included, is skipped, and a hyphenated word such as in-memory
-# is one word, so its first part is no preposition. A code span reads as the word x, which
-# is no word of a chain, so a chain after it is still found.
-# Source: Google developer documentation style guide, "Prepositions".
+#
+# Three prepositions make a chain when each is at most two words after the last.
+# Numbers count as words.
+# A comma, colon, semicolon, dash, parenthesis or code span ends a chain.
+# So a list of short phrases such as `x at p, with y after it` passes.
+#
+# The rule skips any other character between words, including a line break and a comment marker.
+# A word with a hyphen, such as `in-memory`, is one word, so its first part is no preposition.
+# A code span reads as the word `x`, which is not part of a chain.
+# So a chain after a code span is still found.
+#
+# Source: the Google style guide for developer documentation, "Prepositions".
 extends: existence
-message: "Three prepositional phrases in a row: cut one, or turn a phrase into a verb."
+message: "Cut one of these three prepositional phrases."
 level: warning
 scope: sentence
 ignorecase: true
@@ -18,10 +23,10 @@ raw:
 tests:
   - name: flags three prepositional phrases in a row
     input: The handling of errors in the parser of the daemon fails.
-    contains: Three prepositional phrases
+    contains: "Cut one of these three prepositional phrases."
   - name: flags a chain over short noun groups
     input: The scopes of each token of each line of the text, innermost last.
-    contains: Three prepositional phrases
+    contains: "Cut one of these three prepositional phrases."
   - name: leaves one or two phrases alone
     input: >
       The parser handles errors in large files. Run the tests in
@@ -38,14 +43,14 @@ tests:
       /// A lease is renewed with a check of the clock
       /// during the sweep of each shard.
       fn renew() {}
-    contains: Three prepositional phrases
+    contains: "Cut one of these three prepositional phrases."
     format: rs
   - name: reads a chain over a percentage and a unit
     input: A queue that grows by well over 5% on busy hosts is flagged.
-    contains: Three prepositional phrases
+    contains: "Cut one of these three prepositional phrases."
   - name: leaves a hyphenated word alone
     input: The in-memory copy of the stand-in for the opt-in flag is by-feel.
     want: ''
   - name: reads a chain after a code span
     input: Rows from `seq` on are dropped from the index in memory.
-    contains: Three prepositional phrases
+    contains: "three prepositional phrases"

@@ -1,10 +1,10 @@
-# Extracted from errata-ai/Google and errata-ai/IBM (MIT). See NOTICE.
+# Taken from `errata-ai/Google` and `errata-ai/IBM` (MIT). See `NOTICE`.
 #
-# Google's boundary style (the lookahead doesn't swallow the following comma
-# or space, and `$` catches abbreviations ending a heading or table cell),
-# extended over IBM's larger list.
+# It uses Google's boundary style over the longer list from `errata-ai/IBM`.
+# The lookahead leaves the next comma or space out of the match.
+# And `$` catches an abbreviation at the end of a heading or a table cell.
 extends: substitution
-message: "Use '%s' instead of '%s'."
+message: "Write '%s' instead of '%s'."
 level: suggestion
 ignorecase: true
 nonword: true
@@ -20,9 +20,9 @@ tests:
     input: >
       Use a tunnel, e.g. SSH, for internal services, i.e. anything private, etc.
     want: |
-      1:15:ProseStyle.LatinAbbreviation:Use 'for example' instead of 'e.g.'.
-      1:48:ProseStyle.LatinAbbreviation:Use 'that is' instead of 'i.e.'.
-      1:71:ProseStyle.LatinAbbreviation:Use 'and so on' instead of 'etc.'.
+      1:15:ProseStyle.LatinAbbreviation:Write 'for example' instead of 'e.g.'.
+      1:48:ProseStyle.LatinAbbreviation:Write 'that is' instead of 'i.e.'.
+      1:71:ProseStyle.LatinAbbreviation:Write 'and so on' instead of 'etc.'.
 
   - name: clean
     input: >

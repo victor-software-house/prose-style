@@ -1,7 +1,7 @@
 # Chat replies leaked into a document: echoes, praise and offers.
 # Cut them.
 extends: existence
-message: "Leaked chat '%s': cut it."
+message: "Cut '%s'."
 level: error
 ignorecase: true
 tokens:

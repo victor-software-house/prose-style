@@ -1,7 +1,6 @@
-# A consumer project for the package cases. `mise run test:package` unpacks the
-# zip `mise run build` writes into package/, as a project unpacks a release,
-# and lists its styles folder: hakkiri then reads the package settings that sit
-# beside it.
+# This is a sample project for the package cases.
+# `mise run test:package` unpacks the zip from `mise run build` into `package/`, as a project unpacks a release.
+# It then lists the styles folder, and hakkiri reads the package settings next to it.
 packages:
   - path: package/ProseStyle/styles
 files:

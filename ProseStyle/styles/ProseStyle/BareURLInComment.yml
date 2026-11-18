@@ -1,22 +1,26 @@
-# BareURL for Rust: a bare URL in a comment shows the reader an address in
-# place of a name, and a URL in a string literal or macro body is data.
-# Raw scope sees the whole file, so the second lookbehind keeps a URL that
-# follows // on its line, follows /* on its line, or sits up to 50 lines
-# below a line that opens with /*. A /* opens a comment only before a space,
-# so a glob such as "src/*.rs" opens none. The bound keeps the lookbehind
-# from scanning back through the whole file. It reads a comment as runs of
-# characters other than *, so a line of thousands of characters stays within
-# regexp2's backtracking stack.
-# The rest matches BareURL: a link target, inline code or a reference
-# definition passes, the first lookbehind skips a URL in a fenced block of a
-# doc comment, and the code-span lookahead pairs backtick runs as BareURL
-# does. A fence in a doc comment cannot span a line of code, so the fence
-# lookbehind reads back only to the first line of the URL's comment block,
-# not to the top of the file. Rustdoc joins doc comments across a blank line,
-# so a blank line stays inside the block, and a URL on a line of code is never
-# inside a fence.
+# BareURL for Rust: a bare URL in a comment shows the reader an address.
+# A URL in a string literal or a macro body is data.
+#
+# Raw scope sees the whole file.
+# So the second lookbehind keeps a URL that follows `//` or `/*` on its line.
+# It also keeps one up to 50 lines below a line that opens with `/*`.
+# A `/*` opens a comment only before a space, so a glob such as `src/*.rs` opens none.
+#
+# The bound stops the lookbehind from scanning back through the whole file.
+# It reads a comment as runs of characters other than `*`.
+# So a very long line stays within the backtracking stack of `regexp2`.
+#
+# The rest matches BareURL.
+# A link target, inline code or a reference definition passes.
+# The first lookbehind skips a URL in a fenced block of a doc comment.
+# The lookahead for code spans pairs backtick runs as BareURL does.
+#
+# A fence in a doc comment cannot span a line of code.
+# So the fence lookbehind reads back only to the first line of the URL's comment block.
+# Rustdoc joins doc comments across a blank line, so a blank line stays inside the block.
+# A URL on a line of code is never inside a fence.
 extends: existence
-message: "Bare URL '%s': put the link on the words that name it."
+message: "Replace the bare URL '%s' with a descriptive link."
 level: error
 scope: raw.rs
 nonword: true

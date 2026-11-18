@@ -1,24 +1,28 @@
 # A bare URL shows the reader an address in place of a name.
-# The rule reads the link scope, where a URL written bare, an autolink and a
-# link whose text holds a URL show as a link, and the alt scope, where the text
-# of an image holds one. A link with words as text, a URL in a code span or a
-# fenced block, a link target and a reference definition never reach those
-# scopes, so a command in a code block keeps its literal URL. The earlier
-# pattern looked behind each URL for fences and code spans and ran out of
-# backtracking steps on long files. A URL in a link's title attribute is in no
-# scope hakkiri reads.
+#
+# This rule reads two scopes.
+# The link scope covers a URL written bare, an autolink, and a link whose text contains a URL.
+# In the alt scope, it covers the text of an image that contains one.
+#
+# Some URLs never reach those scopes.
+# One is a URL in a link with words as text, a code span or a fenced block.
+# Another is a URL in a link target or a reference definition.
+# So a command in a code block keeps its literal URL.
+#
+# The earlier pattern looked behind each URL for fences and code spans.
+# It ran out of backtracking steps on long files.
+# A URL in a link's title attribute is in no scope hakkiri reads.
 extends: existence
-message: "Bare URL '%s': put the link on the words that name it."
+message: "Replace the bare URL '%s' with a descriptive link."
 level: error
 scope:
   - link
   - alt
 nonword: true
-# A match never ends on a full stop, a comma, a colon, a semicolon, `!`, `?`
-# or a quote, so the stop that ends the link text in
-# "[see https://a.example/x.](t)" and a closing quote stay out of the alert.
-# A closing parenthesis stays in, so "Foo_(bar)" is reported whole, and
-# "[see (https://a.example/x)](t)" reports the URL with its parenthesis.
+# A match never ends on a full stop, a comma, a colon, a semicolon, `!`, `?` or a quote.
+# So the stop that ends the link text in `[see https://a.example/x.](t)` stays out of the alert, and so does a closing quote.
+# A closing parenthesis stays in, so `Foo_(bar)` is reported whole.
+# And `[see (https://a.example/x)](t)` reports the URL with its parenthesis.
 raw:
   - 'https?://[^\s<>]*[^\s<>.,;:!?"'']'
 tests:

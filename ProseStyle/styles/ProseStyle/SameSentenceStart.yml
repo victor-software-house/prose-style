@@ -1,10 +1,13 @@
 # Three sentences in a row that open with one word read as a template.
-# Agent docs hit this 4.9 times as often as human design docs. A paragraph is read, so list items pass.
-# A full stop inside a word, as in 62.33 or cache.db, does not end a sentence, and a sentence that
-# opens with a code span, which reads as the letter x, breaks a run. A hard break, two spaces and a line
-# break after a full stop, is as good as one space.
+# Agent docs hit this 4.9 times as often as human design docs.
+# The rule reads paragraphs, so list items pass.
+#
+# A full stop inside a word, as in `62.33` or `cache.db`, does not end a sentence.
+# When a sentence opens with a code span, it reads as the letter `x`, so it breaks a run.
+# After a full stop, a hard break counts as one space.
+# That break is two spaces and a line break.
 extends: existence
-message: "Three sentences in a row open with '%s': change the opening of one."
+message: "Three sentences in a row start with '%s'. Begin one another way."
 level: warning
 scope: paragraph
 ignorecase: true
@@ -16,7 +19,7 @@ tests:
     input: >
       The worker reads the cache. The cache holds one file. The file keeps
       one record.
-    contains: "open with 'The'"
+    contains: "start with 'The'."
   - name: leaves varied openings and list items alone
     input: |
       The worker reads the cache. A file holds one record. The daemon writes
@@ -31,10 +34,10 @@ tests:
       The build took 62.33 s on the box.
       The cache is in cache.db now.
       The log is clean.
-    contains: "open with 'The'"
+    contains: "start with 'The'."
   - name: leaves a run broken by a sentence that opens with a code span
     input: The build ran. `make` then ran. The log is clean. The cache is warm.
     want: ''
   - name: reads a run over hard breaks
     input: "The build ran.  \nThe log is clean.  \nThe cache is warm."
-    contains: "open with 'The'"
+    contains: "start with 'The'."
