@@ -14,7 +14,7 @@ tests:
       - "'store owns'"
       - "'daemon waits'"
       - "'file refuses'"
-      - "'error names'"
+      - "error names the"
   - name: leaves people and plain verbs alone
     input: The operator owns the repository. The team waits for review. The cache stores the rows. List the file names and field names.
     want: ''
