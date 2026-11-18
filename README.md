@@ -19,14 +19,14 @@ In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of
 They read comments only, so a URL or a code such as `#123` in a string literal passes.
 A project adds globs only for other file types or its own exceptions, and its settings win over the package's.
 
-The zip holds the whole style, so hakkiri makes one download and caches it.
+The zip contains the whole style, so hakkiri makes one download and caches it.
 `v0.0.14` is the last release a Vale project can pin: from the next release the zip is a hakkiri package, and Vale reads it no more.
 
 ## Style
 
-The one style `ProseStyle` holds every rule, in [`ProseStyle/styles/ProseStyle`][rules].
+The one style `ProseStyle` has every rule, in [`ProseStyle/styles/ProseStyle`][rules].
 Seventeen of its rules are ports of rules from [Vale Voices][voices], [Std][std] and [Readability][readability], renamed and kept native: `SlopWords`, `BinaryContrast`, `InflatedWords`, `Puffery`, `RecapOpener`, `SuperficialAnalysis`, `ThroatClearing`, `WeakVerbs`, `VagueAttribution`, `Hedging`, `SentenceLength`, `Preamble`, `GradeLevel`, `LatinAbbreviation`, `SentenceSpacing`, `GenderedPronouns` and `GenderedTerms`.
-[`NOTICE`][notice] credits each source rule by rule, and [`LICENSE`][license] holds the MIT text.
+[`NOTICE`][notice] credits each source rule by rule, and [`LICENSE`][license] contains the MIT text.
 
 Fourteen more ship off, for a project to turn on with `ProseStyle.<Rule>: on` under a glob of its own:
 
@@ -72,7 +72,8 @@ The repository pins hakkiri 0.0.6.
 | Contrast frames | `, not the`, a heading that ends `, not the disk` | `ContrastNot`, `ContrastInTitle` |
 | Clause chains | `waits for the host; the host sits idle, which is slow` | `ClauseChain` |
 | Stock words | `durable`, `verbatim`, `byte for byte` | `StockWords` |
-| Things that act | `the store owns`, `the daemon waits` | `ThingsAct` |
+| Things that act | `the store owns`, `the daemon waits`, `the error names` | `ThingsAct` |
+| Stiff verbs | `the vault holds`, `a table holding` | `StiffHolds` |
 | Hyphen chains | `claude-code-source-recovery` in running prose | `HyphenChain` |
 | Slang | `gonna`, `awesome`, `janky` | `Slang` |
 | Monotone rhythm | three sentences that open alike, five of near-equal length | `SameSentenceStart`, `FlatRhythm` |
@@ -114,7 +115,7 @@ hakkiri 0.0.6 reads these comments, and Vale's own `<!-- vale ... -->` form.
 
 ## Development
 
-[mise] pins hakkiri, Vale and Python and holds the tasks.
+[mise] pins hakkiri, Vale and Python and defines the tasks.
 Vale runs only the pull request package.
 
 | Task | Runs |
