@@ -17,7 +17,7 @@ either:
 tests:
   - name: flags the second spelling in a file
     input: Send an email. Read the e-mail.
-    contains: "throughout the file."
+    contains: "Use one spelling of 'e-mail'"
   - name: leaves one spelling alone
     input: >
       The worktree holds the filesystem. Check the codebase and the email.

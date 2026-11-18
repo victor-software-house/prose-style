@@ -2,7 +2,7 @@
 # Nouns for people and agents pass, and so does a symbol or word the tagger reads as a noun, such as 'okay' or 'cannot'.
 # ThingsSpeak matches the pronouns it, both and which.
 extends: sequence
-message: "Replace '%[2]s' with a verb such as shows, returns or contains."
+message: "Replace '%[2]s' in '%[1]s %[2]s' with a verb such as shows, returns or contains."
 level: error
 ignorecase: true
 exceptions:
@@ -19,10 +19,10 @@ tests:
 
       A request asks for the rows, and the docs say it works.
     contains:
-      - "with a verb such as shows, returns or contains."
-      - "with a verb such as shows, returns or contains."
-      - "with a verb such as shows, returns or contains."
-      - "with a verb such as shows, returns or contains."
+      - "'state says'"
+      - "'adapter knows'"
+      - "'request asks'"
+      - "'docs say'"
   - name: leaves people, agents and literal verbs alone
     input: >
       The operator said to keep it. Our team wants a fix, and the reviewer

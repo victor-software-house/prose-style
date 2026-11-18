@@ -14,7 +14,7 @@ tests:
   - name: fires on a hard text
     input: >
       Notwithstanding the aforementioned considerations, the organization's interdepartmental reorganization initiative necessitated comprehensive reevaluation of institutional methodologies.
-    contains: "is over 8: use shorter sentences and words."
+    contains: "Flesch–Kincaid grade"
   - name: leaves a plain text alone
     input: The cat sat on the mat.
     want: ""
