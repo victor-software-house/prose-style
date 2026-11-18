@@ -1,18 +1,19 @@
-# A line that continues a paragraph ends in two spaces, so the rendered page keeps the break.
-# The rule reads Markdown only: a comment in code or config takes no trailing spaces.
+# A line end inside a paragraph renders as a space, so the paragraph flows on the page.
+# Two trailing spaces force a break, which shows each sentence on its own line.
+# The rule reads Markdown only: a comment in code or config is not Markdown.
 extends: existence
-message: "End the line with two spaces to keep the break."
+message: "Delete the trailing spaces."
 level: suggestion
 scope: text.md
 raw:
-  - '(?<!  )(?<!\\)\n(?=\S)'
+  - '[^ \n] {2,}(?=\r?\n[ \t]*\S)'
 tests:
-  - name: flags a continued line with no hard break
-    input: "First line of a paragraph.\nSecond line of it.\n"
-    contains: "End the line with two spaces to keep the break."
-  - name: leaves two trailing spaces, list items, tables and fences alone
-    input: "First line of a paragraph.  \nSecond line of it.\n\n- item one\n- item two\n\n| a | b |\n|:--|:--|\n\n```\ncode\nmore\n```\n"
+  - name: flags two trailing spaces inside a paragraph
+    input: "First line of a paragraph.  \nSecond line of it.\n"
+    contains: "Delete the trailing spaces."
+  - name: leaves plain line ends, list items, tables and fences alone
+    input: "First line of a paragraph.\nSecond line of it.\n\n- item one\n- item two\n\n| a | b |\n|:--|:--|\n\n```\ncode  \nmore\n```\n"
     want: ''
-  - name: leaves a CRLF file with two trailing spaces alone
-    input: "First line of a paragraph.  \r\nSecond line of it.\r\n"
+  - name: leaves trailing spaces before a blank line alone
+    input: "Last line of a paragraph.  \n\nNext paragraph.\n"
     want: ''

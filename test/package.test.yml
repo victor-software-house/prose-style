@@ -14,7 +14,7 @@
     - ProseStyle.SentenceLength
 - name: short everyday prose passes
   input: |
-    The worker reads the cache.  
+    The worker reads the cache.
     It stores one file per session.
   want: ''
 - name: the ports of the Voices rules run
@@ -112,7 +112,7 @@
 - name: harness as a noun passes
   about: ProseStyle.SlopWords flags harness; the package vocabulary accepts the noun.
   input: |
-    The freshness harness writes to stdout.  
+    The freshness harness writes to stdout.
     Run the measurement harnesses.
   want: ''
 - name: harness as a verb fails
