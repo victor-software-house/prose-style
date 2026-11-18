@@ -13,7 +13,7 @@ packages:
     sha256: <the hash in the release notes>
 ```
 
-The package's own `.ctl/hakkiri.yaml` turns the style on for Markdown, MDX, and the comments of Rust, Swift, Go, TypeScript and JavaScript files.
+The package's own `.ctl/hakkiri.yaml` turns the style on for Markdown, MDX, and the comments of Rust, Swift, Go, TypeScript, JavaScript, YAML, TOML and Shell files.
 It names the vocabulary `ProseStyle`, and hakkiri reads each comment as Markdown and never reads a string literal.
 In a Rust file, `BareURLInComment` and `BareWorkItemInComment` take the place of `BareURL` and `BareWorkItem`.
 They read comments only, so a URL or a code such as `#123` in a string literal passes.

@@ -67,6 +67,35 @@
     // then frees the buffer.
     func Close() {}
   want: ''
+- name: a YAML comment is Markdown
+  format: yml
+  input: |
+    # The blocker is load-bearing, e.g. a day.
+    key: value
+  contains:
+    - ProseStyle.StockPhrases
+    - ProseStyle.LatinAbbreviation
+- name: a YAML value is not prose
+  format: yml
+  input: |
+    # The cache key.
+    message: The blocker is load-bearing, e.g. a day.
+  want: ''
+- name: a TOML comment is Markdown
+  format: toml
+  input: |
+    # The blocker is load-bearing, e.g. a day.
+    key = "value"
+  contains:
+    - ProseStyle.StockPhrases
+- name: a Shell comment is Markdown
+  format: sh
+  input: |
+    #!/usr/bin/env bash
+    # The blocker is load-bearing, e.g. a day.
+    echo "The blocker is load-bearing."
+  contains:
+    - ProseStyle.StockPhrases
 - name: a text file is not prose
   about: The globs of the package select Markdown, MDX and Rust, so a text file draws no alert.
   format: txt
