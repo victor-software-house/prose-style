@@ -38,7 +38,7 @@ The `README.md` lists the habits it flags and how a project uses it.
    Good messages:
    - `Write '%s' instead of '%s'.`
    - `Cut '%s'.`
-   - `Reword one of these three sentences so it does not start with '%s'.`
+   - `Three sentences in a row start with '%s'. Begin one another way.`
 
    A message never opens with a category label and never uses a figure of speech.  
    It never uses a verb too vague to act on, such as vary, address or improve.  
