@@ -1,0 +1,16 @@
+# "The same holds for" is a stiff idiom for a rule that covers one more case;
+# people write "the same applies to".
+extends: existence
+message: "'%s' reads stiffly: write 'the same applies'."
+level: error
+ignorecase: true
+tokens:
+  - '\bsame holds\b'
+tests:
+  - name: flags the same holds
+    input: The same holds for notes, and the same holds true for keys.
+    contains:
+      - "'same holds'"
+  - name: leaves the same applies alone
+    input: The same applies to notes.
+    want: ''
