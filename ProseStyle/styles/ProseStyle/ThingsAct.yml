@@ -6,7 +6,7 @@ level: error
 ignorecase: true
 tokens:
   - '(?:file|doc|log|row|table|spec|record|value|code|error|message|commit|adapter|store|server|client|command|program|tool|daemon|session|worker|crate|module|function|type|field|cache|journal|supervisor|process|test|loop|host|link|socket)s? (?:owns|refuses|survives|waits|sits|lives|carries)\b'
-  - '\b(?:the|a|an|this|that|its|each|every) (?:file|doc|log|row|table|spec|record|value|code|error|message|commit|adapter|store|server|client|command|program|tool|daemon|session|worker|crate|module|function|type|field|cache|journal|supervisor|process|test|loop|host|link|socket) names\b'
+  - '\b(?:the|a|an|this|that|its|each|every) (?:file|doc|log|row|table|spec|record|value|code|error|message|commit|adapter|store|server|client|command|program|tool|daemon|session|worker|crate|module|function|type|field|cache|journal|supervisor|process|test|loop|host|link|socket) names (?:the|a|an|its|each|every)\b'
 tests:
   - name: flags a thing that owns, refuses or waits
     input: The store owns the rows. The daemon waits for the host. A file refuses writes. The error names the type.
