@@ -1,9 +1,9 @@
-# Things hold, show, mark, fetch and match. Only people say, tell, know, want
+# Things contain, show, return, fetch and match. Only people say, tell, know, want
 # or ask. This matches the pronouns it, both and which right before the verb;
 # ThingsSpeakNoun matches nouns. "They" passes: in docs it names people, as in
 # "ask the user if they want". "Tells them apart" is a plain verb and passes.
 extends: existence
-message: "'%s' gives a thing speech or thought: name what it holds, shows, marks or matches."
+message: "'%s' gives a thing speech or thought: say what it does, such as shows, returns or contains."
 level: error
 ignorecase: true
 tokens:
@@ -21,7 +21,7 @@ tests:
       - "'it knows'"
       - "'which asks'"
   - name: leaves people and literal verbs alone
-    input: The operator said to keep it. The file holds the rows, and the log shows the wait.
+    input: The operator said to keep it. The file contains the rows, and the log shows the wait.
     want: ''
   - name: leaves they and telling apart alone
     input: Ask the user if they want a fix. The filter tells them apart by source.
