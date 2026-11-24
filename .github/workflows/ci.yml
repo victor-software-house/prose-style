@@ -4,8 +4,8 @@ name: CI
 
 on:
   pull_request:
-  # The queue tests each entry on top of the ones ahead of it, so a push to
-  # the default branch has already passed and runs nothing.
+  # The queue tests each entry on top of the ones ahead of it.
+  # So a push to the default branch has already passed, and runs nothing.
   merge_group:
 
 permissions:
